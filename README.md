@@ -3,7 +3,7 @@
 Nugget
 https://github.com/mcculloughsco/CompSci326TermProject
 
-#Team Overview
+# Team Overview
 -Arwa Farrag (arwaGypt)
 -Scott McCullough (mcculloughsco)
 -Pinak Kapoor (pinakkapoor)
@@ -12,11 +12,11 @@ https://github.com/mcculloughsco/CompSci326TermProject
 -Sangmin Yun (joeyun)
 
 
-#Innovative Idea
+# Innovative Idea
 Nugget is a virtual pet website in which individual users can login, create and customize their own pet, and interact with others. Users of Nugget have the ability to create their own ‘Nugget’ and customize them to their hearts content. They can access the Store and purchase items to customize their Nugget, and interact with other users through the Chat feature. The site largely functions as an interactive social network of these Nuggets.
 Nugget takes inspiration from 2000s based pet websites such as Neopets, Webkinz or Club Penguin in that users login and interact with each other. Where our application differs is that it focuses less on the ‘game’ part of these sites and focuses on the customization/social aspect. Granted, our site still features a ‘battle arena’ in which users compete and wager their Coins.
 
-#Important Data
+# Important Data
 Since our application functions as a sort of social network, the amount of data our application deals with is as limitless as we want. However, the main data that our application uses is the following:
 1. Firstly, user data (email, username, password, name, etc) will be stored to differentiate every user and ensure account security.
 2. Besides user login/personal information, Nugget customization is probably the most important data that we store. The current configuration of a user’s Nugget, as well as the contents of their inventory is important since our entire website functions around these Nuggets.
@@ -24,7 +24,7 @@ Since our application functions as a sort of social network, the amount of data 
 4. The number of Coins a user has. Coins form the backbone of the economy of Nugget, and users gain and lose Coins through various activities such as purchasing items from the Store to customize their Nugget. Maintaining a record of their Coin balance and also a certain amount of previous balances will allow for the maintenance of said economy.
 5. vChat history is another form of data that we store so that users can see what they have said to other players if they so want to. We might also maintain a record of what users say should any issues arise about the content of said messages.
 
-#User Interface
+# User Interface
 1. (index.html) First is the landing page. This is the page people see when they first get to our webiste and aren’t logged in. This is different from the login page in that it gives users information about what the website is without needing to login or sign up.
 2. (create-a-nugget.html) This page is the first page that users see after they sign up. Users will be redirected to this page until they create their nugget, and then are placed into the actual content of Nugget. This page will allow user to customize their Nugget, and change features about them such as the look, some of their attributes, and set up their Nugget to then interact with other users.
 3. (home.html) This is the page that users see when they log in (after they have created their Nugget). This is essentially the main dashboard of the site, sort of like a user’s main feed on Facebook. From here, users can see quick information about their Nugget, as well as news about what is happening around the site (for example, there might be a special event for Halloween that will be advertised here). Most likely more information will be added to this page as development continues.
