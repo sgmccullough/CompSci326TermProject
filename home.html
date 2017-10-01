@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/css-creatures.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 
 
@@ -36,6 +37,41 @@
     </ul>
   </div>
 </nav>
+
+<!-- Body Content -->
+    <div class="row">
+      <div class="col s4">
+        <div class="card grey lighten-3">
+            <div class="card-content grey-text text-darken-4">
+            <span class="card-title">Nugget_Name</span>
+            <center>
+            <ul class="creatures" id="creatures">
+              <li class="nervous">
+                <div class="click-anim">
+                  <figure style="background-color:sandybrown">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                    <div class="mouth teeth"></div>
+                  </figure>
+                </div>
+                <div class="shadow"></div>
+              </li>
+            </ul>
+          </center>
+          <strong>Nugget_Name's Stats</strong>
+          <ul>
+            <li>Health: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
+            <li>Hunger: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
+            <li>Happiness: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
+            <li>Battle XP: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
+          </ul>
+            </div>
+            <div class="card-action">
+              <a href="#">MORE...</a>
+            </div>
+          </div>
+      </div>
+    </div>
 
 
   <!--  Scripts-->
