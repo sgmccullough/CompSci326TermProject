@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Nugget | A virtual Nugget battledome</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/css-creatures.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="#!">Settings</a></li>
+  <li><a href="#!">My Account</a></li>
+  <li><a href="#!">Help</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">Logout</a></li>
+</ul>
+
+<nav>
+  <div class="nav-wrapper">
+    <a href="#!" class="brand-logo"><img src="img/nugget_logo_sm.png" /></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="home.html">home</a></li>
+      <li><a href="nugget.html">my nugget</a></li>
+      <li><a href="shop.html">shop</a></li>
+      <li><a href="chat.html">chat</a></li>
+      <li><a href="battle.html">battle</a></li>
+      <li><a href="#"><img src="img/coin.png" style="padding-right:5px;padding-top:5px;" />2,000</a></li>
+      <!-- Dropdown Trigger -->
+      <li><a class="dropdown-button" href="#!" data-activates="dropdown1"> <i class="material-icons left">settings</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="col s3">
+    <div class="card grey lighten-3">
+          <div class="card-content grey-text text-darken-4">
+            <span class="card-title">Physical Statistics</span>
+            <ul>
+              <li>Health: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
+              <li>Hunger: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
+              <li>Happiness: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
+              <li>Battle XP: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
+            </ul>
+          </div>
+          <div class="card-action">
+            <a href="#">Read More</a>
+          </div>
+    </div>
+  </div>
+  <div class="col s6">
+  <center>
+    <h1>Nugget_Name</h1>
+  <ul class="creatures" id="creatures">
+
+    <li class="nervous">
+      <div class="click-anim">
+        <figure style="background-color:sandybrown">
+          <div class="eye"></div>
+          <div class="eye"></div>
+          <div class="mouth teeth"></div>
+        </figure>
+      </div>
+      <div class="shadow"></div>
+    </li>
+  </ul>
+  <h5>Hi! I missed you. I'm glad you're back!</h5>
+</center>
+</div>
+<div class="col s3">
+  <div class="card grey lighten-3">
+        <div class="card-content grey-text text-darken-4">
+          <span class="card-title">Mental Statistics</span>
+          <ul>
+            <li>Health: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
+            <li>Hunger: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
+            <li>Happiness: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
+            <li>Battle XP: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
+          </ul>
+        </div>
+        <div class="card-action">
+          <a href="#">Read More</a>
+        </div>
+  </div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col s12">
+      <div class="box">
+        <h5 style="text-align: center;">Inventory</h5>
+        <center>
+        <table style="text-align: center;">
+          <tbody>
+            <tr>
+              <td><img src="img/food-vector/png/bananas.png" style="height:100px; width:100px;"/>
+              <div class="input-field">
+              <select>
+                  <option value="" disabled selected>Action...</option>
+                  <option value="1">Feed Nugget_Name</option>
+                  <option value="2">Discard</option>
+                  <option value="3">Sell</option>
+                </select>
+              </div>
+              </td>
+              <td><img src="img/food-vector/png/apple.png" style="height:100px; width:100px;"/>
+              <div class="input-field">
+              <select>
+                  <option value="" disabled selected>Action...</option>
+                  <option value="1">Feed Nugget_Name</option>
+                  <option value="2">Discard</option>
+                  <option value="3">Sell</option>
+                </select>
+              </div>
+              </td>
+              <td><img src="img/food-vector/png/bacon.png" style="height:100px; width:100px;"/>
+              <div class="input-field">
+              <select>
+                  <option value="" disabled selected>Action...</option>
+                  <option value="1">Feed Nugget_Name</option>
+                  <option value="2">Discard</option>
+                  <option value="3">Sell</option>
+                </select>
+              </div>
+              </td>
+              <td><img src="img/food-vector/png/fried-egg.png" style="height:100px; width:100px;"/>
+              <div class="input-field">
+              <select>
+                  <option value="" disabled selected>Action...</option>
+                  <option value="1">Feed Nugget_Name</option>
+                  <option value="2">Discard</option>
+                  <option value="3">Sell</option>
+                </select>
+              </div>
+              </td>
+              <td><img src="img/food-vector/png/french-fries.png" style="height:100px; width:100px;"/>
+              <div class="input-field">
+              <select>
+                  <option value="" disabled selected>Action...</option>
+                  <option value="1">Feed Nugget_Name</option>
+                  <option value="2">Discard</option>
+                  <option value="3">Sell</option>
+                </select>
+              </div>
+              </td>
+              <td><img src="img/food-vector/png/meatball.png" style="height:100px; width:100px;"/>
+              <div class="input-field">
+              <select>
+                  <option value="" disabled selected>Action...</option>
+                  <option value="1">Feed Nugget_Name</option>
+                  <option value="2">Discard</option>
+                  <option value="3">Sell</option>
+                </select>
+              </div>
+              </td>
+            </tr>
+            <tr>
+              <td><img src="img/food-vector/png/strawberry.png" style="height:100px; width:100px;"/>
+              <div class="input-field">
+              <select>
+                  <option value="" disabled selected>Action...</option>
+                  <option value="1">Feed Nugget_Name</option>
+                  <option value="2">Discard</option>
+                  <option value="3">Sell</option>
+                </select>
+              </div>
+              </td>
+              <td><img src="img/food-vector/png/pizza.png" style="height:100px; width:100px;"/>
+              <div class="input-field">
+              <select>
+                  <option value="" disabled selected>Action...</option>
+                  <option value="1">Feed Nugget_Name</option>
+                  <option value="2">Discard</option>
+                  <option value="3">Sell</option>
+                </select>
+              </div>
+              </td>
+            </tr>
+            <tr>
+              <td>ITEM</td>
+              <td>ITEM</td>
+              <td>ITEM</td>
+              <td>ITEM</td>
+              <td>ITEM</td>
+              <td>ITEM</td>
+            </tr>
+          </tbody>
+        </table>
+
+        </center>
+      </div>
+    </div>
+</div>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script>
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+  </script>
+
+  </body>
+</html>
