@@ -38,7 +38,7 @@
 
 /* Creature ================== */
 figure {
-  display:inline-block;
+        display:inline-block;
         width:160px;
         height:200px;
         padding:40px;
