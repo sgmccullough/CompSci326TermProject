@@ -1,7 +1,7 @@
 # CompSci326TermProject
-// TODO: Team Name
-Nugget
-https://github.com/mcculloughsco/CompSci326TermProject
+# // TODO: Team Name
+# Nugget
+# https://github.com/mcculloughsco/CompSci326TermProject
 
 # Team Overview
 Arwa Farrag (arwaGypt), Scott McCullough (mcculloughsco), Pinak Kapoor (pinakkapoor), Malachai Purgahn (mpurgahn), Emily Goroza (egoroza), Sangmin Yun (joeyun)
