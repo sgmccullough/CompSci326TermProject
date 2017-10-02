@@ -57,7 +57,7 @@
             <ul>
               <li>Health: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
               <li>Hunger: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
-              <li>Happiness: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
+              <li>Defense: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
               <li>Battle XP: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
             </ul>
           </div>
@@ -82,7 +82,7 @@
       <div class="shadow"></div>
     </li>
   </ul>
-  <h5>Hi! I missed you. I'm glad you're back!</h5>
+  <h5><div id = "RanGreet"></div></h5>
 </center>
 </div>
 <div class="col s3">
@@ -90,10 +90,10 @@
         <div class="card-content grey-text text-darken-4">
           <span class="card-title">Mental Statistics</span>
           <ul>
-            <li>Health: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
-            <li>Hunger: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
+            <li>Fatigue: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
+            <li> Intelligece: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
             <li>Happiness: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
-            <li>Battle XP: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
+            <li>Luck: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
           </ul>
         </div>
         <div class="card-action">
@@ -208,6 +208,18 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
   <script src="js/custom.js"></script>
+  <script id = "RanGreet">
+   r_text = new Array ();
+r_text[0] = "I was thinking of you."
+r_text[1] = "I'm glad you're back"
+r_text[3] = "Lets battle!"
+r_text[4] = "Happy to see youuuuuu!"
+var i = Math.floor(r_text.length * Math.random());
+document.write(i);
+
+
+
+  </script>
 
   </body>
 </html>
