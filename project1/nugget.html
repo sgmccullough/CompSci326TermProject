@@ -82,7 +82,21 @@
       <div class="shadow"></div>
     </li>
   </ul>
-  <h5><div id = "RanGreet"></div></h5>
+  <h5><script id = "RanGreet">
+   r_text = new Array ();
+r_text[0] = "I was thinking of you."
+r_text[1] = "I'm glad you're back"
+r_text[3] = "Lets battle!"
+r_text[4] = "Happy to see youuuuuu!"
+var i = Math.floor((r_text.length) * Math.random());
+if(r_text[i] == null){
+  document.write(r_text[0]);
+}
+else {
+  document.write(r_text[i]);
+}
+
+</script></h5>
 </center>
 </div>
 <div class="col s3">
@@ -208,18 +222,7 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
   <script src="js/custom.js"></script>
-  <script id = "RanGreet">
-   r_text = new Array ();
-r_text[0] = "I was thinking of you."
-r_text[1] = "I'm glad you're back"
-r_text[3] = "Lets battle!"
-r_text[4] = "Happy to see youuuuuu!"
-var i = Math.floor(r_text.length * Math.random());
-document.write(i);
 
-
-
-  </script>
 
   </body>
 </html>
