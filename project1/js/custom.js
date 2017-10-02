@@ -1,8 +1,8 @@
 $(document).ready(function() {
+  $('select').material_select();
   $(".button-collapse").sideNav();
   $('.modal').modal();
   $('.modal-trigger').leanModal();
-  $('select').material_select();
 });
 
 $('.datepicker').pickadate({
