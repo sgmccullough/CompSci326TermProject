@@ -24,4 +24,8 @@ Since our application functions as a sort of social network, the amount of data 
 4. (nugget.html) The My Nugget page is where users can interact with their Nugget, and find out information about their Nugget, and use items to either customize the look of their Nugget or alter their Nugget’s stats.
 5. (shop.html) The Shop is the place where users can purchase items using their accumulated Coins. From here they can buy items like hats that will be added to their inventory to customize their Nugget. Users can also buy items that may boost certain stats to give them an advantage in battle.
 6. (chat.html) This is simply a page where users can chat with other users and interact with each other. Functionality may be added so that users can directly battle each other, or perhaps trade items with each other. Communities can be created so that users can interact with others about similar interests or topics.
-7. (battle.html) Finally, the Battle page is the page where users use their Nugget for battle. The battle system will be relatively simplistic as to avoid making it feel too much like a game. 
+7. (battle.html) Finally, the Battle page is the page where users use their Nugget for battle. The battle system will be relatively simplistic as to avoid making it feel too much like a game.
+
+# Team Notes
+1. Please use css/style.css for custom CSS.
+2. Please use js/custom.js for custom JS.
