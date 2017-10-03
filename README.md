@@ -4,6 +4,11 @@ Nugget
 # Team Overview
 Arwa Farrag (arwaGypt), Scott McCullough (mcculloughsco), Pinak Kapoor (pinakkapoor), Malachai Purgahn (mpurgahn), Emily Goroza (egoroza), Sangmin Yun (joeyun)
 
+# Sources/Frameworks Used:
+~ Materialize CSS (materializecss.com)
+~ CSS Creatures (bennettfeely.com/csscreatures)
+~ FreePik (freepik.com)
+
 
 # Innovative Idea
 Nugget is a virtual pet website in which individual users can login, create and customize their own pet, and interact with others. Users of Nugget have the ability to create their own ‘Nugget’ and customize them to their hearts content. They can access the Store and purchase items to customize their Nugget, and interact with other users through the Chat feature. The site largely functions as an interactive social network of these Nuggets.
