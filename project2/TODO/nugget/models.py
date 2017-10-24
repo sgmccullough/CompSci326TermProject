@@ -66,7 +66,7 @@ class NuggetAttribute(models.Model):
     """
     #Fields
     nug_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    nug_health = models.IntegerField(help_text="health of nugget")
+    nug_health = models.IntegerField(help_text="health of nugget", default="100")
     nug_color = models.CharField(max_length =50, help_text="Nugget color")
     nug_size = models.DecimalField(max_digits=25, decimal_places=2)
     mouth_size = models.DecimalField(max_digits=25, decimal_places=2)
@@ -230,7 +230,7 @@ class nug_ids(models.Model):
     """
     #Fields
     nug_id = models.ForeignKey('Nugget', on_delete=models.SET_NULL, null=True)
-    
+
     #Metadata
     class Meta:
         ordering = ["nug_id"]
