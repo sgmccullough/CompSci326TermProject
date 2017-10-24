@@ -66,6 +66,7 @@ class NuggetAttribute(models.Model):
     """
     #Fields
     nug_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    nug_health = models.IntegerField(help_text="health of nugget")
     nug_color = models.CharField(max_length =50, help_text="Nugget color")
     nug_size = models.DecimalField(max_digits=25, decimal_places=2)
     mouth_size = models.DecimalField(max_digits=25, decimal_places=2)
@@ -194,3 +195,55 @@ class Item(models.Model):
         String for representing an item
         """
         return self.item_id
+
+class battle(models.Model):
+    """
+    Model representing battles
+    """
+    #Fields
+    battle_id = models.IntegerField(help_text="Unique Battle ID")
+    nug_id = models.ForeignKey('Nugget', on_delete=models.SET_NULL, null=True)
+    net_coins = models.DecimalField(max_digits=10, decimal_places = 0, help_text = "Coins won or lost")
+    # inv_id = models.ForeignKey('NuggetInventorie', on_delete=models.SET_NULL, null=True)
+    opponent_id = models.ForeignKey('nug_ids', on_delete=models.SET_NULL, null=True)
+
+    #Metadata
+    class Meta:
+        ordering = ["battle_id", "nug_id", "net_coins"]
+
+    #Methods
+    def get_absolute_url(self):
+        """
+        Returns the url to access battles
+        """
+        return reverse('battle-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String for representing a battle
+        """
+        return self.battle_id
+
+class nug_ids(models.Model):
+    """
+    Model representing all the nugget ids
+    """
+    #Fields
+    nug_id = models.ForeignKey('Nugget', on_delete=models.SET_NULL, null=True)
+    
+    #Metadata
+    class Meta:
+        ordering = ["nug_id"]
+
+    #Methods
+    def get_absolute_url(self):
+        """
+        Returns the url to access battles
+        """
+        return reverse('nudids-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String for representing a battle
+        """
+        return self.nug_id
