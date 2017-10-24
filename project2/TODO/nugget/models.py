@@ -40,7 +40,7 @@ class Nugget(models.Model):
     nug_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=25, help_text="Nugget name")
     inventory = models.ForeignKey('Inventorie', on_delete=models.SET_NULL, null=True)
-    atributes = models.ForeignKey('NuggetAttribute', on_delete=models.SET_NULL, null=True)
+    attributes = models.ForeignKey('NuggetAttribute', on_delete=models.SET_NULL, null=True)
 
     #Metadeta
     class Meta:
