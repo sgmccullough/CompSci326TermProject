@@ -38,9 +38,9 @@ class Nugget(models.Model):
     """
     #Fields
     nug_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    name=models.CharField(max_length=25, help_text="Nugget name")
-    #inv=models.ForeignKey('Inventory', on_delete=models.SET_NULL, null=True)
-    #atr=models.ForeignKey('Attributes', on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=25, help_text="Nugget name")
+    inventory = models.ForeignKey('Inventorie', on_delete=models.SET_NULL, null=True)
+    atributes = models.ForeignKey('NuggetAttribute', on_delete=models.SET_NULL, null=True)
 
     #Metadeta
     class Meta:
@@ -106,7 +106,7 @@ class NuggetAttribute(models.Model):
         """
         Returns the url to access a particular instance of nugget attributes
         """
-        return reverse('nug-attributes-detail', args=[str(self.id)])
+        return reverse('nugget-attributes-detail', args=[str(self.id)])
 
     def __str__(self):
         """
@@ -119,23 +119,23 @@ class Inventorie(models.Model):
     Model representing Items and Inventory
     """
     #Fields
-    Item_id = models.IntegerField(help_text = "Unique Item ID")
-    Item_name = models.CharField(max_length = 50, help_text = "Name of Item(s)")
-    Inv_id = models.IntegerField(help_text = "Unique Inventory ID")
+    item_id = models.IntegerField(help_text = "Unique Item ID")
+    item_name = models.CharField(max_length = 50, help_text = "Name of Item(s)")
+    inv_id = models.IntegerField(help_text = "Unique Inventory ID")
 
     #Metadata
     class Meta:
-        ordering = ["Item_id", "Item_name", "Inv_id"]
+        ordering = ["item_id", "item_name", "inv_id"]
 
     #Methods
     def get_absolute_url(self):
         """
         Returns the url to access a particular instance of Inventory
         """
-        return reverse('Inventory-detail', args=[str(self.id)])
+        return reverse('Inventorie-detail', args=[str(self.id)])
 
     def __str__(self):
         """
         String for representing the Inventory
         """
-        return self.Inv_id
+        return self.inv_id
