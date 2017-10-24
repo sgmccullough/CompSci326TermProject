@@ -119,13 +119,12 @@ class Inventorie(models.Model):
     Model representing Items and Inventory
     """
     #Fields
-    item_id = models.IntegerField(help_text = "Unique Item ID")
-    item_name = models.CharField(max_length = 50, help_text = "Name of Item(s)")
+    item_id = models.ForeignKey('Item', on_delete=models.SET_NULL, null=True)
     inv_id = models.IntegerField(help_text = "Unique Inventory ID")
 
     #Metadata
     class Meta:
-        ordering = ["item_id", "item_name", "inv_id"]
+        ordering = ["item_id", "inv_id"]
 
     #Methods
     def get_absolute_url(self):
@@ -139,3 +138,59 @@ class Inventorie(models.Model):
         String for representing the Inventory
         """
         return self.inv_id
+
+class Shop(models.Model):
+    """
+    Model representing the Shop
+    """
+    #Fields
+    item_id = models.ForeignKey('Item', on_delete=models.SET_NULL, null=True)
+
+    #Metadata
+    class Meta:
+        ordering = ["item_id"]
+
+    #Methods
+    def get_absolute_url(self):
+        """
+        REturns the url to access the shop
+        """
+        return reverse('Shop-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String for representing the Shop
+        """
+        return self.item_id
+
+class Item(models.Model):
+    """
+    Model representing the items
+    """
+    #Fields
+    item_id = models.IntegerField(help_text = "Unique Item ID")
+    item_name = models.CharField(max_length=25, help_text = "Name of item")
+
+    item_type = (
+        ('a', 'Armor'),
+        ('c', 'Consumables')
+    )
+
+    item_status = models.CharField(max_length=1, choices=item_type, blank=True, default='c', help_text='Type of Item')
+
+    #Metadata
+    class Meta:
+        ordering = ["item_id", "item_name"]
+
+    #Methods
+    def get_absolute_url(self):
+        """
+        Returns the url to access items
+        """
+        return reverse('Item-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String for representing an item
+        """
+        return self.item_id
