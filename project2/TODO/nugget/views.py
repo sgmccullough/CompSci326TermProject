@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from .models import User, Nugget, NuggetAttribute, Inventorie, Shop, Item, Battle, Nug_IDs, FriendsList
 
-def index(request):
+def index(request): #Scott
     """
     View function for login page.
     """
@@ -13,7 +13,7 @@ def index(request):
         'index.html',
     )
 
-def home(request):
+def home(request): #Joe
     """
     View function for home page.
     """
@@ -22,7 +22,7 @@ def home(request):
         'home.html',
     )
 
-def nugget(request):
+def nugget(request): #Pinak
     """
     View function for nugget page.
     """
@@ -31,7 +31,7 @@ def nugget(request):
         'nugget.html',
     )
 
-def shop(request):
+def shop(request): #Arwa
     """
     View function for shop page.
     """
@@ -49,7 +49,7 @@ def chat(request):
         'chat.html',
     )
 
-def battle(request):
+def battle(request): #Malachai
     """
     View function for battle page.
     """
@@ -58,7 +58,7 @@ def battle(request):
         'battle.html',
     )
 
-def create(request):
+def create(request):  #Emily
     """
     View function for create page.
     """
