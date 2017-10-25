@@ -71,7 +71,14 @@ class NuggetAttribute(models.Model):
     nug_size = models.DecimalField(max_digits=25, decimal_places=2)
     mouth_size = models.DecimalField(max_digits=25, decimal_places=2)
     eye_size = models.DecimalField(max_digits=25, decimal_places=2)
-    experience = models.IntegerField(help_text="Experience Points")
+    experience = models.IntegerField(help_text="Experience Points", default='0')
+    hunger=models.IntegerField(help_text="Nugget Hunger", default='0')
+    happiness=models.IntegerField(help_text="Nugget Happiness", default='0')
+    defense=models.IntegerField(help_text="Nugget Defense", default='0')
+    battle_xp=models.ForeignKey('Battle', on_delete=models.SET_NULL, null=True)
+    fatigue=models.IntegerField(help_text="Nugget Fatigue", default='0')
+    intelligence=models.IntegerField(help_text="Nugget Intelligence", default='0')
+    luck=models.IntegerField(help_text="Nugget Luck", default='0')
 
     mouth_type = (
         ('h', 'Happy'),
@@ -177,7 +184,18 @@ class Item(models.Model):
         ('c', 'Consumables')
     )
 
+    item_attribute= (
+        ('he', 'Health'),
+        ('hun', 'Hunger'),
+        ('def', 'Defense'),
+        ('f', 'Fatigue'),
+        ('i', 'Intelligence'),
+        ('happ', 'Happiness'),
+        ('l', 'luck')
+    )
+
     item_status = models.CharField(max_length=1, choices=item_type, blank=True, default='c', help_text='Type of Item')
+    item_features= models.CharField(max_length=1, choices=item_attribute, blank=True, default='he', help_text='Type of Feature')
 
     #Metadata
     class Meta:
@@ -206,7 +224,7 @@ class battle(models.Model):
     net_coins = models.DecimalField(max_digits=10, decimal_places = 0, help_text = "Coins won or lost")
     # inv_id = models.ForeignKey('NuggetInventorie', on_delete=models.SET_NULL, null=True)
     opponent_id = models.ForeignKey('nug_ids', on_delete=models.SET_NULL, null=True)
-
+    nug_xp=models.IntegerField(help_text="Nugget Experience", default='0')
     #Metadata
     class Meta:
         ordering = ["battle_id", "nug_id", "net_coins"]
@@ -247,3 +265,30 @@ class nug_ids(models.Model):
         String for representing a battle
         """
         return self.nug_id
+
+class friends_list(models.Model):
+    """
+    Model representing a nugget's friends
+    """
+    #Fields
+    nug_id = models.ForeignKey('Nugget', on_delete=models.SET_NULL, null=True)
+    friends = models.IntegerField(db_column="friends")
+    added = models.IntegerField(db_column="added_friends")
+    pending = models.IntegerField(db_column="pending_friends")
+
+    #Metadata
+    class Meta:
+        ordering = ["nug_id"]
+
+    #Methods
+    def get_absolute_url(self):
+        """
+        Returns the url to access battles
+        """
+        return reverse('friends-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String for representing a battle
+        """
+        return self.friends
