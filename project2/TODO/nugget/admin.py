@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User, Nugget, NuggetAttribute, Inventorie, Shop, Item, battle, nug_ids, friends_list
+from .models import User, Nugget, NuggetAttribute, Inventorie, Shop, Item, Battle, Nug_IDs, FriendsList
 
 admin.site.register(User)
 admin.site.register(Nugget)
