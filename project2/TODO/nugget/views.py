@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from .models import User, Nugget, NuggetAttribute, Inventorie, Shop, Item, battle, nug_ids
+from .models import User, Nugget, NuggetAttribute, Inventorie, Shop, Item, Battle, Nug_IDs, FriendsList
 
 def index(request):
     """

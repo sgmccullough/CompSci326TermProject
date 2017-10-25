@@ -214,7 +214,7 @@ class Item(models.Model):
         """
         return self.item_id
 
-class battle(models.Model):
+class Battle(models.Model):
     """
     Model representing battles
     """
@@ -242,7 +242,7 @@ class battle(models.Model):
         """
         return self.battle_id
 
-class nug_ids(models.Model):
+class Nug_IDs(models.Model):
     """
     Model representing all the nugget ids
     """
@@ -266,7 +266,7 @@ class nug_ids(models.Model):
         """
         return self.nug_id
 
-class friends_list(models.Model):
+class FriendsList(models.Model):
     """
     Model representing a nugget's friends
     """
