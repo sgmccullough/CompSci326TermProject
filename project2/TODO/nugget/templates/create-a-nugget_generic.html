@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Nugget | A virtual Nugget battledome</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'css/css-creatures.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="#!">Help</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">Logout</a></li>
+</ul>
+
+<nav>
+  <div class="nav-wrapper">
+    <a href="#!" class="brand-logo"><img src="{% static 'img/nugget_logo_sm.png' %}" /></a>
+    <ul class="right hide-on-med-and-down">
+      <!-- Dropdown Trigger -->
+      <li><a class="dropdown-button" href="#!" data-activates="dropdown1"> <i class="material-icons left">settings</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+<center>
+<img src="{% static 'img/nugget_logo_lg.png' %}" />
+</center>
+<p style="text-align: justified;">
+  Hey there, and welcome to <strong>Nugget!</strong> Before you can get started, you're going to have to create your <strong>Nugget.</strong> Your <strong>Nugget</strong> is a lovable creature that requires daily attention and lots of commitment! You will need to feed your <strong>Nugget,</strong> prep your <strong>Nugget</strong> for battle, earn coins, and play with your <strong>Nugget</strong> to ensure they don't get too bored. It's a real wild ride here in <strong>Nuggetopia!</strong> You'll also get the chance to make lots of new friends, and discover new items and bonuses daily. So go ahead and get started below!
+</p>
+<p>
+<center>
+<table>
+<tbody>
+<tr>
+<td>
+<ul class="creatures" id="creatures">
+  <li>
+    <div class="click-anim">
+      <figure class="hyper" style="background-color:darkgoldenrod">
+        <div class="eye"></div>
+        <div class="eye"></div>
+        <div class="mouth"></div>
+      </figure>
+    </div>
+    <div class="shadow"></div>
+  </li>
+</ul>
+</td>
+<td style="width:30%;">
+
+  <form action="#">
+    <p class="range-field">
+      Nugget Size <input type="range" id="test5" min="0" max="100" />
+      Eye Size <input type="range" id="test5" min="0" max="100" />
+      Mouth Size <input type="range" id="test5" min="0" max="100" />
+      <div class="input-field">
+      <select>
+          <option value="" disabled selected>Nugget Shape</option>
+          <option value="1">Egg-like</option>
+          <option value="2">Round</option>
+          <option value="3">Triangle</option>
+          <option value="3">Square</option>
+        </select>
+      </div>
+
+    </p>
+  </form>
+</td>
+  <td>
+    Nugget Color  <br/><i class="material-icons" style="font-size: 30px; color: darkgoldenrod; border:1px black solid;">brightness_1</i>
+                  <i class="material-icons" style="font-size: 30px; color: saddlebrown;">brightness_1</i>
+                  <i class="material-icons" style="font-size: 30px; color: burlywood;">brightness_1</i>
+                  <i class="material-icons" style="font-size: 30px; color: sienna;">brightness_1</i>
+                  <i class="material-icons" style="font-size: 30px; color: tan;">brightness_1</i>
+                  <i class="material-icons" style="font-size: 30px; color: goldenrod;">brightness_1</i>
+                  <i class="material-icons" style="font-size: 30px; color: wheat;">brightness_1</i>
+
+    <div class="input-field">
+    <select>
+        <option value="" disabled selected>Mouth Type</option>
+        <option value="1">Happy</option>
+        <option value="2">Nervous</option>
+        <option value="3">Displeased</option>
+        <option value="3">Hungry</option>
+      </select>
+    </div>
+
+    <div class="input-field">
+    <select>
+        <option value="" disabled selected>Eye Type</option>
+        <option value="1">Wide</option>
+        <option value="2">Small</option>
+        <option value="3">Sleepy</option>
+        <option value="3">Mad</option>
+      </select>
+    </div>
+    <center>
+        <button href="{% url 'home' %}" class="btn">Let's Play!</button>
+    </center>
+  </td>
+</tr>
+</table>
+</center>
+</table>
+</p>
+</div>
+
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="{% static 'js/materialize.js' %}"></script>
+<script src="{% static 'js/init.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+
+  </body>
+</html>
