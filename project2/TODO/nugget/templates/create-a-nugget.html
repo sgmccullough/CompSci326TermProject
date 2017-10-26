@@ -23,7 +23,7 @@
 
 <nav>
   <div class="nav-wrapper">
-    <a href="#!" class="brand-logo"><img src="img/nugget_logo_sm.png" /></a>
+    <a href="#!" class="brand-logo"><img src="{% static 'img/nugget_logo_sm.png' %}" /></a>
     <ul class="right hide-on-med-and-down">
       <!-- Dropdown Trigger -->
       <li><a class="dropdown-button" href="#!" data-activates="dropdown1"> <i class="material-icons left">settings</i></a></li>
@@ -33,7 +33,7 @@
 
 <div class="container">
 <center>
-<img src="img/nugget_logo_lg.png" />
+<img src="{% static 'img/nugget_logo_lg.png' %}" />
 </center>
 <p style="text-align: justified;">
   Hey there, and welcome to <strong>Nugget!</strong> Before you can get started, you're going to have to create your <strong>Nugget.</strong> Your <strong>Nugget</strong> is a lovable creature that requires daily attention and lots of commitment! You will need to feed your <strong>Nugget,</strong> prep your <strong>Nugget</strong> for battle, earn coins, and play with your <strong>Nugget</strong> to ensure they don't get too bored. It's a real wild ride here in <strong>Nuggetopia!</strong> You'll also get the chance to make lots of new friends, and discover new items and bonuses daily. So go ahead and get started below!
@@ -106,7 +106,7 @@
       </select>
     </div>
     <center>
-        <button href="home.html" class="btn">Let's Play!</button>
+        <button href="{% url 'home' %}" class="btn">Let's Play!</button>
     </center>
   </td>
 </tr>

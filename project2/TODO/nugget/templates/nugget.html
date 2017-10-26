@@ -29,23 +29,23 @@
     <a href="#!" class="brand-logo"><img src="img/nugget_logo_sm.png" /></a>
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
-      <li><a href="home.html">home</a></li>
-      <li><a href="nugget.html">my nugget</a></li>
-      <li><a href="shop.html">shop</a></li>
-      <li><a href="chat.html">chat</a></li>
-      <li><a href="battle.html">battle</a></li>
-      <li><a href="#"><img src="img/coin.png" style="padding-right:5px;padding-top:5px;" />2,000</a></li>
+      <li><a href="{% url 'home' %}">home</a></li>
+      <li><a href="{% url 'nugget' %}">my nugget</a></li>
+      <li><a href="{% url 'shop' %}">shop</a></li>
+      <li><a href="{% url 'chat' %}">chat</a></li>
+      <li><a href="{% url 'battle' %}">battle</a></li>
+      <li><a href="#"><img src="{% static 'img/coin.png' %}" style="padding-right:5px;padding-top:5px;" />2,000</a></li>
       <!-- Dropdown Trigger -->
       <li><a class="dropdown-button" href="#!" data-activates="dropdown1"> <i class="material-icons left">settings</i></a></li>
     </ul>
 
     <ul class="side-nav" id="mobile-demo">
-      <li><a href="home.html">home</a></li>
-      <li><a href="nugget.html">my nugget</a></li>
-      <li><a href="shop.html">shop</a></li>
-      <li><a href="chat.html">chat</a></li>
-      <li><a href="battle.html">battle</a></li>
-      <li><a href="index.html">logout</a></li>
+      <li><a href="{% url 'home' %}">home</a></li>
+      <li><a href="{% url 'nugget' %}">my nugget</a></li>
+      <li><a href="{% url 'shop' %}">shop</a></li>
+      <li><a href="{% url 'chat' %}">chat</a></li>
+      <li><a href="{% url 'battle' %}">battle</a></li>
+      <li><a href="{% url 'index' %}">logout</a></li>
     </ul>
 
   </div>
@@ -127,7 +127,7 @@ else {
         <table style="text-align: center;">
           <tbody>
             <tr>
-              <td><img src="img/food-vector/png/bananas.png" style="height:100px; width:100px;"/>
+              <td><img src="{% static 'img/food-vector/png/bananas.png' %}" style="height:100px; width:100px;"/>
               <div class="input-field">
               <select>
                   <option value="" disabled selected>Action...</option>
@@ -137,7 +137,7 @@ else {
                 </select>
               </div>
               </td>
-              <td><img src="img/food-vector/png/apple.png" style="height:100px; width:100px;"/>
+              <td><img src="{% static 'img/food-vector/png/apple.png' %}" style="height:100px; width:100px;"/>
               <div class="input-field">
               <select>
                   <option value="" disabled selected>Action...</option>
@@ -147,7 +147,7 @@ else {
                 </select>
               </div>
               </td>
-              <td><img src="img/food-vector/png/bacon.png" style="height:100px; width:100px;"/>
+              <td><img src="{% static 'img/food-vector/png/bacon.png' %}" style="height:100px; width:100px;"/>
               <div class="input-field">
               <select>
                   <option value="" disabled selected>Action...</option>
@@ -157,7 +157,7 @@ else {
                 </select>
               </div>
               </td>
-              <td><img src="img/food-vector/png/fried-egg.png" style="height:100px; width:100px;"/>
+              <td><img src="{% static 'img/food-vector/png/fried-egg.png' %}" style="height:100px; width:100px;"/>
               <div class="input-field">
               <select>
                   <option value="" disabled selected>Action...</option>
@@ -167,7 +167,7 @@ else {
                 </select>
               </div>
               </td>
-              <td><img src="img/food-vector/png/french-fries.png" style="height:100px; width:100px;"/>
+              <td><img src="{% static 'img/food-vector/png/french-fries.png' %}" style="height:100px; width:100px;"/>
               <div class="input-field">
               <select>
                   <option value="" disabled selected>Action...</option>
@@ -177,7 +177,7 @@ else {
                 </select>
               </div>
               </td>
-              <td><img src="img/food-vector/png/meatball.png" style="height:100px; width:100px;"/>
+              <td><img src="{% static 'img/food-vector/png/meatball.png' %}" style="height:100px; width:100px;"/>
               <div class="input-field">
               <select>
                   <option value="" disabled selected>Action...</option>
@@ -189,7 +189,7 @@ else {
               </td>
             </tr>
             <tr>
-              <td><img src="img/food-vector/png/strawberry.png" style="height:100px; width:100px;"/>
+              <td><img src="{% static 'img/food-vector/png/strawberry.png' %}" style="height:100px; width:100px;"/>
               <div class="input-field">
               <select>
                   <option value="" disabled selected>Action...</option>
@@ -199,7 +199,7 @@ else {
                 </select>
               </div>
               </td>
-              <td><img src="img/food-vector/png/pizza.png" style="height:100px; width:100px;"/>
+              <td><img src="{% static 'img/food-vector/png/pizza.png' %}" style="height:100px; width:100px;"/>
               <div class="input-field">
               <select>
                   <option value="" disabled selected>Action...</option>

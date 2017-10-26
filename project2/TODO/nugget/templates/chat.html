@@ -28,23 +28,23 @@
     <a href="#!" class="brand-logo"><img src="img/nugget_logo_sm.png" /></a>
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
-      <li><a href="home.html">home</a></li>
-      <li><a href="nugget.html">my nugget</a></li>
-      <li><a href="shop.html">shop</a></li>
-      <li><a href="chat.html">chat</a></li>
-      <li><a href="battle.html">battle</a></li>
-      <li><a href="#"><img src="img/coin.png" style="padding-right:5px;padding-top:5px;" />2,000</a></li>
+      <li><a href="{% url 'home' %}">home</a></li>
+      <li><a href="{% url 'nugget' %}">my nugget</a></li>
+      <li><a href="{% url 'shop' %}">shop</a></li>
+      <li><a href="{% url 'chat' %}">chat</a></li>
+      <li><a href="{% url 'battle' %}">battle</a></li>
+      <li><a href="#"><img src="{% static 'img/coin.png' %}" style="padding-right:5px;padding-top:5px;" />2,000</a></li>
       <!-- Dropdown Trigger -->
       <li><a class="dropdown-button" href="#!" data-activates="dropdown1"> <i class="material-icons left">settings</i></a></li>
     </ul>
 
     <ul class="side-nav" id="mobile-demo">
-      <li><a href="home.html">home</a></li>
-      <li><a href="nugget.html">my nugget</a></li>
-      <li><a href="shop.html">shop</a></li>
-      <li><a href="chat.html">chat</a></li>
-      <li><a href="battle.html">battle</a></li>
-      <li><a href="index.html">logout</a></li>
+      <li><a href="{% url 'home' %}">home</a></li>
+      <li><a href="{% url 'nugget' %}">my nugget</a></li>
+      <li><a href="{% url 'shop' %}">shop</a></li>
+      <li><a href="{% url 'chat' %}">chat</a></li>
+      <li><a href="{% url 'battle' %}">battle</a></li>
+      <li><a href="{% url 'index' %}">logout</a></li>
     </ul>
 
   </div>
@@ -63,42 +63,42 @@
             </div>
             <ul class="collection">
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/cat.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/cat.png' %}" alt="" class="circle">
                 <span class="title"><strong>Cat</strong></span>
                 <p>What's up? <br>
                    <i>5:00 am</i>
                 </p>
               </li>
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/dog.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/dog.png' %}" alt="" class="circle">
                 <span class="title"><strong>Dog</strong></span>
                 <p>You: ttyl! <br>
                    <i>9/16/2017</i>
                 </p>
               </li>
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/frog.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/frog.png' %}" alt="" class="circle">
                 <span class="title"><strong>Frog</strong></span>
                 <p>How are you?<br>
                    <i>10/2/2017</i>
                 </p>
               </li>
               <li style="background-color:#cccccc" class="collection-item avatar">
-                <img src="img/animal-vector-2/png/koala.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
                 <span class="title"><strong>Koala</strong></span>
                 <p>Chat me when you're on! <br>
                    <i>4:39 am</i>
                 </p>
               </li>
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/skunk.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/skunk.png' %}" alt="" class="circle">
                 <span class="title"><strong>Skunk</strong></span>
                 <p>You: Bye! <br>
                    <i>7:04 pm</i>
                 </p>
               </li>
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/rabbit.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/rabbit.png' %}" alt="" class="circle">
                 <span class="title"><strong>Rabbit</strong></span>
                 <p>Nothing Here! <br>
                    <i>Never Chatted</i>
@@ -114,7 +114,7 @@
         <div class="card-content grey-text text-darken-4">
           <ul class="collection">
             <li class="collection-item avatar" align="center">
-              <img src="img/animal-vector-2/png/koala.png" alt="" class="circle">
+              <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
               <span class="title"><strong>Koala</strong></span>
               <p>online!</p>
             </li>
@@ -122,23 +122,23 @@
           <div class="card-content grey-text text-darken-6">
             <ul class="collection">
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/koala.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
                 <p>I'm about to log off for the night</p>
               </li>
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/wolf.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/wolf.png' %}" alt="" class="circle">
                 <p>Alright, will you be on tomorrow?</p>
               </li>
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/koala.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
                 <p>Of course, talk later!</p>
               </li>
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/wolf.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/wolf.png' %}" alt="" class="circle">
                 <p>Byeeee</p>
               </li>
               <li class="collection-item avatar">
-                <img src="img/animal-vector-2/png/koala.png" alt="" class="circle">
+                <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
                 <p>Chat me when you're on!</p>
               </li>
             </ul>
