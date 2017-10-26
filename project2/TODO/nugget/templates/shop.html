@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
@@ -7,10 +8,11 @@
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/css-creatures.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="{% static 'css/css-creatures.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
+
 
 
 <!-- Dropdown Structure -->
@@ -293,16 +295,11 @@
  </div>
 
 
-
-
-
-
-
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
-  <script src="js/init.js"></script>
-  <script src="js/custom.js"></script> <!-- Our Custom Scripts -->
+ <!--  Scripts-->
+ <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+ <script src="{% static 'js/materialize.js' %}"></script>
+ <script src="{% static 'js/init.js' %}"></script>
+ <script src="{% static 'js/custom.js' %}"></script>
 
   </body>
 </html>
