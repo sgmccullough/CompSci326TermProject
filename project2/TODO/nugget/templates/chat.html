@@ -1,1 +1,104 @@
 {% extends "chat_generic.html" %}
+
+{% block content %}
+  <div class="row">
+      <div class="col s4 offset-s1">
+        <div class="card grey lighten-3">
+          <div class="card-content grey-text text-darken-4">
+              <h4 align="center">friendos!</h4>
+              <div class="input-field">
+                <input id="search" type="search" required>
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+              </div>
+              <ul class="collection">
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/cat.png' %}" alt="" class="circle">
+                  <span class="title"><strong>Cat</strong></span>
+                  <p>What's up? <br>
+                     <i>5:00 am</i>
+                  </p>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/dog.png' %}" alt="" class="circle">
+                  <span class="title"><strong>Dog</strong></span>
+                  <p>You: ttyl! <br>
+                     <i>9/16/2017</i>
+                  </p>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/frog.png' %}" alt="" class="circle">
+                  <span class="title"><strong>Frog</strong></span>
+                  <p>How are you?<br>
+                     <i>10/2/2017</i>
+                  </p>
+                </li>
+                <li style="background-color:#cccccc" class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
+                  <span class="title"><strong>Koala</strong></span>
+                  <p>Chat me when you're on! <br>
+                     <i>4:39 am</i>
+                  </p>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/skunk.png' %}" alt="" class="circle">
+                  <span class="title"><strong>Skunk</strong></span>
+                  <p>You: Bye! <br>
+                     <i>7:04 pm</i>
+                  </p>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/rabbit.png' %}" alt="" class="circle">
+                  <span class="title"><strong>Rabbit</strong></span>
+                  <p>Nothing Here! <br>
+                     <i>Never Chatted</i>
+                  </p>
+                </li>
+              </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s6">
+        <div class="card grey lighten-3">
+          <div class="card-content grey-text text-darken-4">
+            <ul class="collection">
+              <li class="collection-item avatar" align="center">
+                <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
+                <span class="title"><strong>Koala</strong></span>
+                <p>online!</p>
+              </li>
+            </ul>
+            <div class="card-content grey-text text-darken-6">
+              <ul class="collection">
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
+                  <p>I'm about to log off for the night</p>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/wolf.png' %}" alt="" class="circle">
+                  <p>Alright, will you be on tomorrow?</p>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
+                  <p>Of course, talk later!</p>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/wolf.png' %}" alt="" class="circle">
+                  <p>Byeeee</p>
+                </li>
+                <li class="collection-item avatar">
+                  <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
+                  <p>Chat me when you're on!</p>
+                </li>
+              </ul>
+              <div class="input-field">
+                <input id="text" type="text" placeholder="chat here!" required>
+                <label class="label-icon" for="text"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock %}
