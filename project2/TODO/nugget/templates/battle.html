@@ -1,67 +1,76 @@
-{% extends "generic_base.html" %}
-
-{% load static %}
-
-{% block content %}
+{% extends "generic_base.html" %} {% load static %} {% block content %}
 <div class="row">
-    <div class="col s4">
-      <div class="card grey lighten-3">
-          <div class="card-content grey-text text-darken-4">
-          <span class="card-title">SuperNugg</span>
+  <div class="col s4">
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">SuperNugg</span>
         <strong>SuperNugg's Stats</strong>
         <ul>
-          <li>Health: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
-          <li>Hunger: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
-          <li>Happiness: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
-          <li>Battle XP: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
+          <li>Health: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 70%"></div>
+          </div>
+          <li>Hunger: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 90%"></div>
+          </div>
+          <li>Happiness: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 50%; background-color:orange;"></div>
+          </div>
+          <li>Battle XP: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 30%; background-color:red;"></div>
+          </div>
         </ul>
-          </div>
-          <div class="card-action">
-            <a href="#">BATTLE ITEMS</a>
-          </div>
+      </div>
+      <div class="card-action">
+        <a href="#">BATTLE ITEMS</a>
+      </div>
+    </div>
+  </div>
+  <div class="col s7">
+    <center>
+      <h4>Battle Center</h4></center>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title"><center>Current Battle</center></span>
+        <div class="click-anim">
+          <figure class="hungry" style="background-color:palegoldenrod; float: right">
+            <div class="eye"></div>
+            <div class="eye"></div>
+            <div class="mouth"></div>
+          </figure>
         </div>
-    </div>
-    <div class="col s7">
-      <center><h4>Battle Center</h4></center>
-
-    <div class="card grey lighten-3">
-          <div class="card-content grey-text text-darken-4">
-              <span class="card-title"><center>Current Battle</center></span>
-              <div class="click-anim">
-    <figure class="hungry" style="background-color:palegoldenrod; float: right">
-      <div class="eye"></div>
-      <div class="eye"></div>
-      <div class="mouth"></div>
-    </figure>
-  </div>
-              <figure style="background-color:sandybrown">
-                  <div class="eye"></div>
-                  <div class="eye"></div>
-                  <div class="mouth teeth"></div>
-                </figure>
+        <figure style="background-color:sandybrown">
+          <div class="eye"></div>
+          <div class="eye"></div>
+          <div class="mouth teeth"></div>
+        </figure>
 
 
-              <p><center><b>Your opponent's name is Josep.</center></b></p>
-          </div>
-          <div class="card-action">
-            <a href="#">Engage</a>
-          </div>
+        <p>
+          <center><b>Your opponent's name is Josep.</center></b></p>
+      </div>
+      <div class="card-action">
+        <a href="#">Engage</a>
+      </div>
     </div>
 
     <div class="card grey lighten-3">
-          <div class="card-content grey-text text-darken-4">
-            <span class="card-title">Your Recent Battles</span>
-            <p>This is where you can find information and statistics on your past battles.</p>
-              <p><center><b><u>You have no previous battles.</u></b></center></p>
-          </div>
-          <div class="card-action">
-            <a href="#">See More</a>
-          </div>
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">Your Recent Battles</span>
+        <p>This is where you can find information and statistics on your past battles.</p>
+        <p>
+          <center><b><u>You have no previous battles.</u></b></center>
+        </p>
+      </div>
+      <div class="card-action">
+        <a href="#">See More</a>
+      </div>
     </div>
-
-    </div>
-
-
 
   </div>
+</div>
 {% endblock %}

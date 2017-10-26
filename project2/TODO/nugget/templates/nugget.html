@@ -1,42 +1,50 @@
-{% extends "generic_base.html" %}
-
-{% load static %}
-
-{% block content %}
-  <div class="row">
-    <div class="col s3">
-      <div class="card grey lighten-3">
-            <div class="card-content grey-text text-darken-4">
-              <span class="card-title">Physical Statistics</span>
-              <ul>
-                <li>Health: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
-                <li>Hunger: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
-                <li>Defense: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
-                <li>Battle XP: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
-              </ul>
-            </div>
-            <div class="card-action">
-              <a href="#">Read More</a>
-            </div>
+{% extends "generic_base.html" %} {% load static %} {% block content %}
+<div class="row">
+  <div class="col s3">
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">Physical Statistics</span>
+        <ul>
+          <li>Health: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 70%"></div>
+          </div>
+          <li>Hunger: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 90%"></div>
+          </div>
+          <li>Defense: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 50%; background-color:orange;"></div>
+          </div>
+          <li>Battle XP: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 30%; background-color:red;"></div>
+          </div>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="#">Read More</a>
       </div>
     </div>
-    <div class="col s6">
+  </div>
+  <div class="col s6">
     <center>
       <h1>Nugget_Name</h1>
-    <ul class="creatures" id="creatures">
+      <ul class="creatures" id="creatures">
 
-      <li class="nervous">
-        <div class="click-anim">
-          <figure style="background-color:sandybrown">
-            <div class="eye"></div>
-            <div class="eye"></div>
-            <div class="mouth teeth"></div>
-          </figure>
-        </div>
-        <div class="shadow"></div>
-      </li>
-    </ul>
-    <h5><script id = "RanGreet">
+        <li class="nervous">
+          <div class="click-anim">
+            <figure style="background-color:sandybrown">
+              <div class="eye"></div>
+              <div class="eye"></div>
+              <div class="mouth teeth"></div>
+            </figure>
+          </div>
+          <div class="shadow"></div>
+        </li>
+      </ul>
+      <h5><script id = "RanGreet">
      r_text = new Array ();
   r_text[0] = "I was thinking of you."
   r_text[1] = "I'm glad you're back."
@@ -51,122 +59,134 @@
   }
 
   </script></h5>
-  </center>
+    </center>
   </div>
   <div class="col s3">
     <div class="card grey lighten-3">
-          <div class="card-content grey-text text-darken-4">
-            <span class="card-title">Mental Statistics</span>
-            <ul>
-              <li>Fatigue: </li>   <div class="progress"><div class="determinate" style="width: 70%"></div></div>
-              <li> Intelligece: </li>   <div class="progress"><div class="determinate" style="width: 90%"></div></div>
-              <li>Happiness: </li>   <div class="progress"><div class="determinate" style="width: 50%; background-color:orange;"></div></div>
-              <li>Luck: </li>   <div class="progress"><div class="determinate" style="width: 30%; background-color:red;"></div></div>
-            </ul>
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">Mental Statistics</span>
+        <ul>
+          <li>Fatigue: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 70%"></div>
           </div>
-          <div class="card-action">
-            <a href="#">Read More</a>
+          <li> Intelligece: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 90%"></div>
           </div>
+          <li>Happiness: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 50%; background-color:orange;"></div>
+          </div>
+          <li>Luck: </li>
+          <div class="progress">
+            <div class="determinate" style="width: 30%; background-color:red;"></div>
+          </div>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="#">Read More</a>
+      </div>
     </div>
   </div>
-  </div>
+</div>
 
-  <div class="row">
-      <div class="col s12">
-        <div class="box">
-          <h5 style="text-align: center;">Inventory</h5>
-          <center>
-          <table style="text-align: center;">
-            <tbody>
-              <tr>
-                <td><img src="{% static 'img/food-vector/png/bananas.png' %}" style="height:100px; width:100px;"/>
+<div class="row">
+  <div class="col s12">
+    <div class="box">
+      <h5 style="text-align: center;">Inventory</h5>
+      <center>
+        <table style="text-align: center;">
+          <tbody>
+            <tr>
+              <td><img src="{% static 'img/food-vector/png/bananas.png' %}" style="height:100px; width:100px;" />
                 <div class="input-field">
-                <select>
+                  <select>
                     <option value="" disabled selected>Action...</option>
                     <option value="1">Feed Nugget_Name</option>
                     <option value="2">Discard</option>
                     <option value="3">Sell</option>
                   </select>
                 </div>
-                </td>
-                <td><img src="{% static 'img/food-vector/png/apple.png' %}" style="height:100px; width:100px;"/>
+              </td>
+              <td><img src="{% static 'img/food-vector/png/apple.png' %}" style="height:100px; width:100px;" />
                 <div class="input-field">
-                <select>
+                  <select>
                     <option value="" disabled selected>Action...</option>
                     <option value="1">Feed Nugget_Name</option>
                     <option value="2">Discard</option>
                     <option value="3">Sell</option>
                   </select>
                 </div>
-                </td>
-                <td><img src="{% static 'img/food-vector/png/bacon.png' %}" style="height:100px; width:100px;"/>
+              </td>
+              <td><img src="{% static 'img/food-vector/png/bacon.png' %}" style="height:100px; width:100px;" />
                 <div class="input-field">
-                <select>
+                  <select>
                     <option value="" disabled selected>Action...</option>
                     <option value="1">Feed Nugget_Name</option>
                     <option value="2">Discard</option>
                     <option value="3">Sell</option>
                   </select>
                 </div>
-                </td>
-                <td><img src="{% static 'img/food-vector/png/fried-egg.png' %}" style="height:100px; width:100px;"/>
+              </td>
+              <td><img src="{% static 'img/food-vector/png/fried-egg.png' %}" style="height:100px; width:100px;" />
                 <div class="input-field">
-                <select>
+                  <select>
                     <option value="" disabled selected>Action...</option>
                     <option value="1">Feed Nugget_Name</option>
                     <option value="2">Discard</option>
                     <option value="3">Sell</option>
                   </select>
                 </div>
-                </td>
-                <td><img src="{% static 'img/food-vector/png/french-fries.png' %}" style="height:100px; width:100px;"/>
+              </td>
+              <td><img src="{% static 'img/food-vector/png/french-fries.png' %}" style="height:100px; width:100px;" />
                 <div class="input-field">
-                <select>
+                  <select>
                     <option value="" disabled selected>Action...</option>
                     <option value="1">Feed Nugget_Name</option>
                     <option value="2">Discard</option>
                     <option value="3">Sell</option>
                   </select>
                 </div>
-                </td>
-                <td><img src="{% static 'img/food-vector/png/meatball.png' %}" style="height:100px; width:100px;"/>
+              </td>
+              <td><img src="{% static 'img/food-vector/png/meatball.png' %}" style="height:100px; width:100px;" />
                 <div class="input-field">
-                <select>
+                  <select>
                     <option value="" disabled selected>Action...</option>
                     <option value="1">Feed Nugget_Name</option>
                     <option value="2">Discard</option>
                     <option value="3">Sell</option>
                   </select>
                 </div>
-                </td>
-              </tr>
-              <tr>
-                <td><img src="{% static 'img/food-vector/png/strawberry.png' %}" style="height:100px; width:100px;"/>
+              </td>
+            </tr>
+            <tr>
+              <td><img src="{% static 'img/food-vector/png/strawberry.png' %}" style="height:100px; width:100px;" />
                 <div class="input-field">
-                <select>
+                  <select>
                     <option value="" disabled selected>Action...</option>
                     <option value="1">Feed Nugget_Name</option>
                     <option value="2">Discard</option>
                     <option value="3">Sell</option>
                   </select>
                 </div>
-                </td>
-                <td><img src="{% static 'img/food-vector/png/pizza.png' %}" style="height:100px; width:100px;"/>
+              </td>
+              <td><img src="{% static 'img/food-vector/png/pizza.png' %}" style="height:100px; width:100px;" />
                 <div class="input-field">
-                <select>
+                  <select>
                     <option value="" disabled selected>Action...</option>
                     <option value="1">Feed Nugget_Name</option>
                     <option value="2">Discard</option>
                     <option value="3">Sell</option>
                   </select>
                 </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-          </center>
-        </div>
-      </div>
+      </center>
+    </div>
   </div>
+</div>
 {% endblock %}
