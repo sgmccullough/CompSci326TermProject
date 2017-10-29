@@ -60,7 +60,7 @@ def chat(request):
 def battle(request): #Malachai
     """
     View function for battle page.
-    """ 
+    """
     return render(
         request,
         'battle.html',
@@ -71,14 +71,19 @@ def create(request):  #Emily
     View function for create page.
     """
     # Nugget attributes
-    nug_size = NuggetAttribute.objects.get(id = 'nug_size')
-    # nug_color =
-    # nug_size =
-    # mouth_size =
-    # eye_size =
-    # eye_shape
+    usr_id = 100
+    test = NuggetAttribute.objects.all()
+    nug_color = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('nug_color', flat=True)
+    nug_size = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('nug_size', flat=True)
+    mouth_size = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('mouth_size', flat=True)
+    mouth_shape = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('mouth_status', flat=True)
+    eye_size = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('eye_size', flat=True)
+    eye_shape = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('eye_status', flat=True)
+
     return render(
         request,
         'create-a-nugget.html',
-        context={'nug_size':nug_size},
+        {'test':test},
+        #{'nug_size':nug_size[0]},
+        #, ,'nug_color':nug_color, 'mouth_size':mouth_size[0], 'eye_size':eye_size[0], 'eye_shape':eye_shape[0]
     )
