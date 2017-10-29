@@ -60,7 +60,7 @@ def chat(request):
 def battle(request): #Malachai
     """
     View function for battle page.
-    """
+    """ 
     return render(
         request,
         'battle.html',
