@@ -33,7 +33,9 @@
 
               <form action="#">
                 <p class="range-field">
-                  Nugget Size <input type="range" id="test5" min="0" max="100" value="{{ nug_size }}"/> Eye Size <input type="range" id="test5" min="0" max="100" /> Mouth Size <input type="range" id="test5" min="0" max="100" />
+                  Nugget Size <input type="range" id="test5" min="0" max="100" value="{{ nug_size }}"/>
+                  Eye Size <input type="range" id="test5" min="0" max="100" value="{{ eye_size }}" />
+                  Mouth Size <input type="range" id="test5" min="0" max="100" value="{{ mouth_size }}" />
                   <div class="input-field">
                     <select>
           <option value="" disabled selected>Nugget Shape</option>
@@ -48,13 +50,51 @@
               </form>
             </td>
             <td>
-              Nugget Color <br/><i class="material-icons" style="font-size: 30px; color: darkgoldenrod; border:1px black solid;">brightness_1</i>
-              <i class="material-icons" style="font-size: 30px; color: saddlebrown;">brightness_1</i>
-              <i class="material-icons" style="font-size: 30px; color: burlywood;">brightness_1</i>
-              <i class="material-icons" style="font-size: 30px; color: sienna;">brightness_1</i>
-              <i class="material-icons" style="font-size: 30px; color: tan;">brightness_1</i>
-              <i class="material-icons" style="font-size: 30px; color: goldenrod;">brightness_1</i>
-              <i class="material-icons" style="font-size: 30px; color: wheat;">brightness_1</i>
+
+              Nugget Color <br/>
+              <i class="material-icons" id = "dgr" style="font-size: 30px; color: darkgoldenrod;">brightness_1</i>
+              <i class="material-icons" id = "sb" style="font-size: 30px; color: saddlebrown;">brightness_1</i>
+              <i class="material-icons" id = "bw" style="font-size: 30px; color: burlywood;">brightness_1</i>
+              <i class="material-icons" id = "si" style="font-size: 30px; color: sienna;">brightness_1</i>
+              <i class="material-icons" id = "tan" style="font-size: 30px; color: tan;">brightness_1</i>
+              <i class="material-icons" id = "gr" style="font-size: 30px; color: goldenrod;">brightness_1</i>
+              <i class="material-icons" id = "wh" style="font-size: 30px; color: wheat;">brightness_1</i>
+
+              <script id = "get_color" type="text/javascript">
+
+                var color = "{{ nug_color }}";
+                document.write(color);
+                var dgr = document.getElementById(dgr);
+                var sb = document.getElementById(sb);
+                var bw = document.getElementById(bw);
+                var si = document.getElementById(si);
+                var tan = document.getElementById(tan);
+                var gr = document.getElementById(gr);
+                var wh = document.getElementById(wh);
+
+                if(color === 'saddlebrown'){
+                  sb.style.border = "1px #000000 solid";
+                }
+                else if(color === 'burlywood'){
+                  bw.style.border = "1px #000000 solid";
+                }
+                else if(color === 'sienna'){
+                  si.style.border = "1px #000000 solid";
+                }
+                else if(color === 'tan'){
+                  tan.style.border = "1px #000000 solid";
+                }
+                else if(color === 'goldenrod'){
+                  gr.style.border = "1px #000000 solid";
+                }
+                else if(color === 'wheat'){
+                  wh.style.border = "1px #000000 solid";
+                }
+                else{
+                  dgr.style.border = "1px #000000 solid";
+                }
+
+              </script>
 
               <div class="input-field">
                 <select>
