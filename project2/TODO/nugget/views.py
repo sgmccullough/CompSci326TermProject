@@ -61,10 +61,21 @@ def battle(request): #Malachai
     """
     View function for battle page.
     """
+
+    usr_id = 100
+    opp_id = 101
+    bat_id = User.objects.filter(nug_id=usr_id).values_list('battle id', flat=True)
+    nug_id = User.objects.filter(nug_id=usr_id).values_list('Nug id', flat=True)
+    net_coin = User.objects.filter(nug_id=usr_id).values_list('Net coins', flat=True)
+    opponent_id = User.objects.filter(opponent_id=opp_id).values_list('opponent id', flat=True)
+    nug_id = User.objects.filter(nug_id=usr_id).values_list('Nug id', flat=True)
+    nug_xp = User.objects.filter(nug_id=usr_id).values_list('Nug xp', flat=True)
     return render(
         request,
         'battle.html',
-    )
+        {'bat_id':battle_id[0], 'nug_id':Nug_id[0],'net_coin':Net_coins[0],'opponent_id':opponent_id[0],
+        'nug_id':Nug_id[0],'nug_xp':Nug_xp[0],},
+        )
 
 def create(request):  #Emily
     """
