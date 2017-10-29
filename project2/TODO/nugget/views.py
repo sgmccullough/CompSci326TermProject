@@ -72,9 +72,8 @@ def create(request):  #Emily
     """
     # Nugget attributes
     usr_id = 100
-    test = NuggetAttribute.objects.all()
+    nug_size = NuggetAttribute.objects.filter(nug_id__pk=1).values_list('nug_size', flat=True)
     nug_color = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('nug_color', flat=True)
-    nug_size = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('nug_size', flat=True)
     mouth_size = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('mouth_size', flat=True)
     mouth_shape = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('mouth_status', flat=True)
     eye_size = NuggetAttribute.objects.filter(nug_id=usr_id).values_list('eye_size', flat=True)
@@ -83,7 +82,6 @@ def create(request):  #Emily
     return render(
         request,
         'create-a-nugget.html',
-        {'test':test},
-        #{'nug_size':nug_size[0]},
+        {'nug_size':nug_size[0]},
         #, ,'nug_color':nug_color, 'mouth_size':mouth_size[0], 'eye_size':eye_size[0], 'eye_shape':eye_shape[0]
     )
