@@ -6,7 +6,7 @@ class User(models.Model):
     Model representing a User Account.
     """
     #Fields
-    nug_id = models.IntegerField(help_text="Nugget ID unique to User")
+    nug_id = models.IntegerField(primary_key=True, help_text="Nugget ID unique to User")
     usr = models.CharField(max_length=25, help_text="Username")
     email = models.EmailField(max_length=50, help_text="User Email")
     pswd = models.CharField(max_length=50, help_text="User Password")

@@ -65,14 +65,14 @@ def battle(request): #Malachai
     usr_id = 100
     opp_id = 101
     bat_id = Battle.objects.filter(nug_id__pk=1).values_list('battle_id', flat=True)
-    nug_id = Battle.objects.filter(nug_id__pk=1).values_list('nug_id', flat=True)
+    nug_id = Battle.objects.filter(pk=100).values_list('nug_id', flat=True)
     net_coin = Battle.objects.filter(nug_id__pk=1).values_list('net_coins', flat=True)
-    opponent_id = Battle.objects.filter(nug_id__pk=1).values_list('opponent_id', flat=True)
+    opponent_id = User.objects.filter(nug_id=opp_id).values_list('nug_id', flat=True)
     nug_xp = Battle.objects.filter(nug_id__pk=1).values_list('nug_xp', flat=True)
     return render(
         request,
         'battle.html',
-        {'bat_id':bat_id[0], 'nug_id':nug_id[0],'net_coin':net_coin[0],'opponent_id':opponent_id[0],
+        {'bat_id':bat_id[0], 'nug_id':nug_id,'net_coin':net_coin[0],'opponent_id':opponent_id[0],
         'nug_xp':nug_xp[0]},
     )
 
