@@ -29,7 +29,7 @@ class User(models.Model):
         """
         String for representing the User object (in Admin site)
         """
-        return '%s (%s)' % (self.usr, self.nug_id)
+        return str(self.nug_id)
 
 
 class Nugget(models.Model):
@@ -57,7 +57,7 @@ class Nugget(models.Model):
         """
         String for representing the Nugget
         """
-        return self.name
+        return str(self.name)
 
 
 class NuggetAttribute(models.Model):
@@ -291,4 +291,4 @@ class FriendsList(models.Model):
         """
         String for representing a battle
         """
-        return str(self.friends)
+        return str(self.nug_id)
