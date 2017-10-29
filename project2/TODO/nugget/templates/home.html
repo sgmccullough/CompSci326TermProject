@@ -1,9 +1,13 @@
-{% extends "generic_base.html" %} {% load static %} {% block content %}
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
 <div class="row">
   <div class="col s4">
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
-        <span class="card-title">Nugget_Name</span>
+        <span class="card-title">{{ user }}</span>
         <center>
           <ul class="creatures" id="creatures">
             <li class="nervous">
@@ -18,7 +22,7 @@
             </li>
           </ul>
         </center>
-        <strong>Nugget_Name's Stats</strong>
+        <strong>{{ user }}'s Stats</strong>
         <ul>
           <li>Health: </li>
           <div class="progress">
@@ -45,7 +49,7 @@
   </div>
   <div class="col s5">
     <center>
-      <h4>Welcome back, username!</h4></center>
+      <h4>Welcome back, {{ user }}!</h4></center>
 
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">

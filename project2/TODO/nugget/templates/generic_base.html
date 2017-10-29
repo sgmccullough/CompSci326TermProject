@@ -34,7 +34,7 @@
       <li><a href="{% url 'shop' %}">shop</a></li>
       <li><a href="{% url 'chat' %}">chat</a></li>
       <li><a href="{% url 'battle' %}">battle</a></li>
-      <li><a href="#"><img src="{% static 'img/coin.png' %}" style="padding-right:5px;padding-top:5px;" />2,000</a></li>
+      <li><a href="#"><img src="{% static 'img/coin.png' %}" style="padding-right:5px;padding-top:5px;" />{% block coins %}{% endblock %}</a></li>
       <!-- Dropdown Trigger -->
       <li><a class="dropdown-button" href="#!" data-activates="dropdown1"> <i class="material-icons left">settings</i></a></li>
     </ul>

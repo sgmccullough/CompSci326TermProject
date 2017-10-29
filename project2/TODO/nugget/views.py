@@ -13,22 +13,29 @@ def index(request): #Scott
         'index.html',
     )
 
-def home(request): #Joe
+def home(request):
     """
-    View function for home page.
+    View function for the template/navigation bar.
     """
+    usr_id = 100
+    coins = User.objects.filter(nug_id=usr_id).values_list('coins', flat=True)
+    user = User.objects.filter(nug_id=usr_id).values_list('usr', flat=True)
+    #user=User.objects.get(nug_id__User=100)
     return render(
         request,
         'home.html',
+        {'coins':coins[0], 'user':user[0]},
     )
 
 def nugget(request): #Pinak
     """
     View function for nugget page.
     """
+    coins=User.objects.all().count()
     return render(
         request,
         'nugget.html',
+        context={'coins':coins},
     )
 
 def shop(request): #Arwa
@@ -62,7 +69,15 @@ def create(request):  #Emily
     """
     View function for create page.
     """
+    # Nugget attributes
+    nug_size = NuggetAttribute.objects.get(id = 'nug_size')
+    # nug_color =
+    # nug_size =
+    # mouth_size =
+    # eye_size =
+    # eye_shape
     return render(
         request,
         'create-a-nugget.html',
+        context={'nug_size':nug_size},
     )
