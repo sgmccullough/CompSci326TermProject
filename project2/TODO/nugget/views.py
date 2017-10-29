@@ -20,6 +20,7 @@ def home(request):
     usr_id = 100
     coins = User.objects.filter(nug_id=usr_id).values_list('coins', flat=True)
     user = User.objects.filter(nug_id=usr_id).values_list('usr', flat=True)
+    #nug_name = Nugget.objects.filter(nug_id=usr_id).values_list('name', flat=True)
     #user=User.objects.get(nug_id__User=100)
     return render(
         request,

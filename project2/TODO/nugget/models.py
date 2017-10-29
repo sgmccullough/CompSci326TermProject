@@ -66,19 +66,19 @@ class NuggetAttribute(models.Model):
     """
     #Fields
     nug_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    nug_health = models.IntegerField(help_text="health of nugget", default="100")
+    nug_health = models.IntegerField(help_text="health of nugget", default=100)
     nug_color = models.CharField(max_length =50, help_text="Nugget color")
     nug_size = models.IntegerField(help_text="Nugget size", default=20)
     mouth_size = models.IntegerField(help_text="Mouth size", default=10)
     eye_size = models.IntegerField(help_text="Eye size", default=10)
-    experience = models.IntegerField(help_text="Experience Points", default='0')
-    hunger=models.IntegerField(help_text="Nugget Hunger", default='0')
-    happiness=models.IntegerField(help_text="Nugget Happiness", default='0')
-    defense=models.IntegerField(help_text="Nugget Defense", default='0')
-    battle_xp=models.ForeignKey('Battle', on_delete=models.SET_NULL, null=True)
-    fatigue=models.IntegerField(help_text="Nugget Fatigue", default='0')
-    intelligence=models.IntegerField(help_text="Nugget Intelligence", default='0')
-    luck=models.IntegerField(help_text="Nugget Luck", default='0')
+    experience = models.IntegerField(help_text="Experience Points", default=50)
+    hunger=models.IntegerField(help_text="Nugget Hunger", default=100)
+    happiness=models.IntegerField(help_text="Nugget Happiness", default=100)
+    defense=models.IntegerField(help_text="Nugget Defense", default=100)
+    battle_XP=models.IntegerField(help_text="Battle Experience Points", default=100)
+    fatigue=models.IntegerField(help_text="Nugget Fatigue", default=100)
+    intelligence=models.IntegerField(help_text="Nugget Intelligence", default=20)
+    luck=models.IntegerField(help_text="Nugget Luck", default=20)
 
     mouth_type = (
         ('h', 'Happy'),
@@ -120,7 +120,7 @@ class NuggetAttribute(models.Model):
         """
         String for representing the Nugget attributes
         """
-        return self.nug_color
+        return str(self.nug_id)
 
 class Inventorie(models.Model):
     """
@@ -145,7 +145,7 @@ class Inventorie(models.Model):
         """
         String for representing the Inventory
         """
-        return self.inv_id
+        return str(self.inv_id)
 
 class Shop(models.Model):
     """
@@ -169,7 +169,7 @@ class Shop(models.Model):
         """
         String for representing the Shop
         """
-        return self.item_id
+        return str(self.item_id)
 
 class Item(models.Model):
     """
@@ -194,8 +194,8 @@ class Item(models.Model):
         ('l', 'luck')
     )
 
-    item_status = models.CharField(max_length=1, choices=item_type, blank=True, default='c', help_text='Type of Item')
-    item_features= models.CharField(max_length=1, choices=item_attribute, blank=True, default='he', help_text='Type of Feature')
+    item_status = models.CharField(max_length=100, choices=item_type, blank=True, default='c', help_text='Type of Item')
+    item_features= models.CharField(max_length=100, choices=item_attribute, blank=True, default='he', help_text='Type of Feature')
 
     #Metadata
     class Meta:
@@ -212,7 +212,7 @@ class Item(models.Model):
         """
         String for representing an item
         """
-        return self.item_id
+        return str(self.item_id)
 
 class Battle(models.Model):
     """
@@ -240,7 +240,7 @@ class Battle(models.Model):
         """
         String for representing a battle
         """
-        return self.battle_id
+        return str(self.battle_id)
 
 class Nug_IDs(models.Model):
     """
@@ -264,7 +264,7 @@ class Nug_IDs(models.Model):
         """
         String for representing a battle
         """
-        return self.nug_id
+        return str(self.nug_id)
 
 class FriendsList(models.Model):
     """
@@ -291,4 +291,4 @@ class FriendsList(models.Model):
         """
         String for representing a battle
         """
-        return self.friends
+        return str(self.friends)
