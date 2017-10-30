@@ -61,37 +61,37 @@
               <i class="material-icons" id = "wh" style="font-size: 30px; color: wheat;">brightness_1</i>
 
               <script id = "get_color" type="text/javascript">
-
                 var color = "{{ nug_color }}";
-                document.write(color);
-                var dgr = document.getElementById(dgr);
-                var sb = document.getElementById(sb);
-                var bw = document.getElementById(bw);
-                var si = document.getElementById(si);
-                var tan = document.getElementById(tan);
-                var gr = document.getElementById(gr);
-                var wh = document.getElementById(wh);
+                var dgr = document.getElementById('dgr');
+                var sb = document.getElementById('sb');
+                var bw = document.getElementById('bw');
+                var si = document.getElementById('si');
+                var tan = document.getElementById('tan');
+                var gr = document.getElementById('gr');
+                var wh = document.getElementById('wh');
 
-                if(color === 'saddlebrown'){
-                  sb.style.border = "1px #000000 solid";
-                }
-                else if(color === 'burlywood'){
-                  bw.style.border = "1px #000000 solid";
-                }
-                else if(color === 'sienna'){
-                  si.style.border = "1px #000000 solid";
-                }
-                else if(color === 'tan'){
-                  tan.style.border = "1px #000000 solid";
-                }
-                else if(color === 'goldenrod'){
-                  gr.style.border = "1px #000000 solid";
-                }
-                else if(color === 'wheat'){
-                  wh.style.border = "1px #000000 solid";
-                }
-                else{
-                  dgr.style.border = "1px #000000 solid";
+                switch(color) {
+                  case "burlywood":
+                    bw.style.border = "1px #000000 solid;";
+                    break;
+                  case "saddlebrown":
+                    sb.style.border = "1px #000000 solid";
+                    break;
+                  case "sienna":
+                    si.style.border = "1px #000000 solid";
+                    break;
+                  case "tan":
+                    tan.style.border = "1px #000000 solid";
+                    break;
+                  case "goldenrod":
+                    gr.style.border = "1px #000000 solid";
+                    break;
+                  case "wheat":
+                    wh.style.border = "1px #000000 solid";
+                    break;
+                  default:
+                    dgr.style.border = "1px #000000 solid";
+                    break;
                 }
 
               </script>
