@@ -51,7 +51,6 @@ class Nugget(models.Model):
         ordering = ["name"]
 
     #Methods
-
     def get_absolute_url(self):
         """
         Returns the url to access a particular instance of Nugget
@@ -131,12 +130,11 @@ class NuggetAttribute(models.Model):
 
 class Item(models.Model):
     """
-    Model representing the items
+    Model representing an item
     """
     #Fields
     id = models.UUIDField(verbose_name="Item ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this item")
     name = models.CharField(verbose_name="Item Name", max_length=25, help_text = "Name of item")
-    url = models.CharField(verbose_name="Item URL", max_length=100, help_text = "URL to item image")
 
     item_type = (
         ('a', 'Armor'),
@@ -178,11 +176,9 @@ class Item(models.Model):
 
 class Inventory(models.Model):
     """
-    Model representing Inventory
+    Model representing a User's Inventory
     """
     #Fields
-    #List of items
-
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     items = models.ManyToManyField('Item', through='InventoryItems')
@@ -207,6 +203,10 @@ class Inventory(models.Model):
         return str(self.id)
 
 class InventoryItems(models.Model):
+    """
+    Model representing the quantity of a given item in a user's inventory. Implemented as a through table/
+    """
+
     inventory = models.ForeignKey('Inventory')
     item = models.ForeignKey('Item')
     quantity = models.IntegerField()
@@ -225,7 +225,7 @@ class Shop(models.Model):
     #Methods
     def get_absolute_url(self):
         """
-        REturns the url to access the shop
+        Returns the url to access the shop
         """
         return reverse('Shop-detail', args=[str(self.id)])
 
