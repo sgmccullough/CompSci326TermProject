@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from .models import User, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
 
-def index(request): #Scott
+def index(request): #Scott test
     """
     View function for login page.
     """
@@ -186,19 +186,54 @@ def battle(request): #Malachai
     """
     View function for battle page.
     """
+    usr_id = 'bd481a31eab24a81b1bceba314bf8af8'
+    opp_id = '3b05c13668cd406297045aa5b96eee94'
 
-    usr_id = 100
-    opp_id = 101
-    bat_id = Battle.objects.filter(nug_id__pk=1).values_list('battle_id', flat=True)
-    nug_id = Battle.objects.filter(pk=100).values_list('nug_id', flat=True)
-    net_coin = Battle.objects.filter(nug_id__pk=1).values_list('net_coins', flat=True)
-    opponent_id = User.objects.filter(nug_id=opp_id).values_list('nug_id', flat=True)
-    nug_xp = Battle.objects.filter(nug_id__pk=1).values_list('nug_xp', flat=True)
+    #Battle Properties
+    bat_id = Battle.objects.filter(id=usr_id).values_list('battles', flat=True)
+    user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
+    coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
+    nug_xp = BattleInstance.objects.filter(id=usr_id).values_list('nug_xp', flat=True)
+    opponent_id = BattleInstance.objects.filter(id=opp_id).values_list('opponent_id', flat=True)
+    nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
+
+    health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
+    if health[0] > 50:
+        health_color = "green"
+    elif health[0] > 20:
+        health_color = "orange"
+    else:
+        health_color = "red"
+
+    hunger = NuggetAttribute.objects.filter(id=nug_attributes).values_list('hunger', flat=True)
+    if hunger[0] > 50:
+        hunger_color = "green"
+    elif hunger[0] > 20:
+        hunger_color = "orange"
+    else:
+        hunger_color = "red"
+
+    happiness = NuggetAttribute.objects.filter(id=nug_attributes).values_list('happiness', flat=True)
+    if happiness[0] > 50:
+        happiness_color = "green"
+    elif happiness[0] > 20:
+        happiness_color = "orange"
+    else:
+        happiness_color = "red"
+
+    battle_XP = NuggetAttribute.objects.filter(id=nug_attributes).values_list('battle_XP', flat=True)
+    if battle_XP[0] > 50:
+        battle_XP_color = "green"
+    elif battle_XP[0] > 20:
+        battle_XP_color = "orange"
+    else:
+        battle_XP_color = "red"
+
     return render(
         request,
         'battle.html',
-        {'bat_id':bat_id[0], 'nug_id':nug_id,'net_coin':net_coin[0],'opponent_id':opponent_id[0],
-        'nug_xp':nug_xp[0]},
+        {'bat_id':bat_id, 'coins':coins[0], 'user':user[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0], 'hunger_color':hunger_color,
+        'happiness':happiness[0], 'happiness_color':happiness_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color},
     )
 
 def create(request):  #Emily
