@@ -16,12 +16,12 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Inventory)
 class InventoryAdmin(admin.ModelAdmin):
     list_display = ('user',)
-    inlines = [ItemInline]
+    #inlines = [ItemInline]
 
 @admin.register(Battle)
 class BattleAdmin(admin.ModelAdmin):
-    list_display = ('user',)
-    inlines = [BattleInstanceInline]
+    list_display = ('id',)
+    #inlines = [BattleInstanceInline]
 
 #admin.site.register(Nug_IDs)
 admin.site.register(User, UserAdmin)

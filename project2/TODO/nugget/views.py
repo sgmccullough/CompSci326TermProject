@@ -15,36 +15,150 @@ def index(request): #Scott
 
 def home(request):
     """
-    View function for the template/navigation bar.
+    View function for the home.
     """
-    usr_id = 'a5195ee228294ab99d346e3c0addfecf'
+    usr_id = '7326adf763594c3e92d53cf1d682eccc'
 
     #User Properties
     coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
     user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
     nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
+    nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
+
+    health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
+    if health[0] > 50:
+        health_color = "green"
+    elif health[0] > 20:
+        health_color = "orange"
+    else:
+        health_color = "red"
+
+    hunger = NuggetAttribute.objects.filter(id=nug_attributes).values_list('hunger', flat=True)
+    if hunger[0] > 50:
+        hunger_color = "green"
+    elif hunger[0] > 20:
+        hunger_color = "orange"
+    else:
+        hunger_color = "red"
+
+    happiness = NuggetAttribute.objects.filter(id=nug_attributes).values_list('happiness', flat=True)
+    if happiness[0] > 50:
+        happiness_color = "green"
+    elif happiness[0] > 20:
+        happiness_color = "orange"
+    else:
+        happiness_color = "red"
+
+    battle_XP = NuggetAttribute.objects.filter(id=nug_attributes).values_list('battle_XP', flat=True)
+    if battle_XP[0] > 50:
+        battle_XP_color = "green"
+    elif battle_XP[0] > 20:
+        battle_XP_color = "orange"
+    else:
+        battle_XP_color = "red"
 
     return render(
         request,
         'home.html',
-        {'coins':coins[0], 'user':user[0], 'nugget':nugget[0]},
+        {'coins':coins[0], 'user':user[0], 'nugget':nugget[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0], 'hunger_color':hunger_color,
+        'happiness':happiness[0], 'happiness_color':happiness_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color},
     )
 
 def nugget(request): #Pinak
     """
     View function for nugget page.
     """
+    usr_id = '7326adf763594c3e92d53cf1d682eccc'
 
-    usr_id = 'a5195ee228294ab99d346e3c0addfecf'
-
+    #User Properties
+    coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
+    user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
     nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
-    # Statistics
-    hp = Nugget.objects.filter(attributes=nugget) # Attributes must equal an instance of an attribute... how?!
+    nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
+
+    health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
+    if health[0] > 50:
+        health_color = "green"
+    elif health[0] > 20:
+        health_color = "orange"
+    else:
+        health_color = "red"
+
+    hunger = NuggetAttribute.objects.filter(id=nug_attributes).values_list('hunger', flat=True)
+    if hunger[0] > 50:
+        hunger_color = "green"
+    elif hunger[0] > 20:
+        hunger_color = "orange"
+    else:
+        hunger_color = "red"
+
+    defense = NuggetAttribute.objects.filter(id=nug_attributes).values_list('defense', flat=True)
+    if defense[0] > 50:
+        defense_color = "green"
+    elif defense[0] > 20:
+        defense_color = "orange"
+    else:
+        defense_color = "red"
+
+    battle_XP = NuggetAttribute.objects.filter(id=nug_attributes).values_list('battle_XP', flat=True)
+    if battle_XP[0] > 50:
+        battle_XP_color = "green"
+    elif battle_XP[0] > 20:
+        battle_XP_color = "orange"
+    else:
+        battle_XP_color = "red"
+
+    fatigue = NuggetAttribute.objects.filter(id=nug_attributes).values_list('fatigue', flat=True)
+    if fatigue[0] > 50:
+        fatigue_color = "green"
+    elif fatigue[0] > 20:
+        fatigue_color = "orange"
+    else:
+        fatigue_color = "red"
+
+    intelligence = NuggetAttribute.objects.filter(id=nug_attributes).values_list('intelligence', flat=True)
+    if intelligence[0] > 50:
+        intelligence_color = "green"
+    elif intelligence[0] > 20:
+        intelligence_color = "orange"
+    else:
+        intelligence_color = "red"
+
+    happiness = NuggetAttribute.objects.filter(id=nug_attributes).values_list('happiness', flat=True)
+    if happiness[0] > 50:
+        happiness_color = "green"
+    elif happiness[0] > 20:
+        happiness_color = "orange"
+    else:
+        happiness_color = "red"
+
+    luck = NuggetAttribute.objects.filter(id=nug_attributes).values_list('luck', flat=True)
+    if luck[0] > 50:
+        luck_color = "green"
+    elif luck[0] > 20:
+        luck_color = "orange"
+    else:
+        luck_color = "red"
+
+    inventory = Inventory.objects.filter(user=usr_id).values_list('id', flat=True)
+    items = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
+
+    item_names = [None]
+    for i in items:
+        if item_names[0] == None:
+            temp = Item.objects.filter(id=i).values_list('name', flat=True)
+            item_names = [temp[0]]
+        else:
+            temp = Item.objects.filter(id=i).values_list('name', flat=True)
+            item_names = item_names + [temp[0]]
 
     return render(
         request,
         'nugget.html',
-        context={'nugget':nugget, 'health':hp},
+        {'coins':coins[0], 'user':user[0], 'nugget':nugget[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0],
+        'hunger_color':hunger_color, 'defense':defense[0], 'defense_color':defense_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color,
+        'fatigue':fatigue[0], 'fatigue_color':fatigue_color, 'intelligence':intelligence[0], 'intelligence_color':intelligence_color,
+        'happiness':happiness[0], 'happiness_color':happiness_color, 'luck':luck[0], 'luck_color':luck_color, 'items':item_names, 'item_1':item_names[0]},
     )
 
 def shop(request): #Arwa

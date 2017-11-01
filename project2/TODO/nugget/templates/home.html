@@ -26,19 +26,19 @@
         <ul>
           <li>Health: </li>
           <div class="progress">
-            <div class="determinate" style="width: 70%"></div>
+            <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
           </div>
           <li>Hunger: </li>
           <div class="progress">
-            <div class="determinate" style="width: 90%"></div>
+            <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
           </div>
           <li>Happiness: </li>
           <div class="progress">
-            <div class="determinate" style="width: 50%; background-color:orange;"></div>
+            <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
           </div>
           <li>Battle XP: </li>
           <div class="progress">
-            <div class="determinate" style="width: 30%; background-color:red;"></div>
+            <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
           </div>
         </ul>
       </div>

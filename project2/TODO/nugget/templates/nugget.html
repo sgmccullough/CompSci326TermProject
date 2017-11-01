@@ -1,30 +1,25 @@
-{% extends "generic_base.html" %} {% load static %}
-
-
-{% block coins %}{{ coins }}{% endblock %}
-
-{% block content %}
+{% extends "generic_base.html" %} {% load static %} {% block coins %}{{ coins }}{% endblock %} {% block content %}
 <div class="row">
   <div class="col s3">
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
-        <span class="card-title">Physical Statistics</span>
+        <span class="card-title">Physical Statistics{{ inventory }}</span>
         <ul>
           <li>Health: </li>
           <div class="progress">
-            <div class="determinate" style="width: 70%"></div>
+            <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
           </div>
           <li>Hunger: </li>
           <div class="progress">
-            <div class="determinate" style="width: 90%"></div>
+            <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
           </div>
           <li>Defense: </li>
           <div class="progress">
-            <div class="determinate" style="width: 50%; background-color:orange;"></div>
+            <div class="determinate" style="width: {{ defense }}%; background-color:{{ defense_color }};"></div>
           </div>
           <li>Battle XP: </li>
           <div class="progress">
-            <div class="determinate" style="width: 30%; background-color:red;"></div>
+            <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
           </div>
         </ul>
       </div>
@@ -35,7 +30,7 @@
   </div>
   <div class="col s6">
     <center>
-      <h1>Nugget_Name</h1>
+      <h1>{{ nugget }}</h1>
       <ul class="creatures" id="creatures">
 
         <li class="nervous">
@@ -50,21 +45,20 @@
         </li>
       </ul>
       <h5><script id = "RanGreet">
-     r_text = new Array ();
-  r_text[0] = "I was thinking of you."
-  r_text[1] = "I'm glad you're back."
-  r_text[3] = "Let's battle!"
-  r_text[4] = "Wheee! So happy to see youuuuuu!"
-  var i = Math.floor((r_text.length) * Math.random());
-  if(r_text[i] == null){
-    document.write(r_text[0]);
-  }
-  else {
-    document.write(r_text[i]);
-  }
-
-  </script></h5>
-  <br />
+        r_text = new Array ();
+        r_text[0] = "I was thinking of you."
+        r_text[1] = "I'm glad you're back."
+        r_text[3] = "Let's battle!"
+        r_text[4] = "Wheee! So happy to see youuuuuu!"
+        var i = Math.floor((r_text.length) * Math.random());
+        if(r_text[i] == null){
+          document.write(r_text[0]);
+        }
+        else {
+          document.write(r_text[i]);
+        }
+      </script></h5>
+      <br />
     </center>
   </div>
   <div class="col s3">
@@ -74,19 +68,19 @@
         <ul>
           <li>Fatigue: </li>
           <div class="progress">
-            <div class="determinate" style="width: 70%"></div>
+            <div class="determinate" style="width: {{ fatigue }}%; background-color:{{ fatigue_color }}"></div>
           </div>
-          <li> Intelligece: </li>
+          <li>Intelligence: </li>
           <div class="progress">
-            <div class="determinate" style="width: 90%"></div>
+            <div class="determinate" style="width: {{ intelligence }}%; background-color:{{ intelligence_color }}"></div>
           </div>
           <li>Happiness: </li>
           <div class="progress">
-            <div class="determinate" style="width: 50%; background-color:orange;"></div>
+            <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
           </div>
           <li>Luck: </li>
           <div class="progress">
-            <div class="determinate" style="width: 30%; background-color:red;"></div>
+            <div class="determinate" style="width: {{ luck }}%; background-color:{{ luck_color }};"></div>
           </div>
         </ul>
       </div>
@@ -97,10 +91,11 @@
   </div>
 </div>
 
+
 <div class="row">
   <div class="col s12">
     <div class="box">
-      <h5 style="text-align: center;">Inventory</h5>
+      <h5 style="text-align: center;">Inventory {{ items }}</h5>
       <center>
         <table style="text-align: center;">
           <tbody>

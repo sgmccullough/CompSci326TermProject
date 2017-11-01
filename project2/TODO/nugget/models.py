@@ -44,6 +44,8 @@ class Nugget(models.Model):
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     name = models.CharField(verbose_name="Name", max_length=25, help_text="Nugget name")
     attributes = models.ForeignKey('NuggetAttribute', null=False, verbose_name="Attributes")
+    inventory = models.ForeignKey('Inventory', null=False, verbose_name="Inventory")
+    battles = models.ForeignKey('Battle', null=False, verbose_name="Battles")
     #friends = models.ManyToManyField('self', through='friend',symmetrical=False,related_name='related_to+')
 
     #Metadeta
@@ -71,6 +73,7 @@ class NuggetAttribute(models.Model):
     Model representing a Nugget's Attributes.
     """
     #Fields
+    id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     health = models.IntegerField(verbose_name="Health", help_text="Nugget Health", default=100)
     color = models.CharField(verbose_name="Color", max_length =50, help_text="Nugget Color")
     nug_size = models.IntegerField(verbose_name="Size", help_text="Nugget size", default=20)
@@ -127,7 +130,7 @@ class NuggetAttribute(models.Model):
         """
         String for representing the Nugget attributes
         """
-        return str(self.color)
+        return str(self.id)
 
 class Inventory(models.Model):
     """
@@ -136,7 +139,9 @@ class Inventory(models.Model):
     #Fields
     #List of items
 
+    id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    items = models.ManyToManyField('Item')
 
     #Metadata
     class Meta:
@@ -155,12 +160,16 @@ class Inventory(models.Model):
         """
         String for representing the Inventory
         """
-        return str(self.user.id)
+        return str(self.id)
 
 class Shop(models.Model):
     """
     Model representing the Shop
     """
+
+    items = models.ManyToManyField('Item')
+
+
     #Methods
     def get_absolute_url(self):
         """
@@ -181,8 +190,6 @@ class Item(models.Model):
     #Fields
     id = models.UUIDField(verbose_name="Item ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this item")
     name = models.CharField(verbose_name="Item Name", max_length=25, help_text = "Name of item")
-    inventory = models.ForeignKey('Inventory', null=True, blank=True)
-    shop = models.ForeignKey('Shop')
 
     item_type = (
         ('a', 'Armor'),
@@ -219,37 +226,37 @@ class Item(models.Model):
         """
         String for representing an item
         """
-        return str(self.name)
+        return str(self.id)
 
 
 class Battle(models.Model):
 
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
+    battles = models.ForeignKey('BattleInstance', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = "User Battle Set"
         verbose_name_plural = "User Battle Sets"
-        ordering = ["user"]
+        ordering = ["id"]
 
     #Methods
     def get_absolute_url(self):
         """
         Returns the url to access Battle
         """
-        return reverse('battle-detail', args=[str(self.user)])
+        return reverse('battle-detail', args=[str(self.id)])
 
     def __str__(self):
         """
         String for representing a Battle
         """
-        return str(self.user)
+        return str(self.id)
 
 class BattleInstance(models.Model):
     """
     Model representing battles
     """
     #Fields
-    battle = models.ForeignKey('Battle', on_delete=models.SET_NULL, null=True, blank=True)
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
     net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, help_text = "Coins won or lost")
     opponent_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
