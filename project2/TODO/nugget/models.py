@@ -141,7 +141,7 @@ class Inventory(models.Model):
 
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    items = models.ManyToManyField('Item')
+    items = models.ManyToManyField('Item', through='InventoryItems')
 
     #Metadata
     class Meta:
@@ -161,6 +161,16 @@ class Inventory(models.Model):
         String for representing the Inventory
         """
         return str(self.id)
+
+class InventoryItems(models.Model):
+    id = models.ForeignKey('Inventory')
+    item = models.ForeignKey('Item')
+    inventory = models.ForeignKey('Inventory')
+    quantity = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Inventory Through Data"
+        verbose_name_plural = "Inventory Through Data"
 
 class Shop(models.Model):
     """
@@ -282,8 +292,12 @@ class BattleInstance(models.Model):
         return str(self.id)
 
 class Friend(models.Model):
-    users = models.ManyToManyField('User')
-    current_user = models.ForeignKey('User', related_name="owner", null=True)
+    users = models.ManyToManyField('User', verbose_name="Friends")
+    current_user = models.ForeignKey('User', related_name="owner", verbose_name="User", null=True)
+
+
+    class Meta:
+        verbose_name = "Friends List"
 
     @classmethod
     def make_friend(cls, current_user, new_friend):

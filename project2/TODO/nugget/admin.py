@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop
+from .models import User, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems
 
 class BattleInstanceInline(admin.TabularInline):
     model = BattleInstance
@@ -24,6 +24,7 @@ class BattleAdmin(admin.ModelAdmin):
     #inlines = [BattleInstanceInline]
 
 #admin.site.register(Nug_IDs)
+admin.site.register(InventoryItems)
 admin.site.register(User, UserAdmin)
 admin.site.register(Nugget)
 admin.site.register(NuggetAttribute)
