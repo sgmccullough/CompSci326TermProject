@@ -132,67 +132,6 @@ class NuggetAttribute(models.Model):
         """
         return str(self.id)
 
-class Inventory(models.Model):
-    """
-    Model representing Inventory
-    """
-    #Fields
-    #List of items
-
-    id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    items = models.ManyToManyField('Item', through='InventoryItems')
-
-    #Metadata
-    class Meta:
-        verbose_name = "User Inventory"
-        verbose_name_plural = "User Inventory Sets"
-        ordering = ["id"]
-
-    #Methods
-    def get_absolute_url(self):
-        """
-        Returns the url to access a particular instance of Inventory
-        """
-        return reverse('Inventory-detail', args=[str(self.id)])
-
-    def __str__(self):
-        """
-        String for representing the Inventory
-        """
-        return str(self.id)
-
-class InventoryItems(models.Model):
-    id = models.ForeignKey('Inventory')
-    item = models.ForeignKey('Item')
-    inventory = models.ForeignKey('Inventory')
-    quantity = models.IntegerField()
-
-    class Meta:
-        verbose_name = "Inventory Through Data"
-        verbose_name_plural = "Inventory Through Data"
-
-class Shop(models.Model):
-    """
-    Model representing the Shop
-    """
-
-    items = models.ManyToManyField('Item')
-
-
-    #Methods
-    def get_absolute_url(self):
-        """
-        REturns the url to access the shop
-        """
-        return reverse('Shop-detail', args=[str(self.id)])
-
-    def __str__(self):
-        """
-        String for representing the Shop
-        """
-        return str(self.id)
-
 class Item(models.Model):
     """
     Model representing the items
@@ -238,6 +177,65 @@ class Item(models.Model):
         """
         return str(self.id)
 
+
+class Inventory(models.Model):
+    """
+    Model representing Inventory
+    """
+    #Fields
+    #List of items
+
+    id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
+    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    items = models.ManyToManyField('Item', through='InventoryItems')
+
+    #Metadata
+    class Meta:
+        verbose_name = "User Inventory"
+        verbose_name_plural = "User Inventory"
+        ordering = ["id"]
+
+    #Methods
+    def get_absolute_url(self):
+        """
+        Returns the url to access a particular instance of Inventory
+        """
+        return reverse('Inventory-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String for representing the Inventory
+        """
+        return str(self.id)
+
+class InventoryItems(models.Model):
+    inventory = models.ForeignKey('Inventory')
+    item = models.ForeignKey('Item')
+    quantity = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Inventory Through Data"
+        verbose_name_plural = "Inventory Through Data"
+
+class Shop(models.Model):
+    """
+    Model representing the Shop
+    """
+
+    items = models.ManyToManyField('Item')
+
+    #Methods
+    def get_absolute_url(self):
+        """
+        REturns the url to access the shop
+        """
+        return reverse('Shop-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """
+        String for representing the Shop
+        """
+        return str(self.id)
 
 class Battle(models.Model):
 

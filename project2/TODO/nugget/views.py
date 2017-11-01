@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from .models import User, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend
+from .models import User, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems
 
 def index(request): #Scott
     """
@@ -17,7 +17,7 @@ def home(request):
     """
     View function for the home.
     """
-    usr_id = 'bd481a31eab24a81b1bceba314bf8af8'
+    usr_id = 'f029b8610d3e4748a4b5d0d56a76fac0'
 
     #User Properties
     coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
@@ -68,7 +68,7 @@ def nugget(request): #Pinak
     """
     View function for nugget page.
     """
-    usr_id = 'bd481a31eab24a81b1bceba314bf8af8'
+    usr_id = 'f029b8610d3e4748a4b5d0d56a76fac0'
 
     #User Properties
     coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
@@ -142,15 +142,18 @@ def nugget(request): #Pinak
 
     inventory = Inventory.objects.filter(user=usr_id).values_list('id', flat=True)
     items = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
+    quantities = InventoryItems.objects.filter(inventory=inventory).values_list('quantity', flat=True)
 
     item_names = [None]
+    counter = 0
     for i in items:
         if item_names[0] == None:
             temp = Item.objects.filter(id=i).values_list('name', flat=True)
-            item_names = [temp[0]]
+            item_names = [[temp[0], quantities[counter]]]
         else:
             temp = Item.objects.filter(id=i).values_list('name', flat=True)
-            item_names = item_names + [temp[0]]
+            item_names = item_names + [[temp[0], quantities[counter]]]
+        counter = counter + 1
 
     return render(
         request,
