@@ -45,7 +45,7 @@ class Nugget(models.Model):
     name = models.CharField(verbose_name="Name", max_length=25, help_text="Nugget name")
     attributes = models.ForeignKey('NuggetAttribute', null=False, verbose_name="Attributes")
     inventory = models.ForeignKey('Inventory', null=False, verbose_name="Inventory")
-    battles = models.ForeignKey('Battle', null=False, verbose_name="Battles")
+    # battles = models.ManyToManyField('BattleInstance')
     #friends = models.ManyToManyField('self', through='friend',symmetrical=False,related_name='related_to+')
 
     #Metadeta
@@ -231,8 +231,9 @@ class Item(models.Model):
 
 class Battle(models.Model):
 
-    id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
-    battles = models.ForeignKey('BattleInstance', on_delete=models.SET_NULL, null=True, blank=True)
+    # id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
+    battles = models.ManyToManyField('BattleInstance')
+    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="User ID")
 
     class Meta:
         verbose_name = "User Battle Set"
@@ -244,13 +245,13 @@ class Battle(models.Model):
         """
         Returns the url to access Battle
         """
-        return reverse('battle-detail', args=[str(self.id)])
+        return reverse('battle-detail', args=[str(self.user)])
 
     def __str__(self):
         """
         String for representing a Battle
         """
-        return str(self.id)
+        return str(self.user)
 
 class BattleInstance(models.Model):
     """
