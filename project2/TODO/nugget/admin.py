@@ -14,16 +14,20 @@ class InventoryAdmin(admin.ModelAdmin):
 
 @admin.register(Battle)
 class BattleAdmin(admin.ModelAdmin):
-    pass
-#list_display = ('id')
+    list_display = ('id',)
     #inlines = [BattleInstanceInline]
 
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'id', 'item_status', 'item_features')
+
+@admin.register(InventoryItems)
+class InventoryItemsAdmin(admin.ModelAdmin):
+    list_display = ('item', 'quantity', 'inventory')
+
 #admin.site.register(Nug_IDs)
-admin.site.register(InventoryItems)
-#admin.site.register(User, UserAdmin)
 admin.site.register(Nugget)
 admin.site.register(NuggetAttribute)
 admin.site.register(Shop)
-admin.site.register(Item)
 admin.site.register(Friend)
 admin.site.register(BattleInstance)
