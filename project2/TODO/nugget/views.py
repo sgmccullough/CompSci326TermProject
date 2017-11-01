@@ -17,7 +17,7 @@ def home(request):
     """
     View function for the home.
     """
-    usr_id = '7326adf763594c3e92d53cf1d682eccc'
+    usr_id = 'bd481a31eab24a81b1bceba314bf8af8'
 
     #User Properties
     coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
@@ -68,7 +68,7 @@ def nugget(request): #Pinak
     """
     View function for nugget page.
     """
-    usr_id = '7326adf763594c3e92d53cf1d682eccc'
+    usr_id = 'bd481a31eab24a81b1bceba314bf8af8'
 
     #User Properties
     coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
