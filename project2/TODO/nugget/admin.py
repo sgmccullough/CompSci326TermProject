@@ -28,8 +28,10 @@ class InventoryItemsAdmin(admin.ModelAdmin):
 class BattleInstanceAdmin(admin.ModelAdmin):
     pass
 
-#admin.site.register(Nug_IDs)
-admin.site.register(Nugget)
+@admin.register(Nugget)
+class NuggetAdmin(admin.ModelAdmin):
+    list_display = ('user', 'name')
+
 admin.site.register(NuggetAttribute)
 admin.site.register(Shop)
 admin.site.register(Friend)

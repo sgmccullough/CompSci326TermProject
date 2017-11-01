@@ -136,6 +136,7 @@ class Item(models.Model):
     #Fields
     id = models.UUIDField(verbose_name="Item ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this item")
     name = models.CharField(verbose_name="Item Name", max_length=25, help_text = "Name of item")
+    url = models.CharField(verbose_name="Item URL", max_length=100, help_text = "URL to item image")
 
     item_type = (
         ('a', 'Armor'),
