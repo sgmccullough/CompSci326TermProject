@@ -205,17 +205,21 @@ def create(request):  #Emily
     """
     View function for create page.
     """
-    # Nugget attributes
-    usr_id = 100
-    nug_size = NuggetAttribute.objects.filter(nug_id__pk=1).values_list('nug_size', flat=True)
-    nug_color = NuggetAttribute.objects.filter(nug_id__pk=1).values_list('nug_color', flat=True)
-    mouth_size = NuggetAttribute.objects.filter(nug_id__pk=1).values_list('mouth_size', flat=True)
-    mouth_shape = NuggetAttribute.objects.filter(nug_id__pk=1).values_list('mouth_status', flat=True)
-    eye_size = NuggetAttribute.objects.filter(nug_id__pk=1).values_list('eye_size', flat=True)
-    eye_shape = NuggetAttribute.objects.filter(nug_id__pk=1).values_list('eye_status', flat=True)
+    # Logistics
+    usr_id = 'e954e5ed18ff44d9b98d7714a22f5145'
+    nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
+
+    # Attributes
+    shape = NuggetAttribute.objects.filter(id=nug_attributes).values_list('nugget_status', flat=True)
+    size = NuggetAttribute.objects.filter(id=nug_attributes).values_list('nug_size', flat=True)
+    color = NuggetAttribute.objects.filter(id=nug_attributes).values_list('color', flat=True)
+    mouth_size = NuggetAttribute.objects.filter(id=nug_attributes).values_list('mouth_size', flat=True)
+    mouth_shape = NuggetAttribute.objects.filter(id=nug_attributes).values_list('mouth_status', flat=True)
+    eye_size = NuggetAttribute.objects.filter(id=nug_attributes).values_list('eye_size', flat=True)
+    eye_shape = NuggetAttribute.objects.filter(id=nug_attributes).values_list('eye_status', flat=True)
 
     return render(
         request,
         'create-a-nugget.html',
-        {'nug_size':nug_size[0], 'nug_color':nug_color[0], 'mouth_size':mouth_size[0], 'eye_size':eye_size[0], 'eye_shape':eye_shape[0]},
+        {'shape':shape[0], 'size':size[0], 'color':color[0], 'mouth_size':mouth_size[0], 'mouth_shape':mouth_shape[0], 'eye_size':eye_size[0], 'eye_shape':eye_shape[0]},
     )
