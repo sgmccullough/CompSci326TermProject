@@ -15,11 +15,10 @@ class User(models.Model):
     bday = models.DateField(verbose_name="Birthday", auto_now=False)
     coins = models.IntegerField(verbose_name="Coins", help_text="User Currency")
 
-    #Messages & Settings should be their own models ?
-
     #Metadeta
     class Meta:
         verbose_name = "User"
+        verbose_name_plural = "Users"
         ordering = ["id", "usr", "email", "pswd", "bday", "coins"]
 
     #Methods
@@ -45,8 +44,6 @@ class Nugget(models.Model):
     name = models.CharField(verbose_name="Name", max_length=25, help_text="Nugget name")
     attributes = models.ForeignKey('NuggetAttribute', null=False, verbose_name="Attributes")
     inventory = models.ForeignKey('Inventory', null=False, verbose_name="Inventory")
-    # battles = models.ManyToManyField('BattleInstance')
-    #friends = models.ManyToManyField('self', through='friend',symmetrical=False,related_name='related_to+')
 
     #Metadeta
     class Meta:
@@ -238,8 +235,10 @@ class Shop(models.Model):
         return str(self.id)
 
 class Battle(models.Model):
+    """
+    Model representing all of a user's battles
+    """
 
-    # id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     battles = models.ManyToManyField('BattleInstance')
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="User ID")
 
@@ -263,13 +262,14 @@ class Battle(models.Model):
 
 class BattleInstance(models.Model):
     """
-    Model representing battles
+    Model representing a single battle
     """
     #Fields
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
     net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, help_text = "Coins won or lost")
     opponent_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
     nug_xp=models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
+
     #Metadata
     class Meta:
         verbose_name = "Battle"
