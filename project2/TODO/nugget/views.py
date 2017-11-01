@@ -39,12 +39,12 @@ def nugget(request): #Pinak
 
     nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
     # Statistics
-    health = Nugget.objects.filter(user=usr_id).NuggetAttribute.values_list('health', flat=True)
+    hp = Nugget.objects.filter(attributes=nugget) # Attributes must equal an instance of an attribute... how?!
 
     return render(
         request,
         'nugget.html',
-        context={'coins':coins},
+        context={'nugget':nugget, 'health':hp},
     )
 
 def shop(request): #Arwa
