@@ -8,16 +8,12 @@ class User(models.Model):
     Model representing a User Account.
     """
     #Fields
-    id = models.UUIDField(verbose_name="ID", primary_key=True, default=uuid.uuid4, help_text="ID")
+    id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     usr = models.CharField(verbose_name="Username", max_length=25, help_text="Username")
     email = models.EmailField(verbose_name="Email", max_length=50, help_text="User Email")
     pswd = models.CharField(verbose_name="Password", max_length=50, help_text="User Password")
     bday = models.DateField(verbose_name="Birthday", auto_now=False)
     coins = models.IntegerField(verbose_name="Coins", help_text="User Currency")
-    #nugg = models.ForeignKey('Nugget', on_delete=models.SET_NULL, null=True)
-    #battles = models.ForeignKey('Battle', on_delete=models.SET_NULL, null=True)
-    #friends = models.ForeignKey('FriendsList', on_delete=models.SET_NULL, null=True)
-    #inventory = models.ForeignKey('Inventory', on_delete=models.SET_NULL, null=True)
 
     #Messages & Settings should be their own models ?
 
@@ -56,27 +52,6 @@ class Nugget(models.Model):
         ordering = ["name"]
 
     #Methods
-    # def add_friend(self, person, status, symm=True):
-    #     friend, created = friend.objects.get_or_create(
-    #         from_person=self,
-    #         to_person=person,
-    #         status=status)
-    #     if symm: # avoid recursion by passing `symm=False`
-    #         person.add_friend(self, status, False)
-    #     return friend
-    #
-    # def remove_friend(self, person, status, symm=True):
-    #     friend.objects.filter(
-    #         from_person=self,
-    #         to_person=person,
-    #         status=status).delete()
-    #     if symm: # avoid recursion by passing `symm=False`
-    #         person.remove_friend(self, status, False)
-    #
-    # def get_friend(self, status):
-    #     return self.friends.filter(
-    #         to_people__status=status,
-    #         to_people__from_person=self)
 
     def get_absolute_url(self):
         """
@@ -274,10 +249,10 @@ class BattleInstance(models.Model):
     Model representing battles
     """
     #Fields
-    battle = models.ForeignKey('Battle', on_delete=models.SET_NULL, null=True)
+    battle = models.ForeignKey('Battle', on_delete=models.SET_NULL, null=True, blank=True)
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
     net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, help_text = "Coins won or lost")
-    opponent_id = models.ForeignKey('Nug_IDs', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
+    opponent_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
     nug_xp=models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
     #Metadata
     class Meta:
@@ -298,56 +273,23 @@ class BattleInstance(models.Model):
         """
         return str(self.id)
 
-class Nug_IDs(models.Model):
-    # We still need to figure this out.
-    """
-    Model representing all the nugget ids
-    """
-    #Fields
-    nug_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    friends = models.ForeignKey('FriendsList', on_delete=models.SET_NULL, null=True)
+class Friend(models.Model):
+    users = models.ManyToManyField('User')
+    current_user = models.ForeignKey('User', related_name="owner", null=True)
 
-    #Metadata
-    class Meta:
-        verbose_name = "Nugget ID"
-        verbose_name_plural = "Nugget IDs"
-        ordering = ["nug_id"]
+    @classmethod
+    def make_friend(cls, current_user, new_friend):
+        friend, created = cls.objects.get_or_create(
+            current_user = current_user
+        )
+        friend.users.add(new_friend)
 
-    #Methods
-    def get_absolute_url(self):
-        """
-        Returns the url to access battles
-        """
-        return reverse('nudids-detail', args=[str(self.id)])
+    @classmethod
+    def remove_friend(cls, current_user, new_friend):
+        friend, created = cls.objects.get_or_create(
+            current_user = current_user
+        )
+        friend.users.remove(new_friend)
 
     def __str__(self):
-        """
-        String for representing a battle
-        """
-        return str(self.nug_id)
-
-class FriendsList(models.Model):
-    """
-    Model representing a nugget's friends
-    """
-    #Fields
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-
-    #Metadata
-    class Meta:
-        verbose_name = "User Friends List"
-        verbose_name_plural = "User Friend Lists"
-        ordering = ["user"]
-
-    #Methods
-    def get_absolute_url(self):
-        """
-        Returns the url to access battles
-        """
-        return reverse('friends-detail', args=[str(self.id)])
-
-    def __str__(self):
-        """
-        String for representing a battle
-        """
-        return str(self.user)
+        return str(self.current_user)

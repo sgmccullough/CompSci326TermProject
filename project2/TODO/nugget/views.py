@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from .models import User, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Nug_IDs, FriendsList
+from .models import User, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend
 
 def index(request): #Scott
     """
@@ -17,22 +17,30 @@ def home(request):
     """
     View function for the template/navigation bar.
     """
-    usr_id = 100
-    coins = User.objects.filter(nug_id=usr_id).values_list('coins', flat=True)
-    user = User.objects.filter(nug_id=usr_id).values_list('usr', flat=True)
-    #nug_name = Nugget.objects.filter(nug_id=usr_id).values_list('name', flat=True)
-    #user=User.objects.get(nug_id__User=100)
+    usr_id = 'a5195ee228294ab99d346e3c0addfecf'
+
+    #User Properties
+    coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
+    user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
+    nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
+
     return render(
         request,
         'home.html',
-        {'coins':coins[0], 'user':user[0]},
+        {'coins':coins[0], 'user':user[0], 'nugget':nugget[0]},
     )
 
 def nugget(request): #Pinak
     """
     View function for nugget page.
     """
-    coins=User.objects.all().count()
+
+    usr_id = 'a5195ee228294ab99d346e3c0addfecf'
+
+    nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
+    # Statistics
+    health = Nugget.objects.filter(user=usr_id).NuggetAttribute.values_list('health', flat=True)
+
     return render(
         request,
         'nugget.html',
