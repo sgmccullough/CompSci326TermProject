@@ -64,18 +64,46 @@
       <br>
       <div class="card-tabs">
         <ul class="tabs tabs-fixed-width">
-          <li class="tab"><a class="active" href="#test4"><i class="material-icons left">restaurant</i>FOOD</a></li>
-          <li class="tab"><a href="#test5"><i class="material-icons left">beach_access</i>ACCESSORIES</a></li>
-          <li class="tab"><a href="#test6"><i class="material-icons left">whatshot</i>BATTLE</a></li>
-          <li class="tab"><a href="#test7"><i class="material-icons left">toys</i>TOYS</a></li>
+          <li class="tab"><a class="active" href="#food"><i class="material-icons left">restaurant</i>FOOD</a></li>
+          <li class="tab"><a href="#access"><i class="material-icons left">beach_access</i>ACCESSORIES</a></li>
+          <li class="tab"><a href="#battle"><i class="material-icons left">whatshot</i>BATTLE</a></li>
+          <li class="tab"><a href="#toys"><i class="material-icons left">toys</i>TOYS</a></li>
         </ul>
       </div>
       <div class="card-content grey lighten-4">
 
-        <div id="test4">
+        <div id="food">
           <table style="text-align: center;">
             <tbody>
-              <tr>
+
+              <script type="text/javascript">
+                var items = String("{{ items }}");
+                items = items.replace("[","");
+                items = items.replace("]","");
+
+                var itemArray = items.split(",");
+                for (var i = 0; i < itemArray.length; i++){
+                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                  itemArray[i] = itemArray[i].replace(" ", "");
+
+                  switch(itemArray[i]){
+                    case "apple":
+                      document.write('<img src="&#123;% static &#39;img/food-vector/png/apple.png&#39; %&#125;"><br><br><a class="btn" onclick="Materialize.toast(&#39;You just bought an Apple!&#39;, 3000, &#39;rounded&#39;)">BUY</a>');
+                      break;
+                    case "banana":
+                      document.write('<img src="&#123;% static &#39;img/food-vector/png/bananas.png&#39; %&#125;"><br><br><a class="btn" onclick="Materialize.toast(&#39;You just bought a Banana!&#39;, 3000, &#39;rounded&#39;)">BUY</a>');
+                      break;
+                  }
+
+                  document.write("<br>");
+
+                }
+
+              </script>
+
+
+
+              <!-- <tr>
                 <td>
                   <center>Banana<br><br><img src="{% static 'img/food-vector/png/bananas.png' %}" style="height:100px; width:100px;" />
                     <br><br>
@@ -113,154 +141,47 @@
                     <br><br>
                     <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
                   </center>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
 
-      <div id="test5">
+      <div id="access">
         <table style="text-align: center;">
           <tbody>
             <tr>
-              <td>
-                <center>Hat<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                  <br><br>
-                  <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                </center>
-              </td>
-              <td>
-                <center>Glasses<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                  <br><br>
-                  <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                </center>
-              </td>
-              <td>
-                <center>Fake Moustache<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                  <br><br>
-                  <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                </center>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <center>Necklace<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                  <br><br>
-                  <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                </center>
-              </td>
-              <td>
-                <center>Wig<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                  <br><br>
-                  <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                </center>
-              </td>
-              <td>
-                <center>Mask<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                  <br><br>
-                  <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                </center>
-              </td>
+                <td>
+                  <center>Coming Soon!</center>
+                </td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
 
-    <div id="test6">
-      <table style="text-align: center;">
-        <tbody>
-          <tr>
-            <td>
-              <center>Sword<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-            <td>
-              <center>Police Baton<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-            <td>
-              <center>Chicken Bone<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <center>Ketchup<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-            <td>
-              <center>Axe<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-            <td>
-              <center>Shield<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div id="battle">
+        <table style="text-align: center;">
+          <tbody>
+            <tr>
+                <td>
+                  <center>Coming Soon!</center>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-    <div id="test7">
-      <table style="text-align: center;">
-        <tbody>
-          <tr>
-            <td>
-              <center>Tennis Ball<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-            <td>
-              <center>Pin Wheel<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-            <td>
-              <center>Doll<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <center>Stuffed Animal<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-            <td>
-              <center>Soccer Ball<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-            <td>
-              <center>Fidget Spinner<br><br><img src="{% static 'img/QuestionMark.png' %}" style="height:100px; width:100px;" />
-                <br><br>
-                <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-              </center>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+      <div id="toys">
+        <table style="text-align: center;">
+          <tbody>
+            <tr>
+                <td>
+                  <center>Coming Soon!</center>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
   </div>
 </div>
 {% endblock %}
