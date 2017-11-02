@@ -1,0 +1,151 @@
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s4">
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">{{ nugget }}</span>
+        <center>
+          <ul class="creatures" id="creatures">
+            <li class="nervous">
+              <div class="click-anim">
+                <figure style="background-color:sandybrown">
+                  <div class="eye"></div>
+                  <div class="eye"></div>
+                  <div class="mouth teeth"></div>
+                </figure>
+              </div>
+              <div class="shadow"></div>
+            </li>
+          </ul>
+        </center>
+        <strong>{{ nugget }}'s Stats</strong>
+        <ul>
+          <li>Health: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
+          </div>
+          <li>Hunger: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
+          </div>
+          <li>Happiness: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
+          </div>
+          <li>Battle XP: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
+          </div>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="#">MORE...</a>
+      </div>
+    </div>
+  </div>
+  <div class="col s5">
+    <center>
+      <h4>Welcome back, {{ user }}!</h4></center>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title"><i class="material-icons">event </i>Nugget Events & Specials</span>
+        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Encourage one of your friends to join Nugget and get a free Halloween costume!</p>
+        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Visit the shop to get 40% off select items for Halloween!</p>
+        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Congratulate your nugget friend <strong>BBQSuace28</strong> on their battle win!</p>
+        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Don't forget to feed your Nugget!</p>
+        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Chat with your friends to stay connected!</p>
+        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>A battle a day keeps the doctor away!</p>
+      </div>
+      <div class="card-action">
+        <a href="#">Read More</a>
+      </div>
+    </div>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title"> <img src="{% static 'img/HomePage-Icons/boxing-ring.png' %}">Your Recent Battles</span>
+        <table>
+          <thead>
+            <tr>
+              <th>Opponent</th>
+              <th>Status</th>
+              <th>Coins</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <script type="text/javascript">
+              var battles = String("{{ battles }}");
+              battles = battles.replace(/[\[\]']+/g,"");
+
+              var battleArray = battles.split(",");
+              for (var i = 0; i < battleArray.length; i++){
+                toOutput = "";
+                toOutput += "<tr><td>";
+                toOutput += battleArray[i];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 1];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 2];
+                toOutput += "</td></tr>";
+                document.write(toOutput);
+                i = i + 2;
+              }
+            </script>
+          </tbody>
+        </table>
+        <p></p>
+      </div>
+      <div class="card-action">
+        <a href="#">Read More</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col s3">
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">Friends List</span>
+
+
+        <ul class="collection">
+          <li class="collection-item avatar">
+            <img src="{% static 'img/animal-vector-2/png/cat.png' %}" alt="" class="circle">
+            <span class="title"><strong>{{ friends }}</strong></span>
+          </li>
+          <li class="collection-item avatar">
+            <img src="{% static 'img/animal-vector-2/png/dog.png' %}" alt="" class="circle">
+            <span class="title"><strong>Dog</strong></span>
+          </li>
+          <li class="collection-item avatar">
+            <img src="{% static 'img/animal-vector-2/png/frog.png' %}" alt="" class="circle">
+            <span class="title"><strong>Frog</strong></span>
+          </li>
+          <li class="collection-item avatar">
+            <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
+            <span class="title"><strong>Koala</strong></span>
+          </li>
+          <li class="collection-item avatar">
+            <img src="{% static 'img/animal-vector-2/png/skunk.png' %}" alt="" class="circle">
+            <span class="title"><strong>Skunk</strong></span>
+          </li>
+          <li class="collection-item avatar">
+            <img src="{% static 'img/animal-vector-2/png/rabbit.png' %}" alt="" class="circle">
+            <span class="title"><strong>Rabbit</strong></span>
+          </li>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="#">Read More</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

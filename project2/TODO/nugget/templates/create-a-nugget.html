@@ -1,0 +1,186 @@
+{% extends "generic_create-a-nugget.html" %} {% load static %}
+
+{% block content %}
+<div class="container">
+  <center>
+    <img src="{% static 'img/nugget_logo_lg.png' %}" />
+  </center>
+  <p style="text-align: justified;">
+    Hey there, and welcome to <strong>Nugget!</strong> Before you can get started, you're going to have to create your <strong>Nugget.</strong> Your <strong>Nugget</strong> is a lovable creature that requires daily attention and lots of commitment! You
+    will need to feed your <strong>Nugget,</strong> prep your <strong>Nugget</strong> for battle, earn coins, and play with your <strong>Nugget</strong> to ensure they don't get too bored. It's a real wild ride here in <strong>Nuggetopia!</strong> You'll
+    also get the chance to make lots of new friends, and discover new items and bonuses daily. So go ahead and get started below!
+  </p>
+  <p>
+    <center>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+
+              <ul class="creatures" id="creatures">
+                <li>
+                  <div class="click-anim">
+                    <figure class="hyper" style="background-color:{{ color }}">
+                      <div class="eye"></div>
+                      <div class="eye"></div>
+                      <div class="mouth"></div>
+                    </figure>
+                  </div>
+                  <div class="shadow"></div>
+                </li>
+              </ul>
+
+            </td>
+
+            <td style="width:30%;">
+
+              <form action="#">
+                <p class="range-field">
+                  Nugget Size <input type="range" id="test5" min="0" max="100" value="{{ nug_size }}"/>
+                  Eye Size <input type="range" id="test5" min="0" max="100" value="{{ eye_size }}" />
+                  Mouth Size <input type="range" id="test5" min="0" max="100" value="{{ mouth_size }}" />
+                  <div class="input-field">
+
+        <select id="shape">
+          <option value="" disabled selected>Nugget Shape</option>
+          <script type="text/javascript">
+            var shape = "{{ shape }}";
+
+            if(shape == 'e')
+              document.write("<option value='1' selected='selected'>Egg-like</option>");
+            else
+              document.write("<option value='1'>Egg-like</option>")
+            if(shape == 'r')
+              document.write("<option value='2' selected='selected'>Round</option>");
+            else
+              document.write("<option value='2'>Round</option>");
+            if(shape == 't')
+              document.write("<option value='3' selected='selected'>Triangle</option>");
+            else
+              document.write("<option value='3'>Triangle</option>");
+            if(shape == 's')
+              document.write("<option value='4' selected='selected'>Square</option>");
+            else
+              document.write("<option value='4'>Square</option>");
+          </script>
+        </select>
+
+                  </div>
+
+                </p>
+              </form>
+            </td>
+            <td>
+
+              Nugget Color <br/>
+              <i class="material-icons" id = "dgr" style="font-size: 30px; color: darkgoldenrod;" onclick="{{ color }}">brightness_1</i>
+              <i class="material-icons" id = "sb" style="font-size: 30px; color: saddlebrown;">brightness_1</i>
+              <i class="material-icons" id = "bw" style="font-size: 30px; color: burlywood;">brightness_1</i>
+              <i class="material-icons" id = "si" style="font-size: 30px; color: sienna;">brightness_1</i>
+              <i class="material-icons" id = "tan" style="font-size: 30px; color: tan;">brightness_1</i>
+              <i class="material-icons" id = "gr" style="font-size: 30px; color: goldenrod;">brightness_1</i>
+              <i class="material-icons" id = "wh" style="font-size: 30px; color: wheat;">brightness_1</i>
+              <i class="material-icons" id = "hd" style="font-size: 30px; color: honeydew;">brightness_1</i>
+
+              <script id = "get_color" type="text/javascript">
+
+                var color = "{{ color }}";
+                var dgr = document.getElementById('dgr');
+                var sb = document.getElementById('sb');
+                var bw = document.getElementById('bw');
+                var si = document.getElementById('si');
+                var tan = document.getElementById('tan');
+                var gr = document.getElementById('gr');
+                var wh = document.getElementById('wh');
+
+                switch(color) {
+                  case "burlywood":
+                    bw.style.border = "1px #000000 solid;";
+                    break;
+                  case "saddlebrown":
+                    sb.style.border = "1px #000000 solid";
+                    break;
+                  case "sienna":
+                    si.style.border = "1px #000000 solid";
+                    break;
+                  case "tan":
+                    tan.style.border = "1px #000000 solid";
+                    break;
+                  case "goldenrod":
+                    gr.style.border = "1px #000000 solid";
+                    break;
+                  case "wheat":
+                    wh.style.border = "1px #000000 solid";
+                    break;
+                  case "honeydew":
+                    hd.style.border = "1px #000000 solid";
+                    break;
+                  default:
+                    dgr.style.border = "1px #000000 solid";
+                    break;
+                }
+
+              </script>
+
+        <div class="input-field">
+          <select id="mouth">
+            <option value="" disabled selected>Mouth Shape</option>
+            <script type="text/javascript">
+              var mouth = "{{ mouth_shape }}";
+
+              if(mouth == 'h')
+                document.write("<option value='1' selected='selected'>Happy</option>");
+              else
+                document.write("<option value='1'>Happy</option>")
+              if(mouth == 'n')
+                document.write("<option value='2' selected='selected'>Nervous</option>");
+              else
+                document.write("<option value='2'>Nervous</option>");
+              if(mouth == 'd')
+                document.write("<option value='3' selected='selected'>Displeased</option>");
+              else
+                document.write("<option value='3'>Displeased</option>");
+              if(mouth == 'hu')
+                document.write("<option value='4' selected='selected'>Hungry</option>");
+              else
+                document.write("<option value='4'>Hungry</option>");
+            </script>
+          </select>
+              </div>
+
+              <div class="input-field">
+
+                <select id="eye">
+                  <option value="" disabled selected>Eye Shape</option>
+                  <script type="text/javascript">
+                    var eye = "{{ eye_shape }}";
+                    if(eye == 'w')
+                      document.write("<option value='1' selected='selected'>Wide</option>");
+                    else
+                      document.write("<option value='1'>Wide</option>")
+                    if(eye == 's')
+                      document.write("<option value='2' selected='selected'>Small</option>");
+                    else
+                      document.write("<option value='2'>Small</option>");
+                    if(eye == 'sl')
+                      document.write("<option value='3' selected='selected'>Sleepy</option>");
+                    else
+                      document.write("<option value='3'>Sleepy</option>");
+                    if(eye == 'm')
+                      document.write("<option value='4' selected='selected'>Mad</option>");
+                    else
+                      document.write("<option value='4'>Mad</option>");
+                  </script>
+                </select>
+              </div>
+              <center>
+                <button href="{% url 'home' %}" class="btn">Let's Play!</button>
+              </center>
+            </td>
+          </tr>
+      </table>
+    </center>
+    </table>
+  </p>
+</div>
+{% endblock %}

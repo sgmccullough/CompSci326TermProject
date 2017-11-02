@@ -1,0 +1,80 @@
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s4">
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">{{ nugget }}</span>
+        <strong>{{ nugget }}'s Stats</strong>
+        <ul>
+          <li>Health: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
+          </div>
+          <li>Hunger: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
+          </div>
+          <li>Happiness: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
+          </div>
+          <li>Battle XP: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
+          </div>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="#">BATTLE ITEMS</a>
+      </div>
+    </div>
+  </div>
+  <div class="col s7">
+    <center>
+      <h4>Battle Center</h4></center>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title"><center>Current Battle</center></span>
+        <div class="click-anim">
+          <figure class="hungry" style="background-color:palegoldenrod; float: right">
+            <div class="eye"></div>
+            <div class="eye"></div>
+            <div class="mouth"></div>
+          </figure>
+        </div>
+        <figure style="background-color:sandybrown">
+          <div class="eye"></div>
+          <div class="eye"></div>
+          <div class="mouth teeth"></div>
+        </figure>
+
+
+        <p>
+          <center><b>Your opponent's name is TBD.</center></b></p>
+      </div>
+      <div class="card-action">
+        <a href="#">Engage</a>
+      </div>
+    </div>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">Your Recent Battles</span>
+        <p>This is where you can find information and statistics on your past battles.</p>
+        <ul>
+          <li>{{ nugget }} <strong>VS</strong> {{ opponent_id }}. You <strong>won</strong> and gained {{ net_coins }} and earned {{ net_battle_XP }} XP!</li>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="#">See More</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
