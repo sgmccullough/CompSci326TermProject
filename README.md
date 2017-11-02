@@ -15,7 +15,7 @@ Arwa Farrag (arwaGypt), Scott McCullough (mcculloughsco), Pinak Kapoor (pinakkap
 Nugget is a virtual pet website in which individual users can login, create and customize their own pet, and interact with others. Users of Nugget have the ability to create their own ‘Nugget’ and customize them to their hearts content. They can access the Store and purchase items to customize their Nugget, and interact with other users through the Chat feature. The site largely functions as an interactive social network of these Nuggets.
 Nugget takes inspiration from 2000s based pet websites such as Neopets, Webkinz or Club Penguin in that users login and interact with each other. Where our application differs is that it focuses less on the ‘game’ part of these sites and focuses on the customization/social aspect. Granted, our site still features a ‘battle arena’ in which users compete and wager their Coins.
 
-#Implementation Updates (Project 2)
+# Implementation Updates (Project 2)
 Our application is a virtual pet site in which users can create a Nugget and interact with other Nuggets through battles. Two aspects of our project that have changed slightly comes down to battles and chat features. The issues we foresee with these two aspects of our project is dynamic updating of a given user’s view. For example, implementing chat so that when one user posts a message, the receiver sees the message without refreshing the page might be difficult to implement. These are things that might be implemented in the final submission, but might not due to complexity. 
 
 
