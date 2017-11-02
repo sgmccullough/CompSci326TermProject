@@ -15,11 +15,10 @@ class User(models.Model):
     bday = models.DateField(verbose_name="Birthday", auto_now=False)
     coins = models.IntegerField(verbose_name="Coins", help_text="User Currency")
 
-    #Messages & Settings should be their own models ?
-
     #Metadeta
     class Meta:
         verbose_name = "User"
+        verbose_name_plural = "Users"
         ordering = ["id", "usr", "email", "pswd", "bday", "coins"]
 
     #Methods
@@ -45,8 +44,6 @@ class Nugget(models.Model):
     name = models.CharField(verbose_name="Name", max_length=25, help_text="Nugget name")
     attributes = models.ForeignKey('NuggetAttribute', null=False, verbose_name="Attributes")
     inventory = models.ForeignKey('Inventory', null=False, verbose_name="Inventory")
-    # battles = models.ManyToManyField('BattleInstance')
-    #friends = models.ManyToManyField('self', through='friend',symmetrical=False,related_name='related_to+')
 
     #Metadeta
     class Meta:
@@ -54,7 +51,6 @@ class Nugget(models.Model):
         ordering = ["name"]
 
     #Methods
-
     def get_absolute_url(self):
         """
         Returns the url to access a particular instance of Nugget
@@ -134,7 +130,7 @@ class NuggetAttribute(models.Model):
 
 class Item(models.Model):
     """
-    Model representing the items
+    Model representing an item
     """
     #Fields
     id = models.UUIDField(verbose_name="Item ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this item")
@@ -180,11 +176,9 @@ class Item(models.Model):
 
 class Inventory(models.Model):
     """
-    Model representing Inventory
+    Model representing a User's Inventory
     """
     #Fields
-    #List of items
-
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     items = models.ManyToManyField('Item', through='InventoryItems')
@@ -209,6 +203,10 @@ class Inventory(models.Model):
         return str(self.id)
 
 class InventoryItems(models.Model):
+    """
+    Model representing the quantity of a given item in a user's inventory. Implemented as a through table/
+    """
+
     inventory = models.ForeignKey('Inventory')
     item = models.ForeignKey('Item')
     quantity = models.IntegerField()
@@ -227,7 +225,7 @@ class Shop(models.Model):
     #Methods
     def get_absolute_url(self):
         """
-        REturns the url to access the shop
+        Returns the url to access the shop
         """
         return reverse('Shop-detail', args=[str(self.id)])
 
@@ -238,8 +236,10 @@ class Shop(models.Model):
         return str(self.id)
 
 class Battle(models.Model):
+    """
+    Model representing all of a user's battles
+    """
 
-    # id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     battles = models.ManyToManyField('BattleInstance')
     user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="User ID")
 
@@ -263,13 +263,14 @@ class Battle(models.Model):
 
 class BattleInstance(models.Model):
     """
-    Model representing battles
+    Model representing a single battle
     """
     #Fields
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
     net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, help_text = "Coins won or lost")
     opponent_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
     nug_xp=models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
+
     #Metadata
     class Meta:
         verbose_name = "Battle"
