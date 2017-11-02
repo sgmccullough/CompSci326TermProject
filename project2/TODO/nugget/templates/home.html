@@ -60,8 +60,6 @@
         <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Don't forget to feed your Nugget!</p>
         <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Chat with your friends to stay connected!</p>
         <p><i class="material-icons" style="font-size: 17px">play_arrow</i>A battle a day keeps the doctor away!</p>
-        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Don't forget to feed your Nugget!</p>
-
       </div>
       <div class="card-action">
         <a href="#">Read More</a>
@@ -81,21 +79,24 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td>Frog</td>
-              <td>Lost</td>
-              <td>-573<img src="{% static 'img/coin.png' %}"></td>
-            </tr>
-            <tr>
-              <td>Tiger</td>
-              <td>Won</td>
-              <td>+750<img src="{% static 'img/coin.png' %}"></td>
-            </tr>
-            <tr>
-              <td>Monkey</td>
-              <td>Won</td>
-              <td>+863<img src="{% static 'img/coin.png' %}"></td>
-            </tr>
+            <script type="text/javascript">
+              var battles = String("{{ battles }}");
+              battles = battles.replace(/[\[\]']+/g,"");
+
+              var battleArray = battles.split(",");
+              for (var i = 0; i < battleArray.length; i++){
+                toOutput = "";
+                toOutput += "<tr><td>";
+                toOutput += battleArray[i];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 1];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 2];
+                toOutput += "</td></tr>";
+                document.write(toOutput);
+                i = i + 2;
+              }
+            </script>
           </tbody>
         </table>
         <p></p>
@@ -116,7 +117,7 @@
         <ul class="collection">
           <li class="collection-item avatar">
             <img src="{% static 'img/animal-vector-2/png/cat.png' %}" alt="" class="circle">
-            <span class="title"><strong>Cat</strong></span>
+            <span class="title"><strong>{{ friends }}</strong></span>
           </li>
           <li class="collection-item avatar">
             <img src="{% static 'img/animal-vector-2/png/dog.png' %}" alt="" class="circle">

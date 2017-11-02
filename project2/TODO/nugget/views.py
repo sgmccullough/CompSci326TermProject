@@ -1,10 +1,9 @@
 from django.shortcuts import render
+from .models import User, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
 
 # Create your views here.
 
-from .models import User, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
-
-def index(request): #Scott test
+def index(request):
     """
     View function for login page.
     """
@@ -17,7 +16,7 @@ def home(request):
     """
     View function for the home.
     """
-    usr_id = 'f029b8610d3e4748a4b5d0d56a76fac0'
+    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
 
     #User Properties
     coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
@@ -57,18 +56,37 @@ def home(request):
     else:
         battle_XP_color = "red"
 
+
+    battle_history = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
+    battles_list = [None]
+    for i in battle_history:
+        opponent_id = BattleInstance.objects.filter(id=i).values_list('opponent_id', flat=True)
+        opponent_name = Nugget.objects.filter(user=opponent_id).values_list('name', flat=True)
+        net_coins = BattleInstance.objects.filter(id=i).values_list('net_coins', flat=True)
+        won_status = "Lost!"
+        if net_coins[0] > 0:
+            won_status = "Won!"
+        if battles_list[0] == None:
+            battles_list = [[opponent_name[0], str(net_coins[0]), won_status]]
+        else:
+            battles_list = battles_list + [[opponent_name[0], net_coins[0], won_status]]
+
+    friends = Friend.objects.filter(current_user=usr_id).values_list('users', flat=True)
+    friends_names = Nugget.objects.filter(user=friends[0]).values_list('name', flat=True)
+
     return render(
         request,
         'home.html',
         {'coins':coins[0], 'user':user[0], 'nugget':nugget[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0], 'hunger_color':hunger_color,
-        'happiness':happiness[0], 'happiness_color':happiness_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color},
+        'happiness':happiness[0], 'happiness_color':happiness_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color, "battles":battles_list,
+         "friends":friends_names[0]},
     )
 
-def nugget(request): #Pinak
+def nugget(request):
     """
     View function for nugget page.
     """
-    usr_id = 'f029b8610d3e4748a4b5d0d56a76fac0'
+    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
 
     #User Properties
     coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
@@ -161,16 +179,41 @@ def nugget(request): #Pinak
         {'coins':coins[0], 'user':user[0], 'nugget':nugget[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0],
         'hunger_color':hunger_color, 'defense':defense[0], 'defense_color':defense_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color,
         'fatigue':fatigue[0], 'fatigue_color':fatigue_color, 'intelligence':intelligence[0], 'intelligence_color':intelligence_color,
-        'happiness':happiness[0], 'happiness_color':happiness_color, 'luck':luck[0], 'luck_color':luck_color, 'items':item_names, 'item_1':item_names[0]},
+        'happiness':happiness[0], 'happiness_color':happiness_color, 'luck':luck[0], 'luck_color':luck_color, 'items':item_names},
     )
 
-def shop(request): #Arwa
+def shop(request):
     """
     View function for shop page.
     """
+    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
+    coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
+
+    items = Item.objects.all()
+    item_names = [None]
+    for i in items:
+        item_names = item_names + [getattr(i, 'name')]
+    item_names = item_names[1:]
+
+    inventory = Inventory.objects.filter(user=usr_id).values_list('id', flat=True)
+    inv_items = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
+    quantities = InventoryItems.objects.filter(inventory=inventory).values_list('quantity', flat=True)
+
+    inv_item_names = [None]
+    counter = 0
+    for i in inv_items:
+        if inv_item_names[0] == None:
+            temp = Item.objects.filter(id=i).values_list('name', flat=True)
+            inv_item_names = [[temp[0], quantities[counter]]]
+        else:
+            temp = Item.objects.filter(id=i).values_list('name', flat=True)
+            inv_item_names = inv_item_names + [[temp[0], quantities[counter]]]
+        counter = counter + 1
+
     return render(
         request,
         'shop.html',
+        {'coins':coins[0], 'items':item_names, 'inventory':inv_item_names}
     )
 
 def chat(request):
@@ -182,19 +225,19 @@ def chat(request):
         'chat.html',
     )
 
-def battle(request): #Malachai
+def battle(request):
     """
     View function for battle page.
     """
-    usr_id = 'bd481a31eab24a81b1bceba314bf8af8'
-    opp_id = '3b05c13668cd406297045aa5b96eee94'
+    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
+    opp_id = '99daf529d7ed44f0934085983f768eb5'
 
     #Battle Properties
-    bat_id = Battle.objects.filter(id=usr_id).values_list('battles', flat=True)
+    # bat_id = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
     user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
+    nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
     coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
     nug_xp = BattleInstance.objects.filter(id=usr_id).values_list('nug_xp', flat=True)
-    opponent_id = BattleInstance.objects.filter(id=opp_id).values_list('opponent_id', flat=True)
     nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
 
     health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
@@ -229,19 +272,28 @@ def battle(request): #Malachai
     else:
         battle_XP_color = "red"
 
+
+    battle_history = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
+    # will need to make this a loop at some point in JS.
+    opponent_id = BattleInstance.objects.filter(id=battle_history[0]).values_list('opponent_id', flat=True)
+    opponent_name = Nugget.objects.filter(user=opponent_id[0]).values_list('name', flat=True)
+    net_coins = BattleInstance.objects.filter(id=battle_history[0]).values_list('net_coins', flat=True)
+    net_battle_XP = BattleInstance.objects.filter(id=battle_history[0]).values_list('nug_xp', flat=True)
+
     return render(
         request,
         'battle.html',
-        {'bat_id':bat_id, 'coins':coins[0], 'user':user[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0], 'hunger_color':hunger_color,
-        'happiness':happiness[0], 'happiness_color':happiness_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color},
+        {'coins':coins[0], 'nugget':nugget[0], 'user':user[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0], 'hunger_color':hunger_color,
+        'happiness':happiness[0], 'happiness_color':happiness_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color, 'opponent_id':opponent_name[0],
+        'net_coins':net_coins[0], 'net_battle_XP':net_battle_XP[0]},
     )
 
-def create(request):  #Emily
+def create(request):
     """
     View function for create page.
     """
     # Logistics
-    usr_id = 'e954e5ed18ff44d9b98d7714a22f5145'
+    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
     nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
 
     # Attributes

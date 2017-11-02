@@ -1,47 +1,40 @@
-{% extends "generic_base.html" %} {% load static %} {% block content %}
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
 <div class="row">
   <div class="col s4">
     <div class="box">
-      <h5 style="text-align: center;">Inventory</h5>
+      <h5 style="text-align: center;">Your Inventory</h5>
       <center>
         <table style="text-align: center;">
           <tbody>
-            <tr>
-              <td><img src="{% static 'img/food-vector/png/bananas.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                <option value="" disabled selected>Amount x25</option>
-                <option value="1">Sell</option>
-                </select>
-                </div>
-              </td>
-              <td><img src="{% static 'img/food-vector/png/apple.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                <option value="" disabled selected>Amount x25</option>
-                <option value="1">Sell</option>
-                </select>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td><img src="{% static 'img/food-vector/png/strawberry.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                <option value="" disabled selected>Amount x25</option>
-                <option value="1">Sell</option>
-                </select>
-                </div>
-              </td>
-              <td><img src="{% static 'img/food-vector/png/pizza.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                  <option value="" disabled selected>Amount x25</option>
-                  <option value="1">Sell</option>
-                </select>
-                </div>
-              </td>
-            </tr>
+            <script type="text/javascript">
+              var items = String("{{ inventory }}");
+              items = items.replace(/[\[\]']+/g,"");
+              document.write("<tr>");
+
+              var itemArray = items.split(",");
+              for (var i = 0; i < itemArray.length; i++){
+                document.write("<td>")
+                itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                itemArray[i] = itemArray[i].replace(" ", "");
+                document.write("<center>");
+                document.write(itemArray[i]);
+                document.write("<br><br>");
+                var toOutput = "<img src='/static/img/food-vector/png/";
+                toOutput += itemArray[i];
+                toOutput += ".png' style='height:100px; width:100px;'>"
+                toOutput += "<div class='input-field'><select><option value='' disabled selected>Amount x";
+                toOutput += itemArray[i + 1];
+                toOutput += "</option><option value='1'>Sell</option></select></div>";
+                document.write(toOutput);
+                document.write("</td>");
+                i++;
+              }
+              document.write("</tr>");
+            </script>
           </tbody>
         </table>
         <tfoot>
@@ -75,74 +68,31 @@
         <div id="food">
           <table style="text-align: center;">
             <tbody>
-
               <script type="text/javascript">
                 var items = String("{{ items }}");
                 items = items.replace("[","");
                 items = items.replace("]","");
+                document.write("<tr>");
 
                 var itemArray = items.split(",");
                 for (var i = 0; i < itemArray.length; i++){
+                  document.write("<td>")
                   itemArray[i] = itemArray[i].replace(/&#39;/g, "");
                   itemArray[i] = itemArray[i].replace(" ", "");
-
-                  switch(itemArray[i]){
-                    case "apple":
-                      document.write('<img src="&#123;% static &#39;img/food-vector/png/apple.png&#39; %&#125;"><br><br><a class="btn" onclick="Materialize.toast(&#39;You just bought an Apple!&#39;, 3000, &#39;rounded&#39;)">BUY</a>');
-                      break;
-                    case "banana":
-                      document.write('<img src="&#123;% static &#39;img/food-vector/png/bananas.png&#39; %&#125;"><br><br><a class="btn" onclick="Materialize.toast(&#39;You just bought a Banana!&#39;, 3000, &#39;rounded&#39;)">BUY</a>');
-                      break;
-                  }
-
-                  document.write("<br>");
-
+                  document.write("<center>");
+                  document.write(itemArray[i]);
+                  document.write("<br><br>");
+                  var toOutput = "<img src='/static/img/food-vector/png/";
+                  toOutput += itemArray[i];
+                  toOutput += ".png' style='height:100px; width:100px;'>"
+                  toOutput += "<br><br><a class='btn' onclick='Materialize.toast(&#34;You just bought an ";
+                  toOutput += itemArray[i];
+                  toOutput += "!&#34;, 3000, &#34;rounded&#34;)'>BUY</a>";
+                  document.write(toOutput);
+                  document.write("</td>");
                 }
-
+                document.write("</tr>");
               </script>
-
-
-
-              <!-- <tr>
-                <td>
-                  <center>Banana<br><br><img src="{% static 'img/food-vector/png/bananas.png' %}" style="height:100px; width:100px;" />
-                    <br><br>
-                    <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                  </center>
-                </td>
-                <td>
-                  <center>Pear<br><br><img src="{% static 'img/food-vector/png/pear.png' %}" style="height:100px; width:100px;" />
-                    <br><br>
-                    <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                  </center>
-                </td>
-                <td>
-                  <center>Apple<br><br><img src="{% static 'img/food-vector/png/apple.png' %}" style="height:100px; width:100px;" />
-                    <br><br>
-                    <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                  </center>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <center>Milk<br><br><img src="{% static 'img/food-vector/png/milk.png' %}" style="height:100px; width:100px;" />
-                    <br><br>
-                    <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                  </center>
-                </td>
-                <td>
-                  <center>Carrot<br><br><img src="{% static 'img/food-vector/png/carrot.png' %}" style="height:100px; width:100px;" />
-                    <br><br>
-                    <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                  </center>
-                </td>
-                <td>
-                  <center>Ice Cream<br><br><img src="{% static 'img/food-vector/png/ice-cream.png' %}" style="height:100px; width:100px;" />
-                    <br><br>
-                    <a class="btn" onclick="Materialize.toast('You just bought an ITEM!', 3000, 'rounded')">BUY</a>
-                  </center>
-                </td> -->
-              </tr>
             </tbody>
           </table>
         </div>

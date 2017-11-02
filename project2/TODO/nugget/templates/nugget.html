@@ -1,193 +1,138 @@
-{% extends "generic_base.html" %} {% load static %} {% block coins %}{{ coins }}{% endblock %} {% block content %}
-<div class="row">
-  <div class="col s3">
-    <div class="card grey lighten-3">
-      <div class="card-content grey-text text-darken-4">
-        <span class="card-title">Physical Statistics{{ inventory }}</span>
-        <ul>
-          <li>Health: </li>
-          <div class="progress">
-            <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
-          </div>
-          <li>Hunger: </li>
-          <div class="progress">
-            <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
-          </div>
-          <li>Defense: </li>
-          <div class="progress">
-            <div class="determinate" style="width: {{ defense }}%; background-color:{{ defense_color }};"></div>
-          </div>
-          <li>Battle XP: </li>
-          <div class="progress">
-            <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
-          </div>
-        </ul>
-      </div>
-      <div class="card-action">
-        <a href="#">Read More</a>
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %} 
+
+{% block content %}
+  <div class="row">
+    <div class="col s3">
+      <div class="card grey lighten-3">
+        <div class="card-content grey-text text-darken-4">
+          <span class="card-title">Physical Statistics{{ inventory }}</span>
+          <ul>
+            <li>Health: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
+            </div>
+            <li>Hunger: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
+            </div>
+            <li>Defense: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ defense }}%; background-color:{{ defense_color }};"></div>
+            </div>
+            <li>Battle XP: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
+            </div>
+          </ul>
+        </div>
+        <div class="card-action">
+          <a href="#">Read More</a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col s6">
-    <center>
-      <h1>{{ nugget }}</h1>
-      <ul class="creatures" id="creatures">
-
-        <li class="nervous">
-          <div class="click-anim">
-            <figure style="background-color:sandybrown">
-              <div class="eye"></div>
-              <div class="eye"></div>
-              <div class="mouth teeth"></div>
-            </figure>
-          </div>
-          <div class="shadow"></div>
-        </li>
-      </ul>
-      <h5><script id = "RanGreet">
-        r_text = new Array ();
-        r_text[0] = "I was thinking of you."
-        r_text[1] = "I'm glad you're back."
-        r_text[3] = "Let's battle!"
-        r_text[4] = "Wheee! So happy to see youuuuuu!"
-        var i = Math.floor((r_text.length) * Math.random());
-        if(r_text[i] == null){
-          document.write(r_text[0]);
-        }
-        else {
-          document.write(r_text[i]);
-        }
-      </script></h5>
-      <br />
-    </center>
-  </div>
-  <div class="col s3">
-    <div class="card grey lighten-3">
-      <div class="card-content grey-text text-darken-4">
-        <span class="card-title">Mental Statistics</span>
-        <ul>
-          <li>Fatigue: </li>
-          <div class="progress">
-            <div class="determinate" style="width: {{ fatigue }}%; background-color:{{ fatigue_color }}"></div>
-          </div>
-          <li>Intelligence: </li>
-          <div class="progress">
-            <div class="determinate" style="width: {{ intelligence }}%; background-color:{{ intelligence_color }}"></div>
-          </div>
-          <li>Happiness: </li>
-          <div class="progress">
-            <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
-          </div>
-          <li>Luck: </li>
-          <div class="progress">
-            <div class="determinate" style="width: {{ luck }}%; background-color:{{ luck_color }};"></div>
-          </div>
-        </ul>
-      </div>
-      <div class="card-action">
-        <a href="#">Read More</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="row">
-  <div class="col s12">
-    <div class="box">
-      <h5 style="text-align: center;">Inventory {{ items }}</h5>
+    <div class="col s6">
       <center>
-        <table style="text-align: center;">
-          <tbody>
-            <tr>
-              <td><img src="{% static 'img/food-vector/png/bananas.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                    <option value="" disabled selected>Action...</option>
-                    <option value="1">Feed Nugget_Name</option>
-                    <option value="2">Discard</option>
-                    <option value="3">Sell</option>
-                  </select>
-                </div>
-              </td>
-              <td><img src="{% static 'img/food-vector/png/apple.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                    <option value="" disabled selected>Action...</option>
-                    <option value="1">Feed Nugget_Name</option>
-                    <option value="2">Discard</option>
-                    <option value="3">Sell</option>
-                  </select>
-                </div>
-              </td>
-              <td><img src="{% static 'img/food-vector/png/bacon.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                    <option value="" disabled selected>Action...</option>
-                    <option value="1">Feed Nugget_Name</option>
-                    <option value="2">Discard</option>
-                    <option value="3">Sell</option>
-                  </select>
-                </div>
-              </td>
-              <td><img src="{% static 'img/food-vector/png/fried-egg.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                    <option value="" disabled selected>Action...</option>
-                    <option value="1">Feed Nugget_Name</option>
-                    <option value="2">Discard</option>
-                    <option value="3">Sell</option>
-                  </select>
-                </div>
-              </td>
-              <td><img src="{% static 'img/food-vector/png/french-fries.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                    <option value="" disabled selected>Action...</option>
-                    <option value="1">Feed Nugget_Name</option>
-                    <option value="2">Discard</option>
-                    <option value="3">Sell</option>
-                  </select>
-                </div>
-              </td>
-              <td><img src="{% static 'img/food-vector/png/meatball.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                    <option value="" disabled selected>Action...</option>
-                    <option value="1">Feed Nugget_Name</option>
-                    <option value="2">Discard</option>
-                    <option value="3">Sell</option>
-                  </select>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td><img src="{% static 'img/food-vector/png/strawberry.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                    <option value="" disabled selected>Action...</option>
-                    <option value="1">Feed Nugget_Name</option>
-                    <option value="2">Discard</option>
-                    <option value="3">Sell</option>
-                  </select>
-                </div>
-              </td>
-              <td><img src="{% static 'img/food-vector/png/pizza.png' %}" style="height:100px; width:100px;" />
-                <div class="input-field">
-                  <select>
-                    <option value="" disabled selected>Action...</option>
-                    <option value="1">Feed Nugget_Name</option>
-                    <option value="2">Discard</option>
-                    <option value="3">Sell</option>
-                  </select>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <h1>{{ nugget }}</h1>
+        <ul class="creatures" id="creatures">
 
+          <li class="nervous">
+            <div class="click-anim">
+              <figure style="background-color:sandybrown">
+                <div class="eye"></div>
+                <div class="eye"></div>
+                <div class="mouth teeth"></div>
+              </figure>
+            </div>
+            <div class="shadow"></div>
+          </li>
+        </ul>
+        <h5><script id = "RanGreet">
+          r_text = new Array ();
+          r_text[0] = "I was thinking of you."
+          r_text[1] = "I'm glad you're back."
+          r_text[3] = "Let's battle!"
+          r_text[4] = "Wheee! So happy to see youuuuuu!"
+          var i = Math.floor((r_text.length) * Math.random());
+          if(r_text[i] == null){
+            document.write(r_text[0]);
+          }
+          else {
+            document.write(r_text[i]);
+          }
+        </script></h5>
+        <br />
       </center>
     </div>
+    <div class="col s3">
+      <div class="card grey lighten-3">
+        <div class="card-content grey-text text-darken-4">
+          <span class="card-title">Mental Statistics</span>
+          <ul>
+            <li>Fatigue: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ fatigue }}%; background-color:{{ fatigue_color }}"></div>
+            </div>
+            <li>Intelligence: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ intelligence }}%; background-color:{{ intelligence_color }}"></div>
+            </div>
+            <li>Happiness: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
+            </div>
+            <li>Luck: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ luck }}%; background-color:{{ luck_color }};"></div>
+            </div>
+          </ul>
+        </div>
+        <div class="card-action">
+          <a href="#">Read More</a>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
+
+  <div class="row">
+    <div class="col s12">
+      <div class="box">
+        <h5 style="text-align: center;">Inventory</h5>
+        <center>
+          <table style="text-align: center;">
+            <tbody>
+              <script type="text/javascript">
+                var items = String("{{ items }}");
+                items = items.replace(/[\[\]']+/g, "");
+                document.write("<tr>");
+
+                var itemArray = items.split(",");
+                for (var i = 0; i < itemArray.length; i++) {
+                  document.write("<td>")
+                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                  itemArray[i] = itemArray[i].replace(" ", "");
+                  document.write("<center>");
+                  document.write(itemArray[i]);
+                  document.write("<br><br>");
+                  var toOutput = "<img src='/static/img/food-vector/png/";
+                  toOutput += itemArray[i];
+                  toOutput += ".png' style='height:100px; width:100px;'>"
+                  toOutput += "<div class='input-field'><select><option value='' disabled selected>Amount x";
+                  toOutput += itemArray[i + 1];
+                  toOutput += ". Pick Action...</option><option value='1'>Feed {{ nugget }}</option><option value='2'>Discard</option><option value='3'>Sell</option></select></div>";
+                  document.write(toOutput);
+                  document.write("</td>");
+                  i++;
+                }
+                document.write("</tr>");
+              </script>
+            </tbody>
+          </table>
+
+        </center>
+      </div>
+    </div>
+  </div>
 {% endblock %}
