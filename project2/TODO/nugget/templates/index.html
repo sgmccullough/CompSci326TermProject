@@ -17,14 +17,12 @@
     <p>
       We're so glad you decided to join <strong>Nugget!</strong> We can't wait to get you involved with your new pet Nugget, earn coins, and battle with other Nuggets!<br />
       <br /> Please enter your information below to get started! Woo-hoo!
-      <form class="col">
-        Email <input placeholder="you@example.com" id="email" type="text" class="validate"> Username <input placeholder="Username" id="user" type="text" class="validate"> Password <input placeholder="Password" id="pswd" type="password" class="validate">        Confirm Password <input placeholder="Confirm Password" id="pswd_conf" type="password" class="validate"> Birthdate <input type="text" class="datepicker">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="waves-effect waves-light btn" >Sign up</button>
       </form>
-
     </p>
-  </div>
-  <div class="modal-footer">
-    <a href="{% url 'create' %}" class="modal-action modal-close waves-effect waves-green btn-flat ">Sign Up</a>
   </div>
 </div>
 
@@ -34,14 +32,40 @@
     <h4>Login</h4>
     <p>
       It's good to see you again! Please enter your login credentials below.
-      <form class="col">
-        Username <input placeholder="Username" id="user" type="text" class="validate"> Password <input placeholder="Password" id="pswd" type="password" class="validate">
+      {% if login_form.errors %}
+      <p>Your username and password didn't match. Please try again.</p>
+      {% endif %}
+
+      {% if next %}
+          {% if user.is_authenticated %}
+          <p>Your account doesn't have access to this page. To proceed,
+          please login with an account that has access.</p>
+          {% else %}
+          <p>Please login to see this page.</p>
+          {% endif %}
+      {% endif %}
+
+      <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+
+      <div>
+        <td>{{ login_form.username.label_tag }}</td>
+        <td>{{ login_form.username }}</td>
+      </div>
+      <div>
+        <td>{{ login_form.password.label_tag }}</td>
+        <td>{{ login_form.password }}</td>
+      </div>
+
+      <div>
+        <input type="submit" class="waves-effect waves-light btn" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </div>
       </form>
-      <a href="#">Forgot Password?</a>
+
+      {# Assumes you setup the password_reset view in your URLconf #}
+      <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
     </p>
-  </div>
-  <div class="modal-footer">
-    <a href="{% url 'home' %}" class="modal-action modal-close waves-effect waves-green btn-flat ">Login</a>
   </div>
 </div>
 {% endblock %}

@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 ]
 
-# Use include() to add URLS from the nugget application 
+# Use include() to add URLS from the nugget application
 from django.conf.urls import include
 
 urlpatterns += [
@@ -38,3 +38,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+#Add Django site authentication urls (for login, logout, password management)
+urlpatterns += [
+    url(r'^nugget/', include('django.contrib.auth.urls')),
+]

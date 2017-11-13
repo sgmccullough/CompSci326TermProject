@@ -1,12 +1,12 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems
+from .models import Profile, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems
 
 
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'usr', 'email', 'pswd', 'bday', 'coins')
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'usr', 'bday', 'coins')
 
 @admin.register(Inventory)
 class InventoryAdmin(admin.ModelAdmin):

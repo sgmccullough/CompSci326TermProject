@@ -1,5 +1,9 @@
 from django.shortcuts import render
-from .models import User, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
+from .models import Profile, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, authenticate
+from .forms import SignUpForm
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -7,19 +11,26 @@ def index(request):
     """
     View function for login page.
     """
-    return render(
-        request,
-        'index.html',
-    )
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('create')
+    else:
+        form = SignUpForm()
+    return render(request, 'index.html', {'form': form})
 
 def home(request):
     """
     View function for the home.
     """
-    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
 
-    #User Properties
-    coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
+    #Profile Properties
+    coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
     user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
     nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
     nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
@@ -89,7 +100,7 @@ def nugget(request):
     usr_id = '78292571d46c4a0789d292d9e3d85ec8'
 
     #User Properties
-    coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
+    coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
     user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
     nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
     nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
@@ -187,7 +198,7 @@ def shop(request):
     View function for shop page.
     """
     usr_id = '78292571d46c4a0789d292d9e3d85ec8'
-    coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
+    coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
 
     items = Item.objects.all()
     item_names = [None]
@@ -236,7 +247,7 @@ def battle(request):
     # bat_id = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
     user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
     nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
-    coins = User.objects.filter(id=usr_id).values_list('coins', flat=True)
+    coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
     nug_xp = BattleInstance.objects.filter(id=usr_id).values_list('nug_xp', flat=True)
     nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
 
