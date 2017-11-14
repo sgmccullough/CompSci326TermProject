@@ -6,9 +6,9 @@ from django.contrib.auth.models import User
 class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=30)
     first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30,)
+    last_name = forms.CharField(max_length=30)
     email = forms.EmailField(max_length=254)
-    birthday = forms.DateField()
+    birthday = forms.DateField(widget=forms.TextInput(attrs={'class':'datepicker'}))
 
     class Meta:
         model = User
