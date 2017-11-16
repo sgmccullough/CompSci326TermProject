@@ -30,7 +30,7 @@ def home(request):
     """
 
     #Profile Properties
-    usr_id = request.user
+    usr_id = Profile.objects.filter(usr=request.user).values_list('id', flat=True)
     coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
     user = Profile.objects.filter(id=usr_id).values_list('usr', flat=True)
     nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
