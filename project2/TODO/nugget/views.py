@@ -19,6 +19,12 @@ def index(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            #Profile.objects.filter(usr=username)
+            nugatt = NuggetAttribute.objects.create()
+            inv = Inventory.objects.create(user=Profile(usr=request.user))
+            Nugget.objects.create(user=Profile(usr=request.user), attributes=nugatt, inventory=inv)
+            #Battle.objects.create(user=request.user)
+            #Friend.objects.create(current_user=request.user)
             return redirect('create')
     else:
         form = SignUpForm()
@@ -305,7 +311,7 @@ def create(request):
     View function for create page.
     """
     # Logistics
-    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
+    usr_id = Profile(usr=request.user).id
     nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
 
     # Attributes
@@ -320,5 +326,5 @@ def create(request):
     return render(
         request,
         'create-a-nugget.html',
-        {'shape':shape[0], 'size':size[0], 'color':color[0], 'mouth_size':mouth_size[0], 'mouth_shape':mouth_shape[0], 'eye_size':eye_size[0], 'eye_shape':eye_shape[0]},
+        {'shape':shape, 'size':size, 'color':color, 'mouth_size':mouth_size, 'mouth_shape':mouth_shape, 'eye_size':eye_size, 'eye_shape':eye_shape},
     )

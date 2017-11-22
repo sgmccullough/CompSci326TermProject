@@ -41,6 +41,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(usr=instance)
 
+
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
@@ -82,7 +83,7 @@ class NuggetAttribute(models.Model):
     #Fields
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     health = models.IntegerField(verbose_name="Health", help_text="Nugget Health", default=100)
-    color = models.CharField(verbose_name="Color", max_length =50, help_text="Nugget Color")
+    color = models.CharField(verbose_name="Color", max_length =50, help_text="Nugget Color", default="goldenrod")
     nug_size = models.IntegerField(verbose_name="Size", help_text="Nugget size", default=20)
     mouth_size = models.IntegerField(verbose_name="Mouth Size", help_text="Mouth size", default=10)
     eye_size = models.IntegerField(verbose_name="Eye Size", help_text="Eye size", default=10)
