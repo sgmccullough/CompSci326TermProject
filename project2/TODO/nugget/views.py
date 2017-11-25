@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Profile, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm
+from .forms import SignUpForm, CreateNugget, CreateAttributes
 from django.shortcuts import redirect
 
 # Create your views here.
@@ -20,11 +20,12 @@ def index(request):
             user = authenticate(username=username, password=raw_password)
             login(request, user)
             #Profile.objects.filter(usr=username)
+            #Nugget.objects.get(user=Profile.objects.get(usr=request.user)
             nugatt = NuggetAttribute.objects.create()
-            inv = Inventory.objects.create(user=Profile(usr=request.user))
-            Nugget.objects.create(user=Profile(usr=request.user), attributes=nugatt, inventory=inv)
-            #Battle.objects.create(user=request.user)
-            #Friend.objects.create(current_user=request.user)
+            inv = Inventory.objects.create(user=Profile.objects.get(usr=request.user))
+            Nugget.objects.create(user=Profile.objects.get(usr=request.user), attributes=nugatt, inventory=inv)
+            Battle.objects.create(user=Profile.objects.get(usr=request.user))
+            Friend.objects.create(current_user=Profile.objects.get(usr=request.user))
             return redirect('create')
     else:
         form = SignUpForm()
@@ -36,7 +37,7 @@ def home(request):
     """
 
     #Profile Properties
-    usr_id = Profile.objects.filter(usr=request.user).values_list('id', flat=True)
+    usr_id = Profile.objects.get(usr=request.user)
     coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
     user = Profile.objects.filter(id=usr_id).values_list('usr', flat=True)
     nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
@@ -306,10 +307,28 @@ def battle(request):
         'net_coins':net_coins[0], 'net_battle_XP':net_battle_XP[0]},
     )
 
+from django.shortcuts import render_to_response
+import uuid
+
 def create(request):
     """
     View function for create page.
     """
+    if request.method == 'POST':
+        rec = Nugget.objects.get(user=Profile.objects.get(usr=request.user))
+        att = getattr(rec, 'attributes')
+        n1 = CreateNugget(request.POST, instance=rec)
+        n2 = CreateAttributes(request.POST, instance=att)
+        if n1.is_valid() and n2.is_valid():
+            n1.save()
+            n2.save()
+            return redirect('home')
+        else:
+            return render_to_response('errortemp.html', {'n2': n2})
+    else:
+        n1 = CreateNugget()
+        n2 = CreateAttributes()
+
     # Logistics
     usr_id = Profile(usr=request.user).id
     nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
@@ -326,5 +345,5 @@ def create(request):
     return render(
         request,
         'create-a-nugget.html',
-        {'shape':shape, 'size':size, 'color':color, 'mouth_size':mouth_size, 'mouth_shape':mouth_shape, 'eye_size':eye_size, 'eye_shape':eye_shape},
+        {'shape':shape, 'size':size, 'color':color, 'mouth_size':mouth_size, 'mouth_shape':mouth_shape, 'eye_size':eye_size, 'eye_shape':eye_shape, 'n1': n1, 'n2': n2, },
     )

@@ -279,7 +279,7 @@ class BattleInstance(models.Model):
     """
     #Fields
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
-    net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, help_text = "Coins won or lost")
+    net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, default=0, help_text = "Coins won or lost")
     opponent_id = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
     nug_xp=models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
 

@@ -1,0 +1,14 @@
+{% if n2.errors %}
+    {% for field in n2 %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ field }} {{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in n2.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
