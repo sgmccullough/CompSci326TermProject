@@ -314,9 +314,9 @@ def create(request):
     """
     View function for create page.
     """
+    rec = Nugget.objects.get(user=Profile.objects.get(usr=request.user))
+    att = getattr(rec, 'attributes')
     if request.method == 'POST':
-        rec = Nugget.objects.get(user=Profile.objects.get(usr=request.user))
-        att = getattr(rec, 'attributes')
         n1 = CreateNugget(request.POST, instance=rec)
         n2 = CreateAttributes(request.POST, instance=att)
         if n1.is_valid() and n2.is_valid():
@@ -329,18 +329,21 @@ def create(request):
         n1 = CreateNugget()
         n2 = CreateAttributes()
 
-    # Logistics
-    usr_id = Profile(usr=request.user).id
-    nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
-
     # Attributes
-    shape = NuggetAttribute.objects.filter(id=nug_attributes).values_list('nugget_status', flat=True)
-    size = NuggetAttribute.objects.filter(id=nug_attributes).values_list('nug_size', flat=True)
-    color = NuggetAttribute.objects.filter(id=nug_attributes).values_list('color', flat=True)
-    mouth_size = NuggetAttribute.objects.filter(id=nug_attributes).values_list('mouth_size', flat=True)
-    mouth_shape = NuggetAttribute.objects.filter(id=nug_attributes).values_list('mouth_status', flat=True)
-    eye_size = NuggetAttribute.objects.filter(id=nug_attributes).values_list('eye_size', flat=True)
-    eye_shape = NuggetAttribute.objects.filter(id=nug_attributes).values_list('eye_status', flat=True)
+    # shape = NuggetAttribute.objects.filter(id=att).values_list('nugget_status', flat=True)
+    # size = NuggetAttribute.objects.filter(id=att).values_list('nug_size', flat=True)
+    # color = NuggetAttribute.objects.filter(id=att).values_list('color', flat=True)
+    # mouth_size = NuggetAttribute.objects.filter(id=att).values_list('mouth_size', flat=True)
+    # mouth_shape = NuggetAttribute.objects.filter(id=att).values_list('mouth_status', flat=True)
+    # eye_size = NuggetAttribute.objects.filter(id=att).values_list('eye_size', flat=True)
+    # eye_shape = NuggetAttribute.objects.filter(id=att).values_list('eye_status', flat=True)
+    shape = getattr(att, 'nugget_status')
+    size = getattr(att, 'nug_size')
+    color = getattr(att, 'color')
+    mouth_size = getattr(att, 'mouth_size')
+    mouth_shape = getattr(att, 'mouth_status')
+    eye_size = getattr(att, 'eye_size')
+    eye_shape = getattr(att, 'eye_status')
 
     return render(
         request,

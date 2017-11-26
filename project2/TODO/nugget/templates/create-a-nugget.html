@@ -1,5 +1,4 @@
 {% extends "generic_create-a-nugget.html" %} {% load static %}
-
 {% block content %}
 <div class="container">
   <center>
@@ -17,16 +16,29 @@
           <tr>
             <td>
 
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+              <script>
+
+              $(function(){
+
+                $("#evt_color").change(function() {
+                    $("figure").css("background-color", $(this).val());
+                }).change();
+
+              });
+
+              </script>
+
               <ul class="creatures" id="creatures">
                 <li>
                   <div class="click-anim">
-                    <figure class="hyper" style="background-color:{{ color }}">
+                    <figure class="hungry" style="">
                       <div class="eye"></div>
                       <div class="eye"></div>
                       <div class="mouth"></div>
                     </figure>
                   </div>
-                  <div class="shadow"></div>
+                  <div class="shadow" style=""></div>
                 </li>
               </ul>
 
@@ -38,24 +50,6 @@
                   {% csrf_token %}
                   {{ n1.as_p }}
                   {{ n2.as_p }}
-                  <!-- Name<br>
-                  {{ n1.name }}
-                  <br>
-                  Size<br>
-                  {{ n2.nug_size }}
-                  <br>
-                  Shape<br>
-                  {{ n2.nugget_status }}
-                  <br>
-            </td>
-
-            <td>
-              Eye Shape<br>
-              {{ n2.eye_status }}
-              Mouth Shape<br>
-              {{ n2.mouth_status }}
-              Color<br>
-              {{ n2.color }} -->
               <button type="submit" class="waves-effect waves-light btn" >Let's Play</button>
             </form>
             </td>

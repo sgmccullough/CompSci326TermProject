@@ -26,12 +26,12 @@ shape = (
 )
 
 col = (
-    ('hd', 'Honeydew'),
-    ('gr', 'Goldenrod'),
-    ('dgr', 'Dark Goldenrod'),
-    ('si', 'Sienna'),
-    ('bw', 'Burlywood'),
-    ('t', 'Tan'),
+    ('honeydew', 'Honeydew'),
+    ('goldenrod', 'Goldenrod'),
+    ('darkgoldenrod', 'Dark Goldenrod'),
+    ('sienna', 'Sienna'),
+    ('burlywood', 'Burlywood'),
+    ('tan', 'Tan'),
 )
 
 
@@ -55,10 +55,10 @@ class CreateNugget(ModelForm):
         fields = ('name', )
 
 class CreateAttributes(ModelForm):
-    color = forms.ChoiceField(widget=forms.Select, choices=col)
-    nug_size = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'id': 'test5', 'min': 0, 'max': 100}), label='Size')
-    eye_size = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'id': 'test5', 'min': 0, 'max': 100}), label='Eye Size')
-    mouth_size = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'id': 'test5', 'min': 0, 'max': 100}), label='Mouth Size')
+    color = forms.ChoiceField(widget=forms.Select(attrs={'id': 'evt_color'}), choices=col)
+    nug_size = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'id': 'test5', 'min': 1, 'max': 100, 'id': 'evt_size'}), label='Size')
+    eye_size = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'id': 'test5', 'min': 1, 'max': 100}), label='Eye Size')
+    mouth_size = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'id': 'test5', 'min': 1, 'max': 100}), label='Mouth Size')
     nugget_status = forms.ChoiceField(widget=forms.Select, choices=shape, label='Shape')
     eye_status = forms.ChoiceField(widget=forms.Select, choices=eye, label='Eyes')
     mouth_status = forms.ChoiceField(widget=forms.Select, choices=mouth, label='Mouth')
