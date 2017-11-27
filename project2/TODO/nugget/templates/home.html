@@ -115,30 +115,21 @@
 
 
         <ul class="collection">
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/cat.png' %}" alt="" class="circle">
-            <span class="title"><strong>{{ friends }}</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/dog.png' %}" alt="" class="circle">
-            <span class="title"><strong>Dog</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/frog.png' %}" alt="" class="circle">
-            <span class="title"><strong>Frog</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
-            <span class="title"><strong>Koala</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/skunk.png' %}" alt="" class="circle">
-            <span class="title"><strong>Skunk</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/rabbit.png' %}" alt="" class="circle">
-            <span class="title"><strong>Rabbit</strong></span>
-          </li>
+
+          <script type="text/javascript">
+            var friends = String("{{ friends }}");
+            friends = friends.replace(/[\[\]']+/g,"");
+            friends = friends.replace(/&#39;/g, "");
+            var friendsArray = friends.split(",");
+            for (var i = 0; i < friendsArray.length; i++){
+              toOutput = "<li class='collection-item avatar'>";
+              toOutput += "<img src = '{% static 'img/animal-vector-2/png/cat.png' %}' alt='' class='circle'>";
+              toOutput += "<span class='title'><strong>";
+              toOutput += friendsArray[i];
+              toOutput += "</strong></span>";
+              document.write(toOutput);
+            }
+          </script>
         </ul>
       </div>
       <div class="card-action">
