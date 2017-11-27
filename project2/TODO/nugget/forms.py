@@ -5,10 +5,10 @@ from django.contrib.auth.models import User
 from .models import Nugget, NuggetAttribute
 
 mouth = (
-    ('h', 'Happy'),
-    ('n', 'Nervous'),
-    ('d', 'displeased'),
-    ('hu', 'Hungry'),
+    ('h', 'hyper'),
+    ('n', 'nervous'),
+    ('hu', 'hungry'),
+    ('c', 'content'),
 )
 
 eye = (
@@ -61,7 +61,7 @@ class CreateAttributes(ModelForm):
     mouth_size = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'id': 'test5', 'min': 1, 'max': 100}), label='Mouth Size')
     nugget_status = forms.ChoiceField(widget=forms.Select, choices=shape, label='Shape')
     eye_status = forms.ChoiceField(widget=forms.Select, choices=eye, label='Eyes')
-    mouth_status = forms.ChoiceField(widget=forms.Select, choices=mouth, label='Mouth')
+    mouth_status = forms.ChoiceField(widget=forms.Select(attrs={'id': 'evt_mouth'}), choices=mouth, label='Mouth')
 
     class Meta:
         model = NuggetAttribute

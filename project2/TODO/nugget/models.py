@@ -15,7 +15,7 @@ class Profile(models.Model):
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     usr = models.OneToOneField(User, on_delete=models.CASCADE)
     bday = models.DateField(verbose_name="Birthday", auto_now=False, default=datetime.date.today)
-    coins = models.IntegerField(verbose_name="Coins", help_text="User Currency", default=0)
+    coins = models.IntegerField(verbose_name="Coins", help_text="User Currency", default=500)
 
     #Metadeta
     class Meta:
@@ -53,7 +53,7 @@ class Nugget(models.Model):
     """
     #Fields
     user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
-    name = models.CharField(verbose_name="Name", max_length=25, help_text="Nugget name")
+    name = models.CharField(verbose_name="Name", max_length=25, help_text="Nugget name", default="")
     attributes = models.ForeignKey('NuggetAttribute', null=False, verbose_name="Attributes")
     inventory = models.ForeignKey('Inventory', null=False, verbose_name="Inventory")
 
@@ -99,8 +99,8 @@ class NuggetAttribute(models.Model):
     mouth_type = (
         ('h', 'Happy'),
         ('n', 'Nervous'),
-        ('d', 'displeased'),
         ('hu', 'Hungry'),
+        ('c', 'Content'),
     )
 
     eye_shape = (

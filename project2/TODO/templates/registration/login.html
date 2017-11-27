@@ -1,9 +1,12 @@
 {% extends "generic_index.html" %}
-
+{% load static %}
 {% block content %}
+<div class="logo" style="width:50%;">
+<center>
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<img src="{% static 'img/angry_nugget.png' %}" />
+<p><b>Oops... your username and password don't match. Please try again, or the Nuggets might get angry...</b></p>
 {% endif %}
 
 {% if next %}
@@ -28,12 +31,14 @@
 </div>
 
 <div>
-  <input type="submit" value="login" />
+  <input type="submit" value="login" class="waves-effect waves-light btn"/>
   <input type="hidden" name="next" value="{{ next }}" />
 </div>
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+</center>
+</div>
 
 {% endblock %}
