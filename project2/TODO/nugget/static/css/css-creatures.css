@@ -28,14 +28,6 @@
    user-select:none;
 }
 
-
-/* Header============================== */
-    hgroup { text-align:center; white-space:nowrap; }
-    .logo, .make { position:relative; display:block; color:#494636; }
-    .logo { font-size:4rem; }
-
-    .make { font-size:2rem; }
-
 /* Creature ================== */
 figure {
         display:inline-block;

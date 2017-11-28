@@ -1,0 +1,44 @@
+{% extends "generic_index.html" %}
+{% load static %}
+{% block content %}
+<div class="logo" style="width:50%;">
+<center>
+
+{% if form.errors %}
+<img src="{% static 'img/angry_nugget.png' %}" />
+<p><b>Oops... your username and password don't match. Please try again, or the Nuggets might get angry...</b></p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<img src="{% static 'img/login_nugget.gif' %}" />
+<div>
+  <td>{{ form.username.label_tag }}</td>
+  <td>{{ form.username }}</td>
+</div>
+<div>
+  <td>{{ form.password.label_tag }}</td>
+  <td>{{ form.password }}</td>
+</div>
+
+<div>
+  <input type="submit" value="login" class="waves-effect waves-light btn"/>
+  <input type="hidden" name="next" value="{{ next }}" />
+</div>
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+</center>
+</div>
+
+{% endblock %}

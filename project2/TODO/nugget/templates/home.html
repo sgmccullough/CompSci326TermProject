@@ -10,15 +10,15 @@
         <span class="card-title">{{ nugget }}</span>
         <center>
           <ul class="creatures" id="creatures">
-            <li class="nervous">
+            <li>
               <div class="click-anim">
-                <figure style="background-color:sandybrown">
+                <figure class="{{ mouth }}" style="background-color: {{ color }}">
                   <div class="eye"></div>
                   <div class="eye"></div>
-                  <div class="mouth teeth"></div>
+                  <div class="mouth"></div>
                 </figure>
               </div>
-              <div class="shadow"></div>
+              <div class="shadow" style=""></div>
             </li>
           </ul>
         </center>
@@ -73,8 +73,8 @@
           <thead>
             <tr>
               <th>Opponent</th>
-              <th>Status</th>
               <th>Coins</th>
+              <th>Status</th>
             </tr>
           </thead>
 
@@ -82,7 +82,7 @@
             <script type="text/javascript">
               var battles = String("{{ battles }}");
               battles = battles.replace(/[\[\]']+/g,"");
-
+              battles = battles.replace(/&#39;/g, "");
               var battleArray = battles.split(",");
               for (var i = 0; i < battleArray.length; i++){
                 toOutput = "";
@@ -115,30 +115,21 @@
 
 
         <ul class="collection">
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/cat.png' %}" alt="" class="circle">
-            <span class="title"><strong>{{ friends }}</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/dog.png' %}" alt="" class="circle">
-            <span class="title"><strong>Dog</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/frog.png' %}" alt="" class="circle">
-            <span class="title"><strong>Frog</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
-            <span class="title"><strong>Koala</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/skunk.png' %}" alt="" class="circle">
-            <span class="title"><strong>Skunk</strong></span>
-          </li>
-          <li class="collection-item avatar">
-            <img src="{% static 'img/animal-vector-2/png/rabbit.png' %}" alt="" class="circle">
-            <span class="title"><strong>Rabbit</strong></span>
-          </li>
+
+          <script type="text/javascript">
+            var friends = String("{{ friends }}");
+            friends = friends.replace(/[\[\]']+/g,"");
+            friends = friends.replace(/&#39;/g, "");
+            var friendsArray = friends.split(",");
+            for (var i = 0; i < friendsArray.length; i++){
+              toOutput = "<li class='collection-item avatar'>";
+              toOutput += "<img src = '{% static 'img/animal-vector-2/png/cat.png' %}' alt='' class='circle'>";
+              toOutput += "<span class='title'><strong>";
+              toOutput += friendsArray[i];
+              toOutput += "</strong></span>";
+              document.write(toOutput);
+            }
+          </script>
         </ul>
       </div>
       <div class="card-action">

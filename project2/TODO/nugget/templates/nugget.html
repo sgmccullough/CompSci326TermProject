@@ -1,6 +1,6 @@
 {% extends "generic_base.html" %} {% load static %}
 
-{% block coins %}{{ coins }}{% endblock %} 
+{% block coins %}{{ coins }}{% endblock %}
 
 {% block content %}
   <div class="row">
@@ -36,16 +36,15 @@
       <center>
         <h1>{{ nugget }}</h1>
         <ul class="creatures" id="creatures">
-
-          <li class="nervous">
+          <li>
             <div class="click-anim">
-              <figure style="background-color:sandybrown">
+              <figure class="{{ mouth }}" style="background-color: {{ color }}">
                 <div class="eye"></div>
                 <div class="eye"></div>
-                <div class="mouth teeth"></div>
+                <div class="mouth"></div>
               </figure>
             </div>
-            <div class="shadow"></div>
+            <div class="shadow" style=""></div>
           </li>
         </ul>
         <h5><script id = "RanGreet">
@@ -102,32 +101,38 @@
         <h5 style="text-align: center;">Inventory</h5>
         <center>
           <table style="text-align: center;">
+            <script type="text/javascript">
+               var items = String("{{ items }}");
+               var i = 0;
+               items = items.replace(/[\[\]']+/g, "");
+               var itemArray = items.split(",");
+            </script>
             <tbody>
-              <script type="text/javascript">
-                var items = String("{{ items }}");
-                items = items.replace(/[\[\]']+/g, "");
-                document.write("<tr>");
-
-                var itemArray = items.split(",");
-                for (var i = 0; i < itemArray.length; i++) {
-                  document.write("<td>")
-                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
-                  itemArray[i] = itemArray[i].replace(" ", "");
-                  document.write("<center>");
-                  document.write(itemArray[i]);
-                  document.write("<br><br>");
-                  var toOutput = "<img src='/static/img/food-vector/png/";
-                  toOutput += itemArray[i];
-                  toOutput += ".png' style='height:100px; width:100px;'>"
-                  toOutput += "<div class='input-field'><select><option value='' disabled selected>Amount x";
-                  toOutput += itemArray[i + 1];
-                  toOutput += ". Pick Action...</option><option value='1'>Feed {{ nugget }}</option><option value='2'>Discard</option><option value='3'>Sell</option></select></div>";
-                  document.write(toOutput);
-                  document.write("</td>");
-                  i++;
-                }
-                document.write("</tr>");
-              </script>
+              <tr>
+              {% for CurrentForm in form.forms %}
+                <td>
+                  <center>
+                    <br><br>
+                    <script type="text/javascript">
+                      itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                      itemArray[i] = itemArray[i].replace(" ", "");
+                      var toOutput = "<img src='/static/img/food-vector/png/";
+                      toOutput += itemArray[i];
+                      toOutput += ".png' style='height:100px; width:100px;'><h5><strong>"
+                      toOutput += itemArray[i + 1];
+                      toOutput += "</strong></h5>"
+                      document.write(toOutput);
+                      i+=2;
+                    </script>
+                    <form method="post">
+                      {% csrf_token %}
+                      {{ form.management_form }}
+                      {{ CurrentForm.as_p }}
+                    </form>
+                  </center>
+                </td>
+                {% endfor %}
+              </tr>
             </tbody>
           </table>
 

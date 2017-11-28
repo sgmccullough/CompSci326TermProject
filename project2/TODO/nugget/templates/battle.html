@@ -28,9 +28,6 @@
           </div>
         </ul>
       </div>
-      <div class="card-action">
-        <a href="#">BATTLE ITEMS</a>
-      </div>
     </div>
   </div>
   <div class="col s7">
@@ -40,38 +37,73 @@
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
         <span class="card-title"><center>Current Battle</center></span>
-        <div class="click-anim">
-          <figure class="hungry" style="background-color:palegoldenrod; float: right">
-            <div class="eye"></div>
-            <div class="eye"></div>
-            <div class="mouth"></div>
-          </figure>
-        </div>
-        <figure style="background-color:sandybrown">
-          <div class="eye"></div>
-          <div class="eye"></div>
-          <div class="mouth teeth"></div>
-        </figure>
 
 
-        <p>
-          <center><b>Your opponent's name is TBD.</center></b></p>
-      </div>
-      <div class="card-action">
-        <a href="#">Engage</a>
+        <table>
+        <tr>
+        <td>
+
+        <ul class="creatures" id="creatures">
+          <li>
+            <div class="click-anim">
+              <figure class="{{ mouth }}" style="background-color: {{ color }}">
+                <div class="eye"></div>
+                <div class="eye"></div>
+                <div class="mouth"></div>
+              </figure>
+            </div>
+            <div class="shadow" style=""></div>
+          </li>
+        </ul>
+
+      </td>
+      <td>
+
+        <form method="post">
+          {% csrf_token %}
+          {{ newBattle.as_p }}
+          <button type="submit" class="waves-effect waves-light btn" >New Battle</button>
+        </form>
+      </td>
+    </tr>
+  </table>
       </div>
     </div>
 
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
-        <span class="card-title">Your Recent Battles</span>
-        <p>This is where you can find information and statistics on your past battles.</p>
-        <ul>
-          <li>{{ nugget }} <strong>VS</strong> {{ opponent_id }}. You <strong>won</strong> and gained {{ net_coins }} and earned {{ net_battle_XP }} XP!</li>
-        </ul>
-      </div>
-      <div class="card-action">
-        <a href="#">See More</a>
+        <span class="card-title"> <img src="{% static 'img/HomePage-Icons/boxing-ring.png' %}">Your Recent Battles</span>
+        <table>
+          <thead>
+            <tr>
+              <th>Opponent</th>
+              <th>Coins</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <script type="text/javascript">
+              var battles = String("{{ battles }}");
+              battles = battles.replace(/[\[\]']+/g,"");
+              battles = battles.replace(/&#39;/g, "");
+              var battleArray = battles.split(",");
+              for (var i = 0; i < battleArray.length; i++){
+                toOutput = "";
+                toOutput += "<tr><td>";
+                toOutput += battleArray[i];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 1];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 2];
+                toOutput += "</td></tr>";
+                document.write(toOutput);
+                i = i + 2;
+              }
+            </script>
+          </tbody>
+        </table>
+        <p></p>
       </div>
     </div>
 

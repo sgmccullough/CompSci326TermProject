@@ -1,32 +1,34 @@
 from django.db import models
 import uuid
 from django.urls import reverse
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+import datetime
 
 # Create your models here.
-class User(models.Model):
+class Profile(models.Model):
     """
     Model representing a User Account.
     """
     #Fields
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
-    usr = models.CharField(verbose_name="Username", max_length=25, help_text="Username")
-    email = models.EmailField(verbose_name="Email", max_length=50, help_text="User Email")
-    pswd = models.CharField(verbose_name="Password", max_length=50, help_text="User Password")
-    bday = models.DateField(verbose_name="Birthday", auto_now=False)
-    coins = models.IntegerField(verbose_name="Coins", help_text="User Currency")
+    usr = models.OneToOneField(User, on_delete=models.CASCADE)
+    bday = models.DateField(verbose_name="Birthday", auto_now=False, default=datetime.date.today)
+    coins = models.IntegerField(verbose_name="Coins", help_text="User Currency", default=500)
 
     #Metadeta
     class Meta:
-        verbose_name = "User"
-        verbose_name_plural = "Users"
-        ordering = ["id", "usr", "email", "pswd", "bday", "coins"]
+        verbose_name = "UserProfile"
+        verbose_name_plural = "UserProfiles"
+        ordering = ["id", "usr", "bday", "coins"]
 
     #Methods
     def get_absolute_url(self):
         """
         Returns the url to access a particular instance of User
         """
-        return reverse('user-detail', args=[str(self.usr)])
+        return reverse('profile-detail', args=[str(self.usr)])
 
     def __str__(self):
         """
@@ -34,14 +36,24 @@ class User(models.Model):
         """
         return str(self.usr)
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(usr=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
 
 class Nugget(models.Model):
     """
     Model representing a Nugget.
     """
     #Fields
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    name = models.CharField(verbose_name="Name", max_length=25, help_text="Nugget name")
+    user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
+    name = models.CharField(verbose_name="Name", max_length=25, help_text="Nugget name", default="")
     attributes = models.ForeignKey('NuggetAttribute', null=False, verbose_name="Attributes")
     inventory = models.ForeignKey('Inventory', null=False, verbose_name="Inventory")
 
@@ -71,7 +83,7 @@ class NuggetAttribute(models.Model):
     #Fields
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     health = models.IntegerField(verbose_name="Health", help_text="Nugget Health", default=100)
-    color = models.CharField(verbose_name="Color", max_length =50, help_text="Nugget Color")
+    color = models.CharField(verbose_name="Color", max_length =50, help_text="Nugget Color", default="goldenrod")
     nug_size = models.IntegerField(verbose_name="Size", help_text="Nugget size", default=20)
     mouth_size = models.IntegerField(verbose_name="Mouth Size", help_text="Mouth size", default=10)
     eye_size = models.IntegerField(verbose_name="Eye Size", help_text="Eye size", default=10)
@@ -87,8 +99,8 @@ class NuggetAttribute(models.Model):
     mouth_type = (
         ('h', 'Happy'),
         ('n', 'Nervous'),
-        ('d', 'displeased'),
         ('hu', 'Hungry'),
+        ('c', 'Content'),
     )
 
     eye_shape = (
@@ -135,6 +147,7 @@ class Item(models.Model):
     #Fields
     id = models.UUIDField(verbose_name="Item ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this item")
     name = models.CharField(verbose_name="Item Name", max_length=25, help_text = "Name of item")
+    price = models.IntegerField(verbose_name="Price", help_text="Item Price", default=50)
 
     item_type = (
         ('a', 'Armor'),
@@ -180,7 +193,7 @@ class Inventory(models.Model):
     """
     #Fields
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
     items = models.ManyToManyField('Item', through='InventoryItems')
 
     #Metadata
@@ -241,7 +254,7 @@ class Battle(models.Model):
     """
 
     battles = models.ManyToManyField('BattleInstance')
-    user = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="User ID")
+    user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User ID")
 
     class Meta:
         verbose_name = "User Battle Set"
@@ -267,8 +280,8 @@ class BattleInstance(models.Model):
     """
     #Fields
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
-    net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, help_text = "Coins won or lost")
-    opponent_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
+    net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, default=0, help_text = "Coins won or lost")
+    opponent_id = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
     nug_xp=models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
 
     #Metadata
@@ -291,8 +304,8 @@ class BattleInstance(models.Model):
         return str(self.id)
 
 class Friend(models.Model):
-    users = models.ManyToManyField('User', verbose_name="Friends")
-    current_user = models.ForeignKey('User', related_name="owner", verbose_name="User", null=True)
+    users = models.ManyToManyField('Profile', verbose_name="Friends")
+    current_user = models.ForeignKey('Profile', related_name="owner", verbose_name="User", null=True)
 
 
     class Meta:
