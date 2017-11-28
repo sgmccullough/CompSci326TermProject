@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Nugget, NuggetAttribute, Inventory, BattleInstance
+from .models import Nugget, NuggetAttribute, Inventory, BattleInstance, Profile, Friend
 
 mouth = (
     ('h', 'hyper'),
@@ -113,4 +113,4 @@ class NewBattle(ModelForm):
 
     class Meta:
         model = BattleInstance
-        fields = ('opponents', )
+        fields = ('opponents',)
