@@ -106,9 +106,6 @@ class NewBattle(ModelForm):
             choices = choices[1:]
             self.fields['opponents'].choices = choices
 
-
-
-
         # self.fields['opponents'].queryset = Friend.objects.filter(current_user=self.user).values('users')
         # super(NewBattle, self).__init__(*args, **kwargs)
         # self.fields['opponents'].queryset = User.objects.filter(pk=user.id)
