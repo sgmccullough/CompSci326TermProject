@@ -80,10 +80,12 @@ class InventoryForm(ModelForm):
         model = Inventory
         fields = ('ItemOptions', 'ItemName')
 
-class NewBattle(ModelForm):
+class NewBattle(forms.ModelForm):
 
     #usr_id = Profile.objects.get(usr=request.user)
-
+    fr_choices = (
+        ('0', '-'),
+    )
     # usr_id = forms.ModelChoiceField(
     # friends = Friend.objects.get(current_user=usr_id)
     # friends_names = getattr(friends, 'users')
@@ -91,19 +93,18 @@ class NewBattle(ModelForm):
     #opponents = forms.ModelChoiceField(widget=forms.Select, queryset=Friend.objects.filter(current_user=self.user).values('users'))
 
     def __init__(self, user, *args, **kwargs):
-        self.user = user
-        # kwargs.pop('user', None)
+        #self.user = user
         super(NewBattle, self).__init__(*args, **kwargs)
+        self.user = kwargs.pop('user', None)
 
-        thisUser = Profile.objects.get(usr=self.user)
+        thisUser = Profile.objects.get(usr=user)
 
         if user:
             friends = Friend.objects.get(current_user=thisUser)#.values('users')
             friendChoices = getattr(friends, 'users')
             choices = []
             for i in friendChoices.iterator():
-                choices.append(str(i.usr.username))
-            choices = choices[1:]
+                choices.append((str(i.usr.username), str(i.usr.username)))
             self.fields['opponents'].choices = choices
 
         # self.fields['opponents'].queryset = Friend.objects.filter(current_user=self.user).values('users')

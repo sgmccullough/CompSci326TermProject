@@ -327,3 +327,15 @@ class Friend(models.Model):
 
     def __str__(self):
         return str(self.current_user)
+
+class News(models.Model):
+    text = models.CharField(verbose_name="News Item", max_length=250)
+
+    class Meta:
+        ordering = ['text']
+
+    def __str__(self):
+        """
+        String for representing a News Item
+        """
+        return str(self.text)

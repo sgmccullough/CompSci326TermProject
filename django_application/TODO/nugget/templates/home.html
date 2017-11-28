@@ -43,7 +43,7 @@
         </ul>
       </div>
       <div class="card-action">
-        <a href="#">MORE...</a>
+        <a href="{% url 'nugget' %}">MORE...</a>
       </div>
     </div>
   </div>
@@ -53,16 +53,19 @@
 
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
-        <span class="card-title"><i class="material-icons">event </i>Nugget Events & Specials</span>
-        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Encourage one of your friends to join Nugget and get a free Halloween costume!</p>
-        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Visit the shop to get 40% off select items for Halloween!</p>
-        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Congratulate your nugget friend <strong>BBQSuace28</strong> on their battle win!</p>
-        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Don't forget to feed your Nugget!</p>
-        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>Chat with your friends to stay connected!</p>
-        <p><i class="material-icons" style="font-size: 17px">play_arrow</i>A battle a day keeps the doctor away!</p>
-      </div>
-      <div class="card-action">
-        <a href="#">Read More</a>
+        <span class="card-title"><i class="material-icons">event </i>Nugget News</span>
+        <script type="text/javascript">
+          var news = String("{{ news }}");
+          news = news.replace(/[\[\]']+/g,"");
+          news = news.replace(/&#39;/g, "");
+          var newsArray = news.split(",");
+          for (var i = 0; i < newsArray.length; i++){
+            toOutput = "<p><i class='material-icons' style='font-size: 17px'>play_arrow</i>";
+            toOutput += newsArray[i];
+            toOutput += "</p>";
+            document.write(toOutput);
+          }
+        </script>
       </div>
     </div>
 
@@ -102,7 +105,7 @@
         <p></p>
       </div>
       <div class="card-action">
-        <a href="#">Read More</a>
+        <a href="{% url 'battle' %}">Go to Battles</a>
       </div>
     </div>
 
@@ -133,7 +136,7 @@
         </ul>
       </div>
       <div class="card-action">
-        <a href="#">Read More</a>
+        <a href="{% url 'chat' %}">Chat</a>
       </div>
     </div>
   </div>

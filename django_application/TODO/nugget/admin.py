@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Profile, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems
+from .models import Profile, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems, News
 
 
 @admin.register(Profile)
@@ -31,6 +31,10 @@ class BattleInstanceAdmin(admin.ModelAdmin):
 @admin.register(Nugget)
 class NuggetAdmin(admin.ModelAdmin):
     list_display = ('user', 'name')
+
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ('text',)
 
 admin.site.register(NuggetAttribute)
 admin.site.register(Shop)

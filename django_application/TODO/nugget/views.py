@@ -1,4 +1,4 @@
-from .models import Profile, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
+from .models import Profile, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance, News
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm, CreateNugget, CreateAttributes, InventoryForm, NewBattle
@@ -125,12 +125,18 @@ def home(request):
         nug = Nugget.objects.get(user=i)
         list_friends.append(getattr(nug, 'name'))
 
+    news = News.objects.all().values_list('text', flat=True)
+    newsList = []
+
+    for i in news.iterator():
+        newsList.append(i)
+
     return render(
         request,
         'home.html',
         {'coins':coins, 'user':user, 'nugget':nugget, 'color':color, 'mouth':mouth_shape, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color,
         'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, "battles":battles_list,
-         "friends":friends_names},
+         'friends':list_friends, 'news': newsList, },
     )
 
 @login_required(login_url='/nugget/')
