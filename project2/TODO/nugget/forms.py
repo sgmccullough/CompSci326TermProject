@@ -73,8 +73,9 @@ class InventoryForm(ModelForm):
                 ("discard", "Discard"),
                 ("sell", "Sell"),
               )
-    ItemOptions = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
+    ItemOptions = forms.ChoiceField(widget=forms.Select(attrs={'onChange': 'form.submit()'}), choices=OPTIONS, label='Select an Action')
+    ItemName = forms.CharField(widget=forms.HiddenInput())
 
     class Meta:
         model = Inventory
-        fields = ('ItemOptions', )
+        fields = ('ItemOptions', 'ItemName')

@@ -246,6 +246,7 @@ def nugget(request):
 
     item_names = [None]
     counter = 0
+    counter2 = 0
     for i in items:
         if item_names[0] == None:
             temp = Item.objects.filter(id=i).values_list('name', flat=True)
@@ -254,14 +255,19 @@ def nugget(request):
             temp = Item.objects.filter(id=i).values_list('name', flat=True)
             item_names = item_names + [[temp[0], quantities[counter]]]
         counter = counter + 1
+        counter2 = counter2 + 1
 
     #Inventory Form Set
-    InventoryFormSet = formset_factory(InventoryForm)
+    InventoryFormSet = formset_factory(InventoryForm, extra=counter2)
+    queryset = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
     if request.method == 'POST':
         FormSet = InventoryFormSet(request.POST)
         for form in FormSet.forms:
             if form.is_valid():
                 form.save()
+                submission = form.cleaned_data.get('ItemOptions')
+                #if submission is "feed":
+
         return redirect('nugget')
     else:
         FormSet = InventoryFormSet()
