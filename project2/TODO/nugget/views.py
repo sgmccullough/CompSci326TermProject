@@ -1,11 +1,12 @@
-from django.shortcuts import render
 from .models import Profile, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm, CreateNugget, CreateAttributes, InventoryForm
-from django.shortcuts import redirect
+from .forms import SignUpForm, CreateNugget, CreateAttributes, InventoryForm, NewBattle
+from django.shortcuts import redirect, render_to_response, render
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
+import uuid
+from django.template import Context, Template
 
 # Create your views here.
 
@@ -65,12 +66,6 @@ def home(request):
     happiness = getattr(nug_attributes, 'happiness')
     battle_XP = getattr(nug_attributes, 'battle_XP')
 
-    # coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
-    # user = Profile.objects.filter(id=usr_id).values_list('usr', flat=True)
-    # nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
-    # nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
-
-    #health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
     if health > 50:
         health_color = "green"
     elif health > 20:
@@ -78,7 +73,6 @@ def home(request):
     else:
         health_color = "red"
 
-    #hunger = NuggetAttribute.objects.filter(id=nug_attributes).values_list('hunger', flat=True)
     if hunger > 50:
         hunger_color = "green"
     elif hunger > 20:
@@ -86,7 +80,6 @@ def home(request):
     else:
         hunger_color = "red"
 
-    #happiness = NuggetAttribute.objects.filter(id=nug_attributes).values_list('happiness', flat=True)
     if happiness > 50:
         happiness_color = "green"
     elif happiness > 20:
@@ -94,7 +87,6 @@ def home(request):
     else:
         happiness_color = "red"
 
-    #battle_XP = NuggetAttribute.objects.filter(id=nug_attributes).values_list('battle_XP', flat=True)
     if battle_XP > 50:
         battle_XP_color = "green"
     elif battle_XP > 20:
@@ -105,9 +97,7 @@ def home(request):
 
     battle_set = Battle.objects.get(user=Profile.objects.get(usr=request.user))
     battle_history = getattr(battle_set, 'battles')
-    #battle_history = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
     battles_list = [None]
-    #return render_to_response('errortemp_2.html', {'val': battle_history})
     maxVal = 0;
     for i in battle_history.iterator():
         if maxVal > 2:
@@ -115,9 +105,6 @@ def home(request):
         opponent_id = getattr(i, 'opponent_id')
         opponent_name = getattr(Nugget.objects.get(user=opponent_id), 'name')
         net_coins = getattr(i, 'net_coins')
-        # opponent_id = BattleInstance.objects.filter(id=i).values_list('opponent_id', flat=True)
-        # opponent_name = Nugget.objects.filter(user=opponent_id).values_list('name', flat=True)
-        # net_coins = BattleInstance.objects.filter(id=i).values_list('net_coins', flat=True)
         won_status = "Lost!"
         if net_coins > 0:
             won_status = "Won!"
@@ -131,8 +118,12 @@ def home(request):
         battles_list = ["No recent battles.", "-", "-"]
 
     friends = Friend.objects.get(current_user=usr_id)
-    # friends_names = Nugget.objects.filter(user=friends[0]).values_list('name', flat=True)
     friends_names = getattr(friends, 'users')
+    list_friends = []
+
+    for i in friends_names.iterator():
+        nug = Nugget.objects.get(user=i)
+        list_friends.append(getattr(nug, 'name'))
 
     return render(
         request,
@@ -331,67 +322,110 @@ def battle(request):
     """
     View function for battle page.
     """
-    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
-    opp_id = '99daf529d7ed44f0934085983f768eb5'
+
+    usr_id = Profile.objects.get(usr=request.user)
 
     #Battle Properties
     # bat_id = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
-    user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
-    nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
-    coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
-    nug_xp = BattleInstance.objects.filter(id=usr_id).values_list('nug_xp', flat=True)
-    nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
+    nugget = Nugget.objects.get(user=usr_id)
+    coins = getattr(usr_id, 'coins')
 
-    health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
-    if health[0] > 50:
+    nug_attributes = getattr(nugget, 'attributes')
+
+    color = getattr(nug_attributes, 'color')
+    mouth = getattr(nug_attributes, 'mouth_status')
+
+    health = getattr(nug_attributes, 'health')
+    hunger = getattr(nug_attributes, 'hunger')
+    happiness = getattr(nug_attributes, 'happiness')
+    battle_XP = getattr(nug_attributes, 'battle_XP')
+    #net_coins = getattr(battle, 'coins')
+
+    if health > 50:
         health_color = "green"
-    elif health[0] > 20:
+    elif health > 20:
         health_color = "orange"
     else:
         health_color = "red"
 
-    hunger = NuggetAttribute.objects.filter(id=nug_attributes).values_list('hunger', flat=True)
-    if hunger[0] > 50:
+    if hunger > 50:
         hunger_color = "green"
-    elif hunger[0] > 20:
+    elif hunger > 20:
         hunger_color = "orange"
     else:
         hunger_color = "red"
 
-    happiness = NuggetAttribute.objects.filter(id=nug_attributes).values_list('happiness', flat=True)
-    if happiness[0] > 50:
+    if happiness > 50:
         happiness_color = "green"
-    elif happiness[0] > 20:
+    elif happiness > 20:
         happiness_color = "orange"
     else:
         happiness_color = "red"
 
-    battle_XP = NuggetAttribute.objects.filter(id=nug_attributes).values_list('battle_XP', flat=True)
-    if battle_XP[0] > 50:
+    if battle_XP > 50:
         battle_XP_color = "green"
-    elif battle_XP[0] > 20:
+    elif battle_XP > 20:
         battle_XP_color = "orange"
     else:
         battle_XP_color = "red"
 
 
-    battle_history = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
-    # will need to make this a loop at some point in JS.
-    opponent_id = BattleInstance.objects.filter(id=battle_history[0]).values_list('opponent_id', flat=True)
-    opponent_name = Nugget.objects.filter(user=opponent_id[0]).values_list('name', flat=True)
-    net_coins = BattleInstance.objects.filter(id=battle_history[0]).values_list('net_coins', flat=True)
-    net_battle_XP = BattleInstance.objects.filter(id=battle_history[0]).values_list('nug_xp', flat=True)
+    battle_set = Battle.objects.get(user=Profile.objects.get(usr=request.user))
+    battle_history = getattr(battle_set, 'battles')
+    #battle_history = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
+    battles_list = [None]
+    #return render_to_response('errortemp_2.html', {'val': battle_history})
+    maxVal = 0;
+    for i in battle_history.iterator():
+        if maxVal > 2:
+            break
+        opponent_id = getattr(i, 'opponent_id')
+        opponent_name = getattr(Nugget.objects.get(user=opponent_id), 'name')
+        net_coins = getattr(i, 'net_coins')
+        # opponent_id = BattleInstance.objects.filter(id=i).values_list('opponent_id', flat=True)
+        # opponent_name = Nugget.objects.filter(user=opponent_id).values_list('name', flat=True)
+        # net_coins = BattleInstance.objects.filter(id=i).values_list('net_coins', flat=True)
+        won_status = "Lost!"
+        if net_coins > 0:
+            won_status = "Won!"
+        if battles_list[0] == None:
+            battles_list = [[opponent_name, str(net_coins), won_status]]
+        else:
+            battles_list = battles_list + [[opponent_name, net_coins, won_status]]
+        maxVal+=1
+
+    if battles_list[0] == None:
+        battles_list = ["No recent battles.", "-", "-"]
+
+    friends = Friend.objects.get(current_user=usr_id)
+    friends_names = getattr(friends, 'users')
+    list_friends = []
+
+    for i in friends_names.iterator():
+        nug = Nugget.objects.get(user=i)
+        list_friends.append(getattr(nug, 'name'))
+
+    #return render_to_response('errortemp_2.html', {'val': request.method,})
+    thisUser = request.user
+    if hasattr(thisUser, '_wrapped') and hasattr(thisUser, '_setup'):
+        if thisUser._wrapped.__class__ == object:
+            thisUser._setup()
+        thisUser = thisUser._wrapped
+
+    if request.method == 'POST':
+        newBattle = NewBattle(request.POST, user=thisUser)
+        if newBattle.is_valid():
+            newBattle.save()
+    else:
+        newBattle =  NewBattle(user=thisUser)
 
     return render(
         request,
         'battle.html',
-        {'coins':coins[0], 'nugget':nugget[0], 'user':user[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0], 'hunger_color':hunger_color,
-        'happiness':happiness[0], 'happiness_color':happiness_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color, 'opponent_id':opponent_name[0],
-        'net_coins':net_coins[0], 'net_battle_XP':net_battle_XP[0]},
+        {'coins':coins, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color,
+        'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, 'opponents':list_friends,
+        'color':color, 'mouth':mouth, 'battles':battles_list, 'newBattle': newBattle,},
     )
-
-from django.shortcuts import render_to_response
-import uuid
 
 @login_required(login_url='/nugget/')
 def create(request):

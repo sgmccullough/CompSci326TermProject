@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Nugget, NuggetAttribute, Inventory
+from .models import Nugget, NuggetAttribute, Inventory, BattleInstance
 
 mouth = (
     ('h', 'hyper'),
@@ -79,3 +79,41 @@ class InventoryForm(ModelForm):
     class Meta:
         model = Inventory
         fields = ('ItemOptions', 'ItemName')
+
+class NewBattle(ModelForm):
+
+    #usr_id = Profile.objects.get(usr=request.user)
+
+    # usr_id = forms.ModelChoiceField(
+    # friends = Friend.objects.get(current_user=usr_id)
+    # friends_names = getattr(friends, 'users')
+    opponents = forms.ChoiceField(widget=forms.Select)
+    #opponents = forms.ModelChoiceField(widget=forms.Select, queryset=Friend.objects.filter(current_user=self.user).values('users'))
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        # kwargs.pop('user', None)
+        super(NewBattle, self).__init__(*args, **kwargs)
+
+        thisUser = Profile.objects.get(usr=self.user)
+
+        if user:
+            friends = Friend.objects.get(current_user=thisUser)#.values('users')
+            friendChoices = getattr(friends, 'users')
+            choices = []
+            for i in friendChoices.iterator():
+                choices.append(str(i.usr.username))
+            choices = choices[1:]
+            self.fields['opponents'].choices = choices
+
+
+
+
+        # self.fields['opponents'].queryset = Friend.objects.filter(current_user=self.user).values('users')
+        # super(NewBattle, self).__init__(*args, **kwargs)
+        # self.fields['opponents'].queryset = User.objects.filter(pk=user.id)
+    #forms.ChoiceField(widget=forms.Select, choices=???, label='Opponent Options')
+
+    class Meta:
+        model = BattleInstance
+        fields = ('opponents', )
