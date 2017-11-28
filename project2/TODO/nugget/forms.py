@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Nugget, NuggetAttribute
+from .models import Nugget, NuggetAttribute, Inventory
 
 mouth = (
     ('h', 'hyper'),
@@ -66,3 +66,15 @@ class CreateAttributes(ModelForm):
     class Meta:
         model = NuggetAttribute
         fields = ('color', 'nug_size', 'eye_size', 'mouth_size', 'nugget_status', 'eye_status', 'mouth_status', )
+
+class InventoryForm(ModelForm):
+    OPTIONS = (
+                ("feed", "Feed"),
+                ("discard", "Discard"),
+                ("sell", "Sell"),
+              )
+    ItemOptions = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS)
+
+    class Meta:
+        model = Inventory
+        fields = ('ItemOptions', )

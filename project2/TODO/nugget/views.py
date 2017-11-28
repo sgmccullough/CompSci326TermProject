@@ -2,9 +2,10 @@ from django.shortcuts import render
 from .models import Profile, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm, CreateNugget, CreateAttributes
+from .forms import SignUpForm, CreateNugget, CreateAttributes, InventoryForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.forms import formset_factory
 
 # Create your views here.
 
@@ -146,74 +147,95 @@ def nugget(request):
     """
     View function for nugget page.
     """
-    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
-
     #User Properties
-    coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
-    user = User.objects.filter(id=usr_id).values_list('usr', flat=True)
-    nugget = Nugget.objects.filter(user=usr_id).values_list('name', flat=True)
-    nug_attributes = Nugget.objects.filter(user=usr_id).values_list('attributes', flat=True)
+    usr_id = Profile.objects.get(usr=request.user)
+    user = getattr(usr_id, 'usr')
+    nugget = Nugget.objects.get(user=usr_id)
+    coins = getattr(usr_id, 'coins')
+    nug_attributes = getattr(nugget, 'attributes')
 
-    health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
-    if health[0] > 50:
+    if getattr(nugget, 'name') is "":
+        return redirect('create')
+
+    #Nugget attributes
+    shape = getattr(nug_attributes, 'nugget_status')
+    size = getattr(nug_attributes, 'nug_size')
+    color = getattr(nug_attributes, 'color')
+    mouth_size = getattr(nug_attributes, 'mouth_size')
+    mouth_shape = getattr(nug_attributes, 'mouth_status')
+    eye_size = getattr(nug_attributes, 'eye_size')
+    eye_shape = getattr(nug_attributes, 'eye_status')
+
+    health = getattr(nug_attributes, 'health')
+    hunger = getattr(nug_attributes, 'hunger')
+    happiness = getattr(nug_attributes, 'happiness')
+    battle_XP = getattr(nug_attributes, 'battle_XP')
+    fatigue = getattr(nug_attributes, 'fatigue')
+    defense = getattr(nug_attributes, 'defense')
+    intelligence = getattr(nug_attributes, 'intelligence')
+    luck = getattr(nug_attributes, 'luck')
+
+    #Nugget attributes views
+    #health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
+    if health > 50:
         health_color = "green"
-    elif health[0] > 20:
+    elif health > 20:
         health_color = "orange"
     else:
         health_color = "red"
 
-    hunger = NuggetAttribute.objects.filter(id=nug_attributes).values_list('hunger', flat=True)
-    if hunger[0] > 50:
+    #hunger = NuggetAttribute.objects.filter(id=nug_attributes).values_list('hunger', flat=True)
+    if hunger > 50:
         hunger_color = "green"
-    elif hunger[0] > 20:
+    elif hunger > 20:
         hunger_color = "orange"
     else:
         hunger_color = "red"
 
-    defense = NuggetAttribute.objects.filter(id=nug_attributes).values_list('defense', flat=True)
-    if defense[0] > 50:
-        defense_color = "green"
-    elif defense[0] > 20:
-        defense_color = "orange"
-    else:
-        defense_color = "red"
-
-    battle_XP = NuggetAttribute.objects.filter(id=nug_attributes).values_list('battle_XP', flat=True)
-    if battle_XP[0] > 50:
-        battle_XP_color = "green"
-    elif battle_XP[0] > 20:
-        battle_XP_color = "orange"
-    else:
-        battle_XP_color = "red"
-
-    fatigue = NuggetAttribute.objects.filter(id=nug_attributes).values_list('fatigue', flat=True)
-    if fatigue[0] > 50:
-        fatigue_color = "green"
-    elif fatigue[0] > 20:
-        fatigue_color = "orange"
-    else:
-        fatigue_color = "red"
-
-    intelligence = NuggetAttribute.objects.filter(id=nug_attributes).values_list('intelligence', flat=True)
-    if intelligence[0] > 50:
-        intelligence_color = "green"
-    elif intelligence[0] > 20:
-        intelligence_color = "orange"
-    else:
-        intelligence_color = "red"
-
-    happiness = NuggetAttribute.objects.filter(id=nug_attributes).values_list('happiness', flat=True)
-    if happiness[0] > 50:
+    #happiness = NuggetAttribute.objects.filter(id=nug_attributes).values_list('happiness', flat=True)
+    if happiness > 50:
         happiness_color = "green"
-    elif happiness[0] > 20:
+    elif happiness > 20:
         happiness_color = "orange"
     else:
         happiness_color = "red"
 
-    luck = NuggetAttribute.objects.filter(id=nug_attributes).values_list('luck', flat=True)
-    if luck[0] > 50:
+    #battle_XP = NuggetAttribute.objects.filter(id=nug_attributes).values_list('battle_XP', flat=True)
+    if battle_XP > 50:
+        battle_XP_color = "green"
+    elif battle_XP > 20:
+        battle_XP_color = "orange"
+    else:
+        battle_XP_color = "red"
+
+    #defense = NuggetAttribute.objects.filter(id=nug_attributes).values_list('defense', flat=True)
+    if defense > 50:
+        defense_color = "green"
+    elif defense > 20:
+        defense_color = "orange"
+    else:
+        defense_color = "red"
+
+    #fatigue = NuggetAttribute.objects.filter(id=nug_attributes).values_list('fatigue', flat=True)
+    if fatigue > 50:
+        fatigue_color = "green"
+    elif fatigue > 20:
+        fatigue_color = "orange"
+    else:
+        fatigue_color = "red"
+
+    #intelligence = NuggetAttribute.objects.filter(id=nug_attributes).values_list('intelligence', flat=True)
+    if intelligence > 50:
+        intelligence_color = "green"
+    elif intelligence > 20:
+        intelligence_color = "orange"
+    else:
+        intelligence_color = "red"
+
+    #luck = NuggetAttribute.objects.filter(id=nug_attributes).values_list('luck', flat=True)
+    if luck > 50:
         luck_color = "green"
-    elif luck[0] > 20:
+    elif luck > 20:
         luck_color = "orange"
     else:
         luck_color = "red"
@@ -233,13 +255,24 @@ def nugget(request):
             item_names = item_names + [[temp[0], quantities[counter]]]
         counter = counter + 1
 
+    #Inventory Form Set
+    InventoryFormSet = formset_factory(InventoryForm)
+    if request.method == 'POST':
+        FormSet = InventoryFormSet(request.POST)
+        for form in FormSet.forms:
+            if form.is_valid():
+                form.save()
+        return redirect('nugget')
+    else:
+        FormSet = InventoryFormSet()
+
     return render(
         request,
         'nugget.html',
-        {'coins':coins[0], 'user':user[0], 'nugget':nugget[0], 'health':health[0], 'health_color':health_color, 'hunger':hunger[0],
-        'hunger_color':hunger_color, 'defense':defense[0], 'defense_color':defense_color, 'battle_XP':battle_XP[0], 'battle_XP_color':battle_XP_color,
-        'fatigue':fatigue[0], 'fatigue_color':fatigue_color, 'intelligence':intelligence[0], 'intelligence_color':intelligence_color,
-        'happiness':happiness[0], 'happiness_color':happiness_color, 'luck':luck[0], 'luck_color':luck_color, 'items':item_names},
+        {'coins':coins, 'user':user, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger,
+        'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
+        'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
+        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': FormSet},
     )
 
 @login_required(login_url='/nugget/')

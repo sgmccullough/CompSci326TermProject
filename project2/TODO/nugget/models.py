@@ -147,6 +147,7 @@ class Item(models.Model):
     #Fields
     id = models.UUIDField(verbose_name="Item ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this item")
     name = models.CharField(verbose_name="Item Name", max_length=25, help_text = "Name of item")
+    price = models.IntegerField(verbose_name="Price", help_text="Item Price", default=50)
 
     item_type = (
         ('a', 'Armor'),
