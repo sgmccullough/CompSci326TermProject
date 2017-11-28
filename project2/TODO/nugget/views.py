@@ -153,7 +153,7 @@ def nugget(request):
     size = getattr(nug_attributes, 'nug_size')
     color = getattr(nug_attributes, 'color')
     mouth_size = getattr(nug_attributes, 'mouth_size')
-    mouth_shape = getattr(nug_attributes, 'mouth_status')
+    mouth = getattr(nug_attributes, 'mouth_status')
     eye_size = getattr(nug_attributes, 'eye_size')
     eye_shape = getattr(nug_attributes, 'eye_status')
 
@@ -241,7 +241,8 @@ def nugget(request):
     for i in items:
         if item_names[0] == None:
             temp = Item.objects.filter(id=i).values_list('name', flat=True)
-            item_names = [[temp[0], quantities[counter]]]
+            if len(temp) is not 0:
+                item_names = [[temp[0], quantities[counter]]]
         else:
             temp = Item.objects.filter(id=i).values_list('name', flat=True)
             item_names = item_names + [[temp[0], quantities[counter]]]
@@ -266,7 +267,7 @@ def nugget(request):
     return render(
         request,
         'nugget.html',
-        {'coins':coins, 'user':user, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger,
+        {'coins':coins, 'user':user, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'mouth': mouth, 'color':color,
         'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
         'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
         'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': FormSet},
