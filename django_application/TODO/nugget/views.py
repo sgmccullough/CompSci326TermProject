@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from .forms import SignUpForm, CreateNugget, CreateAttributes, InventoryForm, NewBattle
 from django.shortcuts import redirect, render_to_response, render
 from django.contrib.auth.decorators import login_required
-from django.forms import formset_factory
+# from django.forms import formset_factory
 import uuid
 from django.template import Context, Template
 
@@ -256,19 +256,26 @@ def nugget(request):
         counter2 = counter2 + 1
 
     #Inventory Form Set
-    InventoryFormSet = formset_factory(InventoryForm, extra=counter2)
-    queryset = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
-    if request.method == 'POST':
-        FormSet = InventoryFormSet(request.POST)
-        for form in FormSet.forms:
-            if form.is_valid():
-                form.save()
-                submission = form.cleaned_data.get('ItemOptions')
-                #if submission is "feed":
+    # InventoryFormSet = formset_factory(InventoryForm, extra=counter2)
+    # queryset = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
 
+    thisUser = Profile.objects.get(usr=request.user)
+    # if hasattr(thisUser, '_wrapped') and hasattr(thisUser, '_setup'):
+    #     if thisUser._wrapped.__class__ == object:
+    #         thisUser._setup()
+    #     thisUser = thisUser._wrapped
+
+    if request.method == 'POST':
+        form = InventoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            submission = form.cleaned_data.get('ItemOptions')
+            #if submission is "feed":
         return redirect('nugget')
     else:
-        FormSet = InventoryFormSet()
+        form = InventoryForm()
+
+    #return render_to_response('errortemp_2.html', {'val': form})
 
     return render(
         request,
@@ -276,7 +283,7 @@ def nugget(request):
         {'coins':coins, 'user':user, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'mouth': mouth, 'color':color,
         'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
         'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
-        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': FormSet},
+        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': form},
     )
 
 @login_required(login_url='/nugget/')

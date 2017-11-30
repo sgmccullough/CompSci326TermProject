@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Nugget, NuggetAttribute, Inventory, BattleInstance, Profile, Friend
+from .models import Nugget, NuggetAttribute, Inventory, BattleInstance, Profile, Friend, InventoryItems
 
 mouth = (
     ('h', 'hyper'),
@@ -32,6 +32,12 @@ col = (
     ('sienna', 'Sienna'),
     ('burlywood', 'Burlywood'),
     ('tan', 'Tan'),
+)
+
+invOpts = (
+    ("feed", "Feed"),
+    ("discard", "Discard"),
+    ("sell", "Sell"),
 )
 
 
@@ -68,17 +74,35 @@ class CreateAttributes(ModelForm):
         fields = ('color', 'nug_size', 'eye_size', 'mouth_size', 'nugget_status', 'eye_status', 'mouth_status', )
 
 class InventoryForm(ModelForm):
-    OPTIONS = (
-                ("feed", "Feed"),
-                ("discard", "Discard"),
-                ("sell", "Sell"),
-              )
-    ItemOptions = forms.ChoiceField(widget=forms.Select(attrs={'onChange': 'form.submit()'}), choices=OPTIONS, label='Select an Action')
-    ItemName = forms.CharField(widget=forms.HiddenInput())
+    ItemName = forms.CharField(widget=forms.TextInput(attrs={'disabled':'disabled'}), label='Item Name')
+    ItemQuantity = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'min': 1, 'max': 100}), label='Quantity')
+    ItemOptions = forms.ChoiceField(widget=forms.Select, choices=invOpts, label='Select an Action')
+
+    # itm_choices = (
+    #     ('0', '-'),
+    # )
+    #
+    # def __init__(self, user, *args, **kwargs):
+    #     #self.user = user
+    #     super(InventoryForm, self).__init__(*args, **kwargs)
+    #     self.user = kwargs.pop('user', None)
+    #
+    #     #thisUser = Profile.objects.get(usr=user)
+    #
+    #     if user:
+    #         inventory = Inventory.objects.filter(user=user).values_list('id', flat=True)
+    #         items = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
+    #         quantities = InventoryItems.objects.filter(inventory=inventory).values_list('quantity', flat=True)
+    #     #     friends = Friend.objects.get(current_user=thisUser)#.values('users')
+    #     #     friendChoices = getattr(friends, 'users')
+    #         itemchoices = user
+    #         #for i in items.iterator():
+    #     #        itemchoices.append((str(i), str(i)))
+    #         self.fields['ItemName'].choices = itemchoices
 
     class Meta:
         model = Inventory
-        fields = ('ItemOptions', 'ItemName')
+        fields = ('ItemName', 'ItemQuantity', 'ItemOptions')
 
 class NewBattle(forms.ModelForm):
 

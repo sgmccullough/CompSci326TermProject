@@ -8,10 +8,6 @@ from .models import Profile, Nugget, NuggetAttribute, Inventory, Item, Friend, B
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'usr', 'bday', 'coins')
 
-@admin.register(Inventory)
-class InventoryAdmin(admin.ModelAdmin):
-    list_display = ('user', 'id')
-
 @admin.register(Battle)
 class BattleAdmin(admin.ModelAdmin):
     list_display = ('id', 'user')
@@ -20,9 +16,18 @@ class BattleAdmin(admin.ModelAdmin):
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'id', 'item_status', 'item_features')
 
+
 @admin.register(InventoryItems)
 class InventoryItemsAdmin(admin.ModelAdmin):
     list_display = ('item', 'quantity', 'inventory')
+
+class InventoryInline(admin.TabularInline):
+    model = InventoryItems
+
+@admin.register(Inventory)
+class InventoryAdmin(admin.ModelAdmin):
+    list_display = ('user', 'id')
+    inlines = [InventoryInline]
 
 @admin.register(BattleInstance)
 class BattleInstanceAdmin(admin.ModelAdmin):

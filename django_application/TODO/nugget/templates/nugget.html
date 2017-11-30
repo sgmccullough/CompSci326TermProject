@@ -95,43 +95,69 @@
         <h5 style="text-align: center;">Inventory</h5>
         <center>
           <table style="text-align: center;">
-            <script type="text/javascript">
-               var items = String("{{ items }}");
-               var i = 0;
-               items = items.replace(/[\[\]']+/g, "");
-               var itemArray = items.split(",");
-            </script>
             <tbody>
-              <tr>
-              {% for CurrentForm in form.forms %}
-                <td>
-                  <center>
-                    <br><br>
-                    <script type="text/javascript">
-                      itemArray[i] = itemArray[i].replace(/&#39;/g, "");
-                      itemArray[i] = itemArray[i].replace(" ", "");
-                      var toOutput = "<img src='/static/img/food-vector/png/";
-                      toOutput += itemArray[i];
-                      toOutput += ".png' style='height:100px; width:100px;'><h5><strong>"
-                      toOutput += itemArray[i + 1];
-                      toOutput += "</strong></h5>"
-                      document.write(toOutput);
-                      i+=2;
-                    </script>
-                    <form method="post">
-                      {% csrf_token %}
-                      {{ form.management_form }}
-                      {{ CurrentForm.as_p }}
-                    </form>
-                  </center>
-                </td>
-                {% endfor %}
-              </tr>
+              <script type="text/javascript">
+                var items = String("{{ items }}");
+                items = items.replace(/[\[\]']+/g, "");
+                document.write("<tr>");
+                var itemArray = items.split(",");
+                for (var i = 0; i < itemArray.length; i++) {
+                  document.write("<td>")
+                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                  itemArray[i] = itemArray[i].replace(" ", "");
+                  document.write("<center>");
+                  var toOutput = "<h5><strong>"
+                  toOutput += itemArray[i];
+                  toOutput += "</h5></strong><br><img src='/static/img/food-vector/png/";
+                  toOutput += itemArray[i];
+                  toOutput += ".png' style='height:100px; width:100px;'><h5><strong>"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "</strong></h5><button data-target='itemOptions' class='btn modal-trigger' id='modalOpen' name='";
+                  toOutput += itemArray[i];
+                  toOutput += "'>Options</button>";
+                  document.write(toOutput);
+                  document.write("</td>");
+                  i++;
+                }
+                document.write("</tr>");
+              </script>
             </tbody>
           </table>
-
         </center>
       </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+
+  $(function(){
+    var itemToActOn = {};
+    $('button').click(function() {
+        itemToActOn = (this.name); // or alert($(this).attr('id'));
+        console.log(itemToActOn);
+        $('#id_ItemName').val(itemToActOn);
+    });
+  });
+
+  </script>
+
+  <!-- Item Options Modal -->
+  <div id="itemOptions" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Options!</h4>
+      <!-- <script type="text/javascript">
+        document.write(itemToActOn);
+        console.log(itemToActOn);
+      </script> -->
+      <p>
+        Stuff
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="waves-effect waves-light btn" >Sign up</button>
+        </form>
+      </p>
     </div>
   </div>
 {% endblock %}
