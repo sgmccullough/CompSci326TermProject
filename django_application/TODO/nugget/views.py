@@ -663,8 +663,10 @@ def help(request):
     """
     View function for help page.
     """
-
+    usr_id = Profile.objects.get(usr=request.user)
+    coins = getattr(usr_id, 'coins')
     return render(
         request,
         'help.html',
+        {'coins': coins, },
     )
