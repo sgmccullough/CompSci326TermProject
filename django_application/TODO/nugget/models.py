@@ -148,6 +148,7 @@ class Item(models.Model):
     id = models.UUIDField(verbose_name="Item ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this item")
     name = models.CharField(verbose_name="Item Name", max_length=25, help_text = "Name of item")
     price = models.IntegerField(verbose_name="Price", help_text="Item Price", default=50)
+    effect = models.IntegerField(verbose_name="+/- Stat", help_text="+/- Stat", default=5)
 
     item_type = (
         ('a', 'Armor'),
@@ -171,7 +172,7 @@ class Item(models.Model):
     class Meta:
         verbose_name = "Item"
         verbose_name_plural = "Items"
-        ordering = ["id", "name"]
+        ordering = ["id", "name", "price", "effect", "item_status", "item_features", ]
 
     #Methods
     def get_absolute_url(self):
@@ -195,6 +196,7 @@ class Inventory(models.Model):
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
     items = models.ManyToManyField('Item', through='InventoryItems')
+    msg = models.CharField(verbose_name="Message Field", max_length=200)
 
     #Metadata
     class Meta:
@@ -234,6 +236,7 @@ class Shop(models.Model):
     """
 
     items = models.ManyToManyField('Item')
+    msg = models.CharField(verbose_name="Message Field", max_length=200)
 
     #Methods
     def get_absolute_url(self):
@@ -255,6 +258,7 @@ class Battle(models.Model):
 
     battles = models.ManyToManyField('BattleInstance')
     user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User ID")
+    current = models.IntegerField(verbose_name="Status", help_text="Specifies an active battle. 0=inactive, 1=active/pending response, 2=finished, 3=must respond", default='0')
 
     class Meta:
         verbose_name = "User Battle Set"
@@ -282,13 +286,14 @@ class BattleInstance(models.Model):
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
     net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, default=0, help_text = "Coins won or lost")
     opponent_id = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
-    nug_xp=models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
+    nug_xp= models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
+    active = models.IntegerField(verbose_name="Status", help_text="Specifies an active battle. 0=inactive, 1=active/pending response, 2=finished, 3=must respond", default='1')
 
     #Metadata
     class Meta:
         verbose_name = "Battle"
         verbose_name_plural = "Battles"
-        ordering = ["id", "net_coins"]
+        ordering = ["id", "net_coins", "nug_xp", "opponent_id", "active"]
 
     #Methods
     def get_absolute_url(self):

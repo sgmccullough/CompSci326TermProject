@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Nugget, NuggetAttribute, Inventory, BattleInstance, Profile, Friend, InventoryItems
+from .models import Nugget, NuggetAttribute, Inventory, BattleInstance, Profile, Friend, InventoryItems, Battle
 
 mouth = (
     ('h', 'hyper'),
@@ -110,36 +110,42 @@ class NewBattle(forms.ModelForm):
         ('0', '-'),
     )
 
-    # usr_id = forms.ModelChoiceField(
-    # friends = Friend.objects.get(current_user=usr_id)
-    # friends_names = getattr(friends, 'users')
     current_user = forms.CharField(widget=forms.TextInput(attrs={'type': 'hidden', }))
     net_coins = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', 'value': '25', }))
     nug_xp = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', 'value': '5', }))
-    opponent = forms.ChoiceField(widget=forms.Select)
-    opponent_id = forms.CharField(widget=forms.TextInput(attrs={'type': 'hidden',}))
-    #opponents = forms.ModelChoiceField(widget=forms.Select, queryset=Friend.objects.filter(current_user=self.user).values('users'))
+    opponent_id = forms.ModelChoiceField(queryset=None)
 
     def __init__(self, *args, **kwargs):
-        #self.user = user
         self.user = kwargs.pop('user', None)
         super(NewBattle, self).__init__(*args, **kwargs)
 
         thisUser = Profile.objects.get(usr=self.user)
 
         if thisUser:
-            friends = Friend.objects.get(current_user=thisUser)#.values('users')
+            friends = Friend.objects.get(current_user=thisUser)
             friendChoices = getattr(friends, 'users')
-            choices = []
-            for i in friendChoices.iterator():
-                choices.append((i.usr.username, str(i)))
-            self.fields['opponent'].choices = choices
+            self.fields['opponent_id'].queryset = friendChoices
 
-        # self.fields['opponents'].queryset = Friend.objects.filter(current_user=self.user).values('users')
-        # super(NewBattle, self).__init__(*args, **kwargs)
-        # self.fields['opponents'].queryset = User.objects.filter(pk=user.id)
-    #forms.ChoiceField(widget=forms.Select, choices=???, label='Opponent Options')
 
     class Meta:
         model = BattleInstance
-        fields = ('current_user', 'net_coins', 'nug_xp', 'opponent', 'opponent_id' )
+        fields = ('current_user', 'net_coins', 'nug_xp', 'opponent_id' )
+
+class BattleReset(forms.ModelForm):
+
+    current = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', }))
+
+    class Meta:
+        model = Battle
+        fields = ('current', )
+
+class BattleResponse(forms.ModelForm):
+    choices = (
+        ('2', 'Accept'),
+        ('0', 'Decline'),
+    )
+    current = forms.ChoiceField(widget=forms.Select(choices=choices))
+
+    class Meta:
+        model = Battle
+        fields = ('current', )
