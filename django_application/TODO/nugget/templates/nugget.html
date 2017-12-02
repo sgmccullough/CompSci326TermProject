@@ -114,6 +114,8 @@
                   toOutput += itemArray[i + 1];
                   toOutput += "</strong></h5><button data-target='itemOptions' class='btn modal-trigger' id='modalOpen' name='";
                   toOutput += itemArray[i];
+                  toOutput += "' value='"
+                  toOutput += itemArray[i + 1];
                   toOutput += "'>Options</button>";
                   document.write(toOutput);
                   document.write("</td>");
@@ -134,29 +136,30 @@
   $(function(){
     var itemToActOn = {};
     $('button').click(function() {
-        itemToActOn = (this.name); // or alert($(this).attr('id'));
-        console.log(itemToActOn);
-        $('#id_ItemName').val(itemToActOn);
+        var check = this.id;
+        if (check != "submit_button") {
+          itemToActOn = (this.name);
+          document.getElementById("id_ItemName").value=itemToActOn;
+      }
     });
   });
 
   </script>
 
   <!-- Item Options Modal -->
-  <div id="itemOptions" class="modal modal-fixed-footer">
+  <div id="itemOptions" class="modal">
     <div class="modal-content">
       <h4>Options!</h4>
-      <!-- <script type="text/javascript">
-        document.write(itemToActOn);
-        console.log(itemToActOn);
-      </script> -->
       <p>
-        Stuff
+        What do you want to do with your item?
         <form method="post">
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit" class="waves-effect waves-light btn" >Sign up</button>
+          <input type="hidden" id="id_ItemName" name="item_id" value="NULL" readonly>
+          <button type="submit" id="submit_button" class="waves-effect waves-light btn" >Confirm?</button>
         </form>
+        <br>
+        <button id="close" class="waves-effect waves-light btn modal-close" >Nope! Go Back</button>
       </p>
     </div>
   </div>

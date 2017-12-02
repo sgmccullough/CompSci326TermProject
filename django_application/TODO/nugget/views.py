@@ -173,7 +173,6 @@ def nugget(request):
     luck = getattr(nug_attributes, 'luck')
 
     #Nugget attributes views
-    #health = NuggetAttribute.objects.filter(id=nug_attributes).values_list('health', flat=True)
     if health > 50:
         health_color = "green"
     elif health > 20:
@@ -181,7 +180,6 @@ def nugget(request):
     else:
         health_color = "red"
 
-    #hunger = NuggetAttribute.objects.filter(id=nug_attributes).values_list('hunger', flat=True)
     if hunger > 50:
         hunger_color = "green"
     elif hunger > 20:
@@ -189,7 +187,6 @@ def nugget(request):
     else:
         hunger_color = "red"
 
-    #happiness = NuggetAttribute.objects.filter(id=nug_attributes).values_list('happiness', flat=True)
     if happiness > 50:
         happiness_color = "green"
     elif happiness > 20:
@@ -197,7 +194,6 @@ def nugget(request):
     else:
         happiness_color = "red"
 
-    #battle_XP = NuggetAttribute.objects.filter(id=nug_attributes).values_list('battle_XP', flat=True)
     if battle_XP > 50:
         battle_XP_color = "green"
     elif battle_XP > 20:
@@ -205,7 +201,6 @@ def nugget(request):
     else:
         battle_XP_color = "red"
 
-    #defense = NuggetAttribute.objects.filter(id=nug_attributes).values_list('defense', flat=True)
     if defense > 50:
         defense_color = "green"
     elif defense > 20:
@@ -213,7 +208,6 @@ def nugget(request):
     else:
         defense_color = "red"
 
-    #fatigue = NuggetAttribute.objects.filter(id=nug_attributes).values_list('fatigue', flat=True)
     if fatigue > 50:
         fatigue_color = "green"
     elif fatigue > 20:
@@ -221,7 +215,6 @@ def nugget(request):
     else:
         fatigue_color = "red"
 
-    #intelligence = NuggetAttribute.objects.filter(id=nug_attributes).values_list('intelligence', flat=True)
     if intelligence > 50:
         intelligence_color = "green"
     elif intelligence > 20:
@@ -229,7 +222,6 @@ def nugget(request):
     else:
         intelligence_color = "red"
 
-    #luck = NuggetAttribute.objects.filter(id=nug_attributes).values_list('luck', flat=True)
     if luck > 50:
         luck_color = "green"
     elif luck > 20:
@@ -237,10 +229,10 @@ def nugget(request):
     else:
         luck_color = "red"
 
+    # Update the GUI for a user's inventory
     inventory = Inventory.objects.filter(user=usr_id).values_list('id', flat=True)
     items = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
     quantities = InventoryItems.objects.filter(inventory=inventory).values_list('quantity', flat=True)
-
     item_names = [None]
     counter = 0
     counter2 = 0
@@ -255,22 +247,84 @@ def nugget(request):
         counter = counter + 1
         counter2 = counter2 + 1
 
-    #Inventory Form Set
-    # InventoryFormSet = formset_factory(InventoryForm, extra=counter2)
-    # queryset = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
 
-    thisUser = Profile.objects.get(usr=request.user)
-    # if hasattr(thisUser, '_wrapped') and hasattr(thisUser, '_setup'):
-    #     if thisUser._wrapped.__class__ == object:
-    #         thisUser._setup()
-    #     thisUser = thisUser._wrapped
-
+    # Form Logic
     if request.method == 'POST':
-        form = InventoryForm(request.POST)
+        form = InventoryForm(request.POST, instance=Inventory.objects.get(user=Profile.objects.get(usr=request.user)))
+        itemToUpdate = request.POST.get('item_id', None)
+        #return render_to_response('errortemp_2.html', {'val': temp})
         if form.is_valid():
             form.save()
-            submission = form.cleaned_data.get('ItemOptions')
-            #if submission is "feed":
+            quantityToUpdate = form.cleaned_data.get('ItemQuantity')
+            # Removes Items From Inventory
+            for i in items:
+                temp = Item.objects.filter(id=i).values_list('name', flat=True)
+                if temp[0] == itemToUpdate:
+                    objectToUpdate = InventoryItems.objects.get(inventory=inventory, item=i)
+                    #objectToUpdate.update(quantity=F('quantity')+1)
+                    if objectToUpdate.quantity - quantityToUpdate >= 0:
+                        objectToUpdate.quantity -= quantityToUpdate
+                        objectToUpdate.save()
+                    else:
+                        return redirect('nugget')
+                    #return render_to_response('errortemp_2.html', {'val': objectToUpdate.quantity})
+            if objectToUpdate.quantity <= 0:
+                objectToUpdate.delete()
+
+
+            # Updates coins/attributes of the item that we acted upon
+            whatToDoWithItem = form.cleaned_data.get('ItemOptions')
+            if whatToDoWithItem == 'feed':
+                attributeOfItem = Item.objects.get(name=itemToUpdate).item_features
+                amountToAddToAttribute = 10 * quantityToUpdate
+                usersAttributeToUpdate = NuggetAttribute.objects.get(id=nug_attributes.id)
+                if attributeOfItem == 'he':
+                    if usersAttributeToUpdate.health + amountToAddToAttribute > 100:
+                        usersAttributeToUpdate.health = 100
+                    else:
+                        usersAttributeToUpdate.health += amountToAddToAttribute
+                elif attributeOfItem == 'hun':
+                    if usersAttributeToUpdate.hunger + amountToAddToAttribute > 100:
+                        usersAttributeToUpdate.hunger = 100
+                    else:
+                        usersAttributeToUpdate.hunger += amountToAddToAttribute
+                elif attributeOfItem == 'def':
+                    if usersAttributeToUpdate.defense + amountToAddToAttribute > 100:
+                        usersAttributeToUpdate.defense = 100
+                    else:
+                        usersAttributeToUpdate.defense += amountToAddToAttribute
+                elif attributeOfItem == 'f':
+                    if usersAttributeToUpdate.fatigue + amountToAddToAttribute > 100:
+                        usersAttributeToUpdate.fatigue = 100
+                    else:
+                        usersAttributeToUpdate.fatigue += amountToAddToAttribute
+                elif attributeOfItem == 'i':
+                    if usersAttributeToUpdate.intelligence + amountToAddToAttribute > 100:
+                        usersAttributeToUpdate.intelligence = 100
+                    else:
+                        usersAttributeToUpdate.intelligence += amountToAddToAttribute
+                elif attributeOfItem == 'happ':
+                    if usersAttributeToUpdate.happiness + amountToAddToAttribute > 100:
+                        usersAttributeToUpdate.happiness = 100
+                    else:
+                        usersAttributeToUpdate.happiness += amountToAddToAttribute
+                elif attributeOfItem == 'l':
+                    if usersAttributeToUpdate.luck + amountToAddToAttribute > 100:
+                        usersAttributeToUpdate.luck = 100
+                    else:
+                        usersAttributeToUpdate.luck += amountToAddToAttribute
+                usersAttributeToUpdate.save()
+
+                #return render_to_response('errortemp_2.html', {'val': attributeObjectToUpdate})
+            if whatToDoWithItem == 'sell':
+                priceOfTheItem = Item.objects.get(name=itemToUpdate).price
+                amountToAddToCoins = priceOfTheItem * quantityToUpdate
+                coinsObject = Profile.objects.get(usr=user)
+                coinsObject.coins += amountToAddToCoins
+                coinsObject.save()
+            # We dont really care about discard, it just removes the item anyways.
+            #if whatToDoWithItem == 'discard':
+            #    return render_to_response('errortemp_2.html', {'val': whatToDoWithItem})
         return redirect('nugget')
     else:
         form = InventoryForm()
@@ -283,7 +337,7 @@ def nugget(request):
         {'coins':coins, 'user':user, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'mouth': mouth, 'color':color,
         'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
         'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
-        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': form},
+        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': form,},
     )
 
 @login_required(login_url='/nugget/')

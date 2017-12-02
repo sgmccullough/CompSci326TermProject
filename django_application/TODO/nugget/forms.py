@@ -74,9 +74,8 @@ class CreateAttributes(ModelForm):
         fields = ('color', 'nug_size', 'eye_size', 'mouth_size', 'nugget_status', 'eye_status', 'mouth_status', )
 
 class InventoryForm(ModelForm):
-    ItemName = forms.CharField(widget=forms.TextInput(attrs={'disabled':'disabled'}), label='Item Name')
-    ItemQuantity = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'range', 'min': 1, 'max': 100}), label='Quantity')
-    ItemOptions = forms.ChoiceField(widget=forms.Select, choices=invOpts, label='Select an Action')
+    ItemQuantity = forms.IntegerField(widget=forms.NumberInput(attrs={'type':'number', 'min': 1, 'max': 100, 'value': 1}), label='Quantity to work with (should be less than the amount you have)')
+    ItemOptions = forms.ChoiceField(widget=forms.Select, choices=invOpts, label='What do you want to do?')
 
     # itm_choices = (
     #     ('0', '-'),
@@ -102,7 +101,7 @@ class InventoryForm(ModelForm):
 
     class Meta:
         model = Inventory
-        fields = ('ItemName', 'ItemQuantity', 'ItemOptions')
+        fields = ('ItemQuantity', 'ItemOptions')
 
 class NewBattle(forms.ModelForm):
 
