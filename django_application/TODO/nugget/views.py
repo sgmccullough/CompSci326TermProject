@@ -1,7 +1,7 @@
 from .models import Profile, Nugget, NuggetAttribute, Inventory, Shop, Item, Battle, Friend, InventoryItems, BattleInstance, News
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm, CreateNugget, CreateAttributes, InventoryForm, NewBattle, BattleReset, BattleResponse
+from .forms import SignUpForm, CreateNugget, CreateAttributes, InventoryForm, NewBattle, BattleReset, BattleResponse, InventoryFormShop, ShopPurchase
 from django.shortcuts import redirect, render_to_response, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -55,12 +55,18 @@ def home(request):
 
     #Nugget attributes
     shape = getattr(nug_attributes, 'nugget_status')
-    size = getattr(nug_attributes, 'nug_size')
+
+    if shape == 'c':
+        size_w = 200
+        size_h = 200
+    else:
+        size_w = 160
+        size_h = 200
+
     color = getattr(nug_attributes, 'color')
-    mouth_size = getattr(nug_attributes, 'mouth_size')
     mouth_shape = getattr(nug_attributes, 'mouth_status')
-    eye_size = getattr(nug_attributes, 'eye_size')
-    eye_shape = getattr(nug_attributes, 'eye_status')
+    eye_size_h = getattr(nug_attributes, 'eye_size')
+    eye_size_w = eye_size_h*0.75
 
     health = getattr(nug_attributes, 'health')
     hunger = getattr(nug_attributes, 'hunger')
@@ -135,8 +141,8 @@ def home(request):
     return render(
         request,
         'home.html',
-        {'coins':coins, 'user':user, 'nugget':nugget, 'color':color, 'mouth':mouth_shape, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color,
-        'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, "battles":battles_list,
+        {'coins':coins, 'user':user, 'nugget':nugget, 'color':color, 'mouth':mouth_shape, 'health':health, 'eye_size_h': eye_size_h, 'eye_size_w': eye_size_w, 'health_color':health_color, 'hunger':hunger,
+        'size_w': size_w, 'size_h': size_h, 'hunger_color':hunger_color, 'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, "battles":battles_list,
          'friends':list_friends, 'news': newsList, },
     )
 
@@ -157,12 +163,19 @@ def nugget(request):
 
     #Nugget attributes
     shape = getattr(nug_attributes, 'nugget_status')
-    size = getattr(nug_attributes, 'nug_size')
+
+    if shape == 'c':
+        size_w = 200
+        size_h = 200
+    else:
+        size_w = 160
+        size_h = 200
+    eye_size_h = getattr(nug_attributes, 'eye_size')
+    eye_size_w = eye_size_h*0.75
+
     color = getattr(nug_attributes, 'color')
-    mouth_size = getattr(nug_attributes, 'mouth_size')
     mouth = getattr(nug_attributes, 'mouth_status')
     eye_size = getattr(nug_attributes, 'eye_size')
-    eye_shape = getattr(nug_attributes, 'eye_status')
 
     health = getattr(nug_attributes, 'health')
     hunger = getattr(nug_attributes, 'hunger')
@@ -230,7 +243,7 @@ def nugget(request):
     else:
         luck_color = "red"
 
-    # Update the GUI for a user's inventory
+   # Update the GUI for a user's inventory
     inventory = Inventory.objects.filter(user=usr_id).values_list('id', flat=True)
     items = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
     quantities = InventoryItems.objects.filter(inventory=inventory).values_list('quantity', flat=True)
@@ -247,7 +260,8 @@ def nugget(request):
             item_names = item_names + [[temp[0], quantities[counter]]]
         counter = counter + 1
         counter2 = counter2 + 1
-
+    if item_names == [None]:
+        item_names = "None"
 
     # Form Logic
     if request.method == 'POST':
@@ -277,7 +291,7 @@ def nugget(request):
             whatToDoWithItem = form.cleaned_data.get('ItemOptions')
             if whatToDoWithItem == 'feed':
                 attributeOfItem = Item.objects.get(name=itemToUpdate).item_features
-                amountToAddToAttribute = 10 * quantityToUpdate
+                amountToAddToAttribute = Item.objects.get(name=itemToUpdate).effect * quantityToUpdate
                 usersAttributeToUpdate = NuggetAttribute.objects.get(id=nug_attributes.id)
                 if attributeOfItem == 'he':
                     if usersAttributeToUpdate.health + amountToAddToAttribute > 100:
@@ -336,6 +350,7 @@ def nugget(request):
         request,
         'nugget.html',
         {'coins':coins, 'user':user, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'mouth': mouth, 'color':color,
+        'size_w':size_w, 'size_h':size_h, 'eye_size_w':eye_size_w, 'eye_size_h':eye_size_h,
         'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
         'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
         'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': form,},
@@ -346,34 +361,117 @@ def shop(request):
     """
     View function for shop page.
     """
-    usr_id = '78292571d46c4a0789d292d9e3d85ec8'
-    coins = Profile.objects.filter(id=usr_id).values_list('coins', flat=True)
+    #User Properties
+    usr_id = Profile.objects.get(usr=request.user)
+    user = getattr(usr_id, 'usr')
+    nugget = Nugget.objects.get(user=usr_id)
+    coins = getattr(usr_id, 'coins')
+    nug_attributes = getattr(nugget, 'attributes')
 
-    items = Item.objects.all()
-    item_names = [None]
-    for i in items:
-        item_names = item_names + [getattr(i, 'name')]
-    item_names = item_names[1:]
+    if getattr(nugget, 'name') is "":
+        return redirect('create')
 
+    # Shop Inventory Logic
+    items_shop = Item.objects.all()
+    shop_item_names = [None]
+    for i in items_shop:
+        shop_item_names = shop_item_names + [getattr(i, 'name')] + [getattr(i, 'price')]
+    shop_item_names = shop_item_names[1:]
+
+    # User Inventory Logic
     inventory = Inventory.objects.filter(user=usr_id).values_list('id', flat=True)
-    inv_items = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
+    items_inventory = Inventory.objects.filter(id=inventory).values_list('items', flat=True)
     quantities = InventoryItems.objects.filter(inventory=inventory).values_list('quantity', flat=True)
-
     inv_item_names = [None]
     counter = 0
-    for i in inv_items:
+    counter2 = 0
+    for i in items_inventory:
         if inv_item_names[0] == None:
             temp = Item.objects.filter(id=i).values_list('name', flat=True)
-            inv_item_names = [[temp[0], quantities[counter]]]
+            if len(temp) is not 0:
+                inv_item_names = [[temp[0], quantities[counter]]]
         else:
             temp = Item.objects.filter(id=i).values_list('name', flat=True)
             inv_item_names = inv_item_names + [[temp[0], quantities[counter]]]
         counter = counter + 1
+        counter2 = counter2 + 1
+    if inv_item_names == [None]:
+        inv_item_names = "None"
+
+
+
+
+    # Form Logic
+    if request.method == 'POST':
+        if request.POST['action'] == 'selling':
+            inventory_form = InventoryFormShop(request.POST, instance=Inventory.objects.get(user=Profile.objects.get(usr=request.user)))
+            itemToUpdate = request.POST.get('item_id', None)
+            if inventory_form.is_valid():
+                inventory_form.save()
+                quantityToUpdate = inventory_form.cleaned_data.get('ItemQuantity')
+                # Removes Items From Inventory
+                for i in items_inventory:
+                    temp = Item.objects.filter(id=i).values_list('name', flat=True)
+                    if temp[0] == itemToUpdate:
+                        objectToUpdate = InventoryItems.objects.get(inventory=inventory, item=i)
+                        if objectToUpdate.quantity - quantityToUpdate >= 0:
+                            objectToUpdate.quantity -= quantityToUpdate
+                            objectToUpdate.save()
+                        else:
+                            return redirect('shop')
+                if objectToUpdate.quantity <= 0:
+                    objectToUpdate.delete()
+                priceOfTheItem = Item.objects.get(name=itemToUpdate).price
+                amountToAddToCoins = priceOfTheItem * quantityToUpdate
+                coinsObject = Profile.objects.get(usr=user)
+                coinsObject.coins += amountToAddToCoins
+                coinsObject.save()
+                # We dont really care about discard, it just removes the item anyways.
+                #if whatToDoWithItem == 'discard':
+                #    return render_to_response('errortemp_2.html', {'val': whatToDoWithItem})
+            return redirect('shop')
+        if request.POST['action'] == 'buying':
+            shop_form = ShopPurchase(request.POST, instance=Inventory.objects.get(user=Profile.objects.get(usr=request.user)))
+            itemToUpdate = request.POST.get('item_id', None)
+            if shop_form.is_valid():
+                shop_form.save()
+                quantityToUpdate = shop_form.cleaned_data.get('ItemQuantity')
+                #return render_to_response('errortemp_2.html', {'val': "FJDSFKLDK"})
+                # Adds Items To Inventory
+                found = 0
+                for i in items_inventory:
+                    temp = Item.objects.filter(id=i).values_list('name', flat=True)
+                    if temp[0] == itemToUpdate:
+                        found = 1
+                        objectToUpdate = InventoryItems.objects.get(inventory=inventory, item=i)
+                        priceOfTheItem = Item.objects.get(name=itemToUpdate).price
+                        amountToRemoveFromCoins = priceOfTheItem * quantityToUpdate
+                        coinsObject = Profile.objects.get(usr=user)
+                        if coinsObject.coins - amountToRemoveFromCoins > 0:
+                            coinsObject.coins -= amountToRemoveFromCoins
+                            coinsObject.save()
+                            objectToUpdate.quantity += quantityToUpdate
+                            objectToUpdate.save()
+                if found == 0:
+                        priceOfTheItem = Item.objects.get(name=itemToUpdate).price
+                        amountToRemoveFromCoins = priceOfTheItem * quantityToUpdate
+                        coinsObject = Profile.objects.get(usr=user)
+                        if coinsObject.coins - amountToRemoveFromCoins > 0:
+                            coinsObject.coins -= amountToRemoveFromCoins
+                            coinsObject.save()
+                            InventoryItems.objects.create(inventory=Inventory.objects.get(user=Profile.objects.get(usr=request.user)),item=Item.objects.get(name=itemToUpdate),quantity=quantityToUpdate)
+            #return render_to_response('errortemp_2.html', {'val': "FJDSFKLDK"})
+            return redirect('shop')
+    else:
+        inventory_form = InventoryFormShop()
+        shop_form = ShopPurchase()
+
+
 
     return render(
         request,
         'shop.html',
-        {'coins':coins[0], 'items':item_names, 'inventory':inv_item_names}
+        {'coins':coins, 'shop_items':shop_item_names, 'inventory_items':inv_item_names, 'inventory_form':inventory_form, 'shop_form':shop_form}
     )
 
 @login_required(login_url='/nugget/')
@@ -400,6 +498,17 @@ def battle(request):
     coins = getattr(usr_id, 'coins')
 
     nug_attributes = getattr(nugget, 'attributes')
+
+    shape = getattr(nug_attributes, 'nugget_status')
+
+    if shape == 'c':
+        size_w = 200
+        size_h = 200
+    else:
+        size_w = 160
+        size_h = 200
+    eye_size_h = getattr(nug_attributes, 'eye_size')
+    eye_size_w = eye_size_h*0.75
 
     color = getattr(nug_attributes, 'color')
     mouth = getattr(nug_attributes, 'mouth_status')
@@ -514,8 +623,8 @@ def battle(request):
     return render(
         request,
         'battle.html',
-        {'coins':coins, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color,
-        'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, 'opponents':list_friends,
+        {'coins':coins, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color, 'size_w': size_w, 'size_h': size_h,
+        'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, 'opponents':list_friends, 'eye_size_w': eye_size_w, 'eye_size_h': eye_size_h,
         'color':color, 'mouth':mouth, 'battles':battles_list, 'newBattle': newBattle, 'reset': battleReset, 'response': battleResponse, 'active': active, },
     )
 
@@ -548,4 +657,14 @@ def create(request):
         request,
         'create-a-nugget.html',
         {'n1': n1, 'n2': n2, },
+    )
+
+def help(request):
+    """
+    View function for help page.
+    """
+
+    return render(
+        request,
+        'help.html',
     )

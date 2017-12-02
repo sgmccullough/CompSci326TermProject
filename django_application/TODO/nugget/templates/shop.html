@@ -1,6 +1,9 @@
-{% extends "generic_base.html" %} {% load static %}
+{% extends "generic_base.html" %}
+{% load static %}
 
-{% block coins %}{{ coins }}{% endblock %}
+{% block coins %}
+  {{ coins }}
+{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -11,35 +14,39 @@
         <table style="text-align: center;">
           <tbody>
             <script type="text/javascript">
-              var items = String("{{ inventory }}");
-              items = items.replace(/[\[\]']+/g,"");
-              document.write("<tr>");
-
-              var itemArray = items.split(",");
-              for (var i = 0; i < itemArray.length; i++){
-                document.write("<td>")
-                itemArray[i] = itemArray[i].replace(/&#39;/g, "");
-                itemArray[i] = itemArray[i].replace(" ", "");
-                document.write("<center>");
-                document.write(itemArray[i]);
-                document.write("<br><br>");
-                var toOutput = "<img src='/static/img/food-vector/png/";
-                toOutput += itemArray[i];
-                toOutput += ".png' style='height:100px; width:100px;'>"
-                toOutput += "<div class='input-field'><select><option value='' disabled selected>Amount x";
-                toOutput += itemArray[i + 1];
-                toOutput += "</option><option value='1'>Sell</option></select></div>";
-                document.write(toOutput);
-                document.write("</td>");
-                i++;
+              var items_inventory = String("{{ inventory_items }}");
+              if (items_inventory == "None") {
+                document.write("<br><br><h5>No items! Buy Some from the shop!</h5>");
+              }
+              else {
+                items_inventory = items_inventory.replace(/[\[\]']+/g, "");
+                document.write("<tr>");
+                var itemArray = items_inventory.split(",");
+                for (var i = 0; i < itemArray.length; i++) {
+                  document.write("<td>")
+                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                  itemArray[i] = itemArray[i].replace(" ", "");
+                  document.write("<center>");
+                  var toOutput = "<h5><strong>"
+                  toOutput += itemArray[i];
+                  toOutput += "</h5></strong><br><img src='/static/img/food-vector/png/";
+                  toOutput += itemArray[i];
+                  toOutput += ".png' style='height:100px; width:100px;'><h5><strong>x"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "</strong></h5><button data-target='sellItem' class='btn modal-trigger' id='invmodalOpen' name='";
+                  toOutput += itemArray[i];
+                  toOutput += "' value='"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "'>Sell</button>";
+                  document.write(toOutput);
+                  document.write("</td>");
+                  i++;
+                }
               }
               document.write("</tr>");
             </script>
           </tbody>
         </table>
-        <tfoot>
-          Scroll Down <i class="material-icons">arrow_drop_down</i>
-        </tfoot>
       </center>
     </div>
   </div>
@@ -69,7 +76,7 @@
           <table style="text-align: center;">
             <tbody>
               <script type="text/javascript">
-                var items = String("{{ items }}");
+                var items = String("{{ shop_items }}");
                 items = items.replace("[","");
                 items = items.replace("]","");
                 document.write("<tr>");
@@ -84,12 +91,16 @@
                   document.write("<br><br>");
                   var toOutput = "<img src='/static/img/food-vector/png/";
                   toOutput += itemArray[i];
-                  toOutput += ".png' style='height:100px; width:100px;'>"
-                  toOutput += "<br><br><a class='btn' onclick='Materialize.toast(&#34;You just bought an ";
+                  toOutput += ".png' style='height:100px; width:100px;'><h5><strong>"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "</strong> <img src='{% static 'img/coin.png' %}' style='padding-right:5px;padding-top:5px;'/></h5><button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
                   toOutput += itemArray[i];
-                  toOutput += "!&#34;, 3000, &#34;rounded&#34;)'>BUY</a>";
+                  toOutput += "' value='"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "'>Buy</button>";
                   document.write(toOutput);
                   document.write("</td>");
+                  i++;
                 }
                 document.write("</tr>");
               </script>
@@ -132,6 +143,67 @@
           </tbody>
         </table>
       </div>
+  </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+$(function(){
+  var itemToActOn = {};
+  $('button').click(function() {
+      var check = this.id;
+      if (check == "invmodalOpen") {
+        itemToActOn = (this.name);
+        document.getElementById("id_ItemName_sell").value=itemToActOn;
+        document.getElementById("item_name_label_sell").innerHTML = itemToActOn;
+      }
+      if (check == "shopmodalOpen") {
+        itemToActOn = (this.name);
+        document.getElementById("id_ItemName_buy").value=itemToActOn;
+        document.getElementById("item_name_label_buy").innerHTML = itemToActOn;
+      }
+  });
+});
+
+</script>
+
+<!-- Inventory Options Modal -->
+<div id="sellItem" class="modal">
+  <div class="modal-content">
+    <h3 class="center">Sell Item</h3>
+    <h4 id="item_name_label_sell" class="center">DEFAULT</h4>
+    <p>
+      <center>How many would you like to sell?</center>
+      <form method="post">
+        {% csrf_token %}
+        {{ inventory_form.as_p }}
+        <input type="hidden" id="id_ItemName_sell" name="item_id" value="NULL" readonly>
+        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="selling">Confirm?</button>
+      </form>
+      <br>
+      <button id="close" class="waves-effect waves-light btn modal-close">Nope! Go Back</button>
+    </p>
+  </div>
+</div>
+
+<!-- Shop Options Modal -->
+<div id="buyItem" class="modal">
+  <div class="modal-content">
+    <h3 class="center">Buy Item!</h3>
+    <h4 id="item_name_label_buy" class="center">DEFAULT</h4>
+    <p>
+      <center>How many would you like to buy?</center>
+      <form method="post">
+        {% csrf_token %}
+        {{ shop_form.as_p }}
+        <input type="hidden" id="id_ItemName_buy" name="item_id" value="NULL" readonly>
+        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="buying">Confirm?</button>
+      </form>
+      <br>
+      <button id="close" class="waves-effect waves-light btn modal-close">Nope! Go Back</button>
+    </p>
   </div>
 </div>
 {% endblock %}

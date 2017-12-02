@@ -29,6 +29,26 @@
                     $("figure").attr('class', $(this).val());
                 }).change();
 
+                $("#eyesize").change(function() {
+                    $(".eye").css('width', $(this).val()*.75);
+                    $(".eye").css('height', $(this).val());
+                }).change();
+
+                $("#shape").change(function() {
+                  if($(this).val() == 'c'){
+                    $("figure").css('width', 200);
+                    $("figure").css('height', 200);
+                    //$("div#shadow").width('90%');
+                    $("#shadow").css('width', '80%');
+                  }
+                  else{
+                    $("figure").css('width', 160);
+                    $("figure").css('height', 200);
+                    //$("div#shadow").width('60%');
+                    $("#shadow").css('width', '60%');
+                  }
+                }).change();
+
               });
 
               </script>
@@ -37,9 +57,10 @@
                 <li>
                   <div class="click-anim">
                     <figure class="hungry" style="">
-                      <div class="eye"></div>
-                      <div class="eye"></div>
-                      <div class="mouth"></div>
+                      <div class="eye" style=""></div>
+                      <div class="eye" style=""></div>
+                      <div class="mouth">
+                      </div>
                     </figure>
                   </div>
                   <div class="shadow" style=""></div>

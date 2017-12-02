@@ -84,8 +84,6 @@ class NuggetAttribute(models.Model):
     id = models.UUIDField(verbose_name="ID", default=uuid.uuid4, primary_key=True, help_text="ID")
     health = models.IntegerField(verbose_name="Health", help_text="Nugget Health", default=100)
     color = models.CharField(verbose_name="Color", max_length =50, help_text="Nugget Color", default="goldenrod")
-    nug_size = models.IntegerField(verbose_name="Size", help_text="Nugget size", default=20)
-    mouth_size = models.IntegerField(verbose_name="Mouth Size", help_text="Mouth size", default=10)
     eye_size = models.IntegerField(verbose_name="Eye Size", help_text="Eye size", default=10)
     experience = models.IntegerField(verbose_name="XP", help_text="Experience Points", default=50)
     hunger = models.IntegerField(verbose_name="Hunger", help_text="Nugget Hunger", default=100)
@@ -97,35 +95,26 @@ class NuggetAttribute(models.Model):
     luck = models.IntegerField(verbose_name="Luck", help_text="Nugget Luck", default=20)
 
     mouth_type = (
-        ('h', 'Happy'),
-        ('n', 'Nervous'),
-        ('hu', 'Hungry'),
-        ('c', 'Content'),
-    )
-
-    eye_shape = (
-        ('w', 'Wide'),
-        ('s', 'Small'),
-        ('sl', 'Sleepy'),
-        ('m', 'Mad'),
+        ('hyper', 'Hyper'),
+        ('nervous', 'Nervous'),
+        ('hungry', 'Hungry'),
+        ('content', 'Content'),
     )
 
     nugget_shape = (
-        ('e', 'Egg-like'),
-        ('r', 'Round'),
-        ('t', 'Triangle'),
-        ('s', 'Square'),
+        ('e', 'Egg'),
+        ('c', 'Circle'),
     )
 
-    mouth_status = models.CharField(max_length=1, choices=mouth_type, blank=True, default='h', help_text='Type of Nugget Mouth')
-    eye_status = models.CharField(max_length=1, choices=eye_shape, blank=True, default='w', help_text='Type of Nugget Eye')
-    nugget_status = models.CharField(max_length=1, choices=nugget_shape, blank=True, default='e', help_text='Type of Nugget Shape')
+    mouth_status = models.CharField(max_length=10, choices=mouth_type, blank=True, default='h', help_text='Type of Nugget Mouth')
+    #eye_status = models.CharField(max_length=10, choices=eye_shape, blank=True, default='w', help_text='Type of Nugget Eye')
+    nugget_status = models.CharField(max_length=10, choices=nugget_shape, blank=True, default='e', help_text='Type of Nugget Shape')
 
     #Metadata
     class Meta:
         verbose_name = "Nugget Attributes"
         verbose_name_plural = "Nugget Attributes"
-        ordering = ["mouth_status", "eye_status", "nugget_status", "experience"]
+        ordering = ["nugget_status", "experience"]
 
     #Methods
     def get_absolute_url(self):
