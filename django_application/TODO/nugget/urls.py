@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^battle$', views.battle, name='battle'),
     url(r'^create$', views.create, name='create'),
     url(r'^help$', views.help, name='help'),
+    url(r'^myaccount$', views.myaccount, name='myaccount'),
 ]

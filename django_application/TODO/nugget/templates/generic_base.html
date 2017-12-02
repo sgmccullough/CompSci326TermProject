@@ -17,8 +17,7 @@
 
 <!-- Dropdown Structure -->
 <ul id="dropdown1" class="dropdown-content">
-  <li><a href="#!">Settings</a></li>
-  <li><a href="#!">My Account</a></li>
+  <li><a href="{% url 'myaccount' %}">My Account</a></li>
   <li><a href="{% url 'help' %}">Help</a></li>
   <li class="divider"></li>
   <li><a href="{% url 'logout'%}">Logout</a></li>

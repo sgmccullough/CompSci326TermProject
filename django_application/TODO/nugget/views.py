@@ -670,3 +670,15 @@ def help(request):
         'help.html',
         {'coins': coins, },
     )
+
+def myaccount(request):
+    """
+    View function for myaccount page.
+    """
+    usr_id = Profile.objects.get(usr=request.user)
+    coins = getattr(usr_id, 'coins')
+    return render(
+        request,
+        'myaccount.html',
+        {'coins': coins, },
+    )
