@@ -109,26 +109,31 @@ class NewBattle(forms.ModelForm):
     fr_choices = (
         ('0', '-'),
     )
+
     # usr_id = forms.ModelChoiceField(
     # friends = Friend.objects.get(current_user=usr_id)
     # friends_names = getattr(friends, 'users')
-    opponents = forms.ChoiceField(widget=forms.Select)
+    current_user = forms.CharField(widget=forms.TextInput(attrs={'type': 'hidden', }))
+    net_coins = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', 'value': '25', }))
+    nug_xp = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', 'value': '5', }))
+    opponent = forms.ChoiceField(widget=forms.Select)
+    opponent_id = forms.CharField(widget=forms.TextInput(attrs={'type': 'hidden',}))
     #opponents = forms.ModelChoiceField(widget=forms.Select, queryset=Friend.objects.filter(current_user=self.user).values('users'))
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         #self.user = user
-        super(NewBattle, self).__init__(*args, **kwargs)
         self.user = kwargs.pop('user', None)
+        super(NewBattle, self).__init__(*args, **kwargs)
 
-        thisUser = Profile.objects.get(usr=user)
+        thisUser = Profile.objects.get(usr=self.user)
 
-        if user:
+        if thisUser:
             friends = Friend.objects.get(current_user=thisUser)#.values('users')
             friendChoices = getattr(friends, 'users')
             choices = []
             for i in friendChoices.iterator():
-                choices.append((str(i.usr.username), str(i.usr.username)))
-            self.fields['opponents'].choices = choices
+                choices.append((i.usr.username, str(i)))
+            self.fields['opponent'].choices = choices
 
         # self.fields['opponents'].queryset = Friend.objects.filter(current_user=self.user).values('users')
         # super(NewBattle, self).__init__(*args, **kwargs)
@@ -137,4 +142,4 @@ class NewBattle(forms.ModelForm):
 
     class Meta:
         model = BattleInstance
-        fields = ('opponents',)
+        fields = ('current_user', 'net_coins', 'nug_xp', 'opponent', 'opponent_id' )

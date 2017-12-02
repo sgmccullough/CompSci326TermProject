@@ -482,10 +482,13 @@ def battle(request):
 
     if request.method == 'POST':
         newBattle = NewBattle(request.POST, user=thisUser)
-        if newBattle.is_valid():
-            newBattle.save()
+        # if newBattle.is_valid():
+        # thisBattle = newBattle.save(commit=False)
+        idStr = newBattle.fields['opponent']
+        newBattle.opponent_id = Profile.objects.get(User.objects.filter(username=idStr))
+        newBattle.save()
     else:
-        newBattle =  NewBattle(user=thisUser)
+        newBattle =  NewBattle(user=thisUser, initial={'current_user': thisUser, 'opponent_id': thisUser, })
 
     return render(
         request,
