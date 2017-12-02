@@ -3,22 +3,35 @@
 {% block coins %}{{ coins }}{% endblock %}
 
 {% block content %}
-
-  <ul id="slide-out" class="side-nav">
-    <li><div class="user-view">
-      <div class="background">
-        <img src="images/office.jpg">
-      </div>
-      <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
-      <a href="#!name"><span class="white-text name">John Doe</span></a>
-      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
-    </div></li>
-    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-    <li><a href="#!">Second Link</a></li>
-    <li><div class="divider"></div></li>
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+<div class="container">
+  <h1>FAQ</h1>
+  Welcome to the FAQ! Hopefully, the all the answers to your questions reside within this page. If you can't find what you're looking for,
+   feel free to reach out to our developers at <a href="mailto:admin@mynugget.io">admin@mynugget.io</a>.
+  <ul class="collapsible popout" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">favorite_border</i>How did Nugget come about?</div>
+      <div class="collapsible-body" style="background-color:#e8e8e8;"><span>Nugget is the result of a semester long project for a web programming course at the
+      University of Massachusetts, Amherst. The OG team consisted of 6 undergraduate developers. </span></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">favorite_border</i>What is Nugget?</div>
+      <div class="collapsible-body" style="background-color:#e8e8e8;"><span>Nugget is a virtual pet battledome, where users can customize their own pet Nugget and battle with other plays.
+      You can shop for more items and increase your Nugget's statistics. <strong>Nugget is currently in Beta.</strong></span></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">favorite_border</i>How do I take care of my Nugget?</div>
+      <div class="collapsible-body" style="background-color:#e8e8e8;"><span>You can care for your Nugget by feeding your Nugget, spending time in the Battledome versing other players. Nuggets love
+      to eat, and they love to battle!</span></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">favorite_border</i>Can my Nugget die?</div>
+      <div class="collapsible-body" style="background-color:#e8e8e8;"><span>As of now, your Nugget can not die. (That doesn't mean it won't change in the future!)</span></div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">favorite_border</i>Can I change my Nugget?</div>
+      <div class="collapsible-body" style="background-color:#e8e8e8;"><span>Would you change your child? I hope that answers your question.</span></div>
+    </li>
   </ul>
-  <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
-  
+</div>
+
 {% endblock %}

@@ -5749,6 +5749,7 @@ button.btn-floating {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 2rem;
+  background-color:#e8e8e8;
 }
 
 .side-nav .collapsible,
