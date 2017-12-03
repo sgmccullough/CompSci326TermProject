@@ -378,10 +378,26 @@ def shop(request):
 
     # Shop Inventory Logic
     items_shop = Item.objects.all()
-    shop_item_names = [None]
+    shop_item_names_food = [None]
+    shop_item_names_accesory = [None]
+    shop_item_names_toy = [None]
     for i in items_shop:
-        shop_item_names = shop_item_names + [getattr(i, 'name')] + [getattr(i, 'price')]
-    shop_item_names = shop_item_names[1:]
+        temp = getattr(i, 'item_status')
+        if temp == "food":
+            shop_item_names_food = shop_item_names_food + [getattr(i, 'name')] + [getattr(i, 'price')]
+        elif temp == "accesory":
+            shop_item_names_accesory = shop_item_names_accesory + [getattr(i, 'name')] + [getattr(i, 'price')]
+        elif temp == "toy":
+            shop_item_names_toy = shop_item_names_toy + [getattr(i, 'name')] + [getattr(i, 'price')]
+    shop_item_names_food = shop_item_names_food[1:]
+    if shop_item_names_food == [None]:
+        shop_item_names_food = "None"
+    shop_item_names_accesory = shop_item_names_accesory[1:]
+    if shop_item_names_accesory == [None]:
+        shop_item_names_accesory = "None"
+    shop_item_names_toy = shop_item_names_toy[1:]
+    if shop_item_names_toy == [None]:
+        shop_item_names_toy = "None"
 
     # User Inventory Logic
     inventory = Inventory.objects.filter(user=usr_id).values_list('id', flat=True)
@@ -402,9 +418,6 @@ def shop(request):
         counter2 = counter2 + 1
     if inv_item_names == [None]:
         inv_item_names = "None"
-
-
-
 
     # Form Logic
     if request.method == 'POST':
@@ -441,23 +454,9 @@ def shop(request):
             if shop_form.is_valid():
                 shop_form.save()
                 quantityToUpdate = shop_form.cleaned_data.get('ItemQuantity')
-                #return render_to_response('errortemp_2.html', {'val': "FJDSFKLDK"})
                 # Adds Items To Inventory
                 found = 0
-                for i in items_inventory:
-                    temp = Item.objects.filter(id=i).values_list('name', flat=True)
-                    if temp[0] == itemToUpdate:
-                        found = 1
-                        objectToUpdate = InventoryItems.objects.get(inventory=inventory, item=i)
-                        priceOfTheItem = Item.objects.get(name=itemToUpdate).price
-                        amountToRemoveFromCoins = priceOfTheItem * quantityToUpdate
-                        coinsObject = Profile.objects.get(usr=user)
-                        if coinsObject.coins - amountToRemoveFromCoins > 0:
-                            coinsObject.coins -= amountToRemoveFromCoins
-                            coinsObject.save()
-                            objectToUpdate.quantity += quantityToUpdate
-                            objectToUpdate.save()
-                if found == 0:
+                if items_inventory[0] == None:
                         priceOfTheItem = Item.objects.get(name=itemToUpdate).price
                         amountToRemoveFromCoins = priceOfTheItem * quantityToUpdate
                         coinsObject = Profile.objects.get(usr=user)
@@ -465,7 +464,28 @@ def shop(request):
                             coinsObject.coins -= amountToRemoveFromCoins
                             coinsObject.save()
                             InventoryItems.objects.create(inventory=Inventory.objects.get(user=Profile.objects.get(usr=request.user)),item=Item.objects.get(name=itemToUpdate),quantity=quantityToUpdate)
-            #return render_to_response('errortemp_2.html', {'val': "FJDSFKLDK"})
+                else:
+                    for i in items_inventory:
+                        temp = Item.objects.filter(id=i).values_list('name', flat=True)
+                        if temp[0] == itemToUpdate:
+                            found = 1
+                            objectToUpdate = InventoryItems.objects.get(inventory=inventory, item=i)
+                            priceOfTheItem = Item.objects.get(name=itemToUpdate).price
+                            amountToRemoveFromCoins = priceOfTheItem * quantityToUpdate
+                            coinsObject = Profile.objects.get(usr=user)
+                            if coinsObject.coins - amountToRemoveFromCoins > 0:
+                                coinsObject.coins -= amountToRemoveFromCoins
+                                coinsObject.save()
+                                objectToUpdate.quantity += quantityToUpdate
+                                objectToUpdate.save()
+                    if found == 0:
+                            priceOfTheItem = Item.objects.get(name=itemToUpdate).price
+                            amountToRemoveFromCoins = priceOfTheItem * quantityToUpdate
+                            coinsObject = Profile.objects.get(usr=user)
+                            if coinsObject.coins - amountToRemoveFromCoins > 0:
+                                coinsObject.coins -= amountToRemoveFromCoins
+                                coinsObject.save()
+                                InventoryItems.objects.create(inventory=Inventory.objects.get(user=Profile.objects.get(usr=request.user)),item=Item.objects.get(name=itemToUpdate),quantity=quantityToUpdate)
             return redirect('shop')
     else:
         inventory_form = InventoryFormShop()
@@ -476,7 +496,8 @@ def shop(request):
     return render(
         request,
         'shop.html',
-        {'coins':coins, 'shop_items':shop_item_names, 'inventory_items':inv_item_names, 'inventory_form':inventory_form, 'shop_form':shop_form}
+        {'coins':coins, 'shop_items_food':shop_item_names_food, 'shop_items_accesory':shop_item_names_accesory, 'shop_items_toy':shop_item_names_toy,
+        'inventory_items':inv_item_names, 'inventory_form':inventory_form, 'shop_form':shop_form}
     )
 
 @login_required(login_url='/nugget/')

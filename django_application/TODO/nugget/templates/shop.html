@@ -65,7 +65,6 @@
         <ul class="tabs tabs-fixed-width">
           <li class="tab"><a class="active" href="#food"><i class="material-icons left">restaurant</i>FOOD</a></li>
           <li class="tab"><a href="#access"><i class="material-icons left">beach_access</i>ACCESSORIES</a></li>
-          <li class="tab"><a href="#battle"><i class="material-icons left">whatshot</i>BATTLE</a></li>
           <li class="tab"><a href="#toys"><i class="material-icons left">toys</i>TOYS</a></li>
         </ul>
       </div>
@@ -75,7 +74,52 @@
           <table style="text-align: center;">
             <tbody>
               <script type="text/javascript">
-                var items = String("{{ shop_items }}");
+                var items = String("{{ shop_items_food }}");
+                if (items == "None") {
+                  document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
+                }
+                else {
+                  items = items.replace("[","");
+                  items = items.replace("]","");
+                  document.write("<tr>");
+
+                  var itemArray = items.split(",");
+                  for (var i = 0; i < itemArray.length; i++){
+                    document.write("<td>")
+                    itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                    itemArray[i] = itemArray[i].replace(" ", "");
+                    document.write("<center>");
+                    document.write(itemArray[i]);
+                    document.write("<br><br>");
+                    var toOutput = "<img src='/static/img/food-vector/png/";
+                    toOutput += itemArray[i];
+                    toOutput += ".png' style='height:100px; width:100px;'><h5><strong>"
+                    toOutput += itemArray[i + 1];
+                    toOutput += "</strong> <img src='{% static 'img/coin.png' %}' style='padding-right:5px;padding-top:5px;'/></h5><button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
+                    toOutput += itemArray[i];
+                    toOutput += "' value='"
+                    toOutput += itemArray[i + 1];
+                    toOutput += "'>Buy</button>";
+                    document.write(toOutput);
+                    document.write("</td>");
+                    i++;
+                  }
+                  document.write("</tr>");
+                }
+              </script>
+            </tbody>
+          </table>
+        </div>
+
+      <div id="access">
+        <table style="text-align: center;">
+          <tbody>
+            <script type="text/javascript">
+              var items = String("{{ shop_items_accesory }}");
+              if (items == "None") {
+                document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
+              }
+              else {
                 items = items.replace("[","");
                 items = items.replace("]","");
                 document.write("<tr>");
@@ -102,31 +146,8 @@
                   i++;
                 }
                 document.write("</tr>");
-              </script>
-            </tbody>
-          </table>
-        </div>
-
-      <div id="access">
-        <table style="text-align: center;">
-          <tbody>
-            <tr>
-                <td>
-                  <center>Coming Soon!</center>
-                </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div id="battle">
-        <table style="text-align: center;">
-          <tbody>
-            <tr>
-                <td>
-                  <center>Coming Soon!</center>
-                </td>
-            </tr>
+              }
+            </script>
           </tbody>
         </table>
       </div>
@@ -134,11 +155,40 @@
       <div id="toys">
         <table style="text-align: center;">
           <tbody>
-            <tr>
-                <td>
-                  <center>Coming Soon!</center>
-                </td>
-            </tr>
+            <script type="text/javascript">
+              var items = String("{{ shop_items_toy }}");
+              if (items == "None") {
+                document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
+              }
+              else {
+                items = items.replace("[","");
+                items = items.replace("]","");
+                document.write("<tr>");
+
+                var itemArray = items.split(",");
+                for (var i = 0; i < itemArray.length; i++){
+                  document.write("<td>")
+                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                  itemArray[i] = itemArray[i].replace(" ", "");
+                  document.write("<center>");
+                  document.write(itemArray[i]);
+                  document.write("<br><br>");
+                  var toOutput = "<img src='/static/img/food-vector/png/";
+                  toOutput += itemArray[i];
+                  toOutput += ".png' style='height:100px; width:100px;'><h5><strong>"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "</strong> <img src='{% static 'img/coin.png' %}' style='padding-right:5px;padding-top:5px;'/></h5><button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
+                  toOutput += itemArray[i];
+                  toOutput += "' value='"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "'>Buy</button>";
+                  document.write(toOutput);
+                  document.write("</td>");
+                  i++;
+                }
+                document.write("</tr>");
+              }
+            </script>
           </tbody>
         </table>
       </div>
