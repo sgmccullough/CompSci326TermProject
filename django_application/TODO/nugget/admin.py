@@ -31,7 +31,7 @@ class InventoryAdmin(admin.ModelAdmin):
 
 @admin.register(BattleInstance)
 class BattleInstanceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'opponent_id')
+    list_display = ('id', 'opp_a', 'opp_b')
 
 @admin.register(Nugget)
 class NuggetAdmin(admin.ModelAdmin):

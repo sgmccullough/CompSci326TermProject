@@ -103,10 +103,10 @@ class NewBattle(forms.ModelForm):
         ('0', '-'),
     )
 
-    current_user = forms.CharField(widget=forms.TextInput(attrs={'type': 'hidden', }))
+    opp_a = forms.ModelChoiceField(queryset=None)
     net_coins = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', 'value': '25', }))
     nug_xp = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', 'value': '5', }))
-    opponent_id = forms.ModelChoiceField(queryset=None)
+    opp_b = forms.ModelChoiceField(queryset=None)
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -117,12 +117,12 @@ class NewBattle(forms.ModelForm):
         if thisUser:
             friends = Friend.objects.get(current_user=thisUser)
             friendChoices = getattr(friends, 'users')
-            self.fields['opponent_id'].queryset = friendChoices
-
+            self.fields['opp_b'].queryset = friendChoices
+            self.fields['opp_a'].queryset = Profile.objects.filter(usr=self.user)
 
     class Meta:
         model = BattleInstance
-        fields = ('current_user', 'net_coins', 'nug_xp', 'opponent_id' )
+        fields = ('opp_a', 'net_coins', 'nug_xp', 'opp_b' )
 
 class BattleReset(forms.ModelForm):
 
@@ -137,7 +137,7 @@ class BattleResponse(forms.ModelForm):
         ('2', 'Accept'),
         ('0', 'Decline'),
     )
-    current = forms.ChoiceField(widget=forms.Select(choices=choices))
+    current = forms.ChoiceField(widget=forms.Select, choices=choices)
 
     class Meta:
         model = Battle

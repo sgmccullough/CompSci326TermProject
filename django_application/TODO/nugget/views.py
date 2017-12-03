@@ -109,7 +109,12 @@ def home(request):
     for i in battle_history.iterator():
         if maxVal > 2:
             break
-        opponent_id = getattr(i, 'opponent_id')
+        opponent_id1 = getattr(i, 'opp_a')
+        opponent_id2 = getattr(i, 'opp_b')
+        if opponent_id1 == usr_id:
+            opponent_id = opponent_id1
+        else:
+            opponent_id = opponent_id2
         opponent_name = getattr(Nugget.objects.get(user=opponent_id), 'name')
         net_coins = getattr(i, 'net_coins')
         won_status = "Lost!"
@@ -549,7 +554,6 @@ def battle(request):
 
 
     battle_set = Battle.objects.get(user=Profile.objects.get(usr=request.user))
-    active = getattr(battle_set, 'current')
     battle_history = getattr(battle_set, 'battles')
     #battle_history = Battle.objects.filter(user=usr_id).values_list('battles', flat=True)
     battles_list = [None]
@@ -558,7 +562,12 @@ def battle(request):
     for i in battle_history.iterator():
         if maxVal > 2:
             break
-        opponent_id = getattr(i, 'opponent_id')
+        opponent_id1 = getattr(i, 'opp_a')
+        opponent_id2 = getattr(i, 'opp_b')
+        if opponent_id1 == usr_id:
+            opponent_id = opponent_id1
+        else:
+            opponent_id = opponent_id2
         opponent_name = getattr(Nugget.objects.get(user=opponent_id), 'name')
         net_coins = getattr(i, 'net_coins')
         # opponent_id = BattleInstance.objects.filter(id=i).values_list('opponent_id', flat=True)
@@ -591,41 +600,72 @@ def battle(request):
             thisUser._setup()
         thisUser = thisUser._wrapped
 
+    active = getattr(battle_set, 'current')
+    currBattle = None
+
     if request.method == 'POST':
         if active == 0: # no battles. you send someone a battle
-            newBattle = NewBattle(request.POST, user=thisUser)
-            if newBattle.is_valid():
-                b = newBattle.save()
+            battleForm = NewBattle(request.POST, user=thisUser)
+            #battleForm.opp_a = usr_id
+            if battleForm.is_valid():
+                b = battleForm.save()
                 user_battles = Battle.objects.get(user=usr_id)
-                user_battles.battles.add(b)
                 user_battles.current = 1
+                user_battles.activeBattle = b
                 user_battles.save()
-                opp = b.opponent_id
-                their_battles = Battle.objects.get(user=opp)
-                b.opponent_id = usr_id # touches the same object - not ok, need to fix.
+                their_battles = Battle.objects.get(user=b.opp_b)
                 their_battles.current = 3
+                their_battles.activeBattle = b
                 their_battles.save()
-            battleReset = None
-            battleResponse = None
-        elif active == 2: # a battle is finished
-            battleReset = BattleReset(request.POST)
-            if battleReset.is_valid():
-                battleReset.save()
-            battleResponse = None
-        else: # someone sent you a battle
-            battleResponse = BattleResponse(request.POST)
-            battleReset = None
+                return redirect('battle')
+        elif active == 2: # a battle is finished and we're done looking at the results
+            battleForm = BattleReset(request.POST, instance=(Battle.objects.get(user=usr_id)))
+            if battleForm.is_valid():
+                battleForm.save()
+            return redirect('battle')
+        elif active == 3: # someone sent you a battle and you are responding. if you receive, you're always opp B
+            battleForm = BattleResponse(request.POST, instance=(Battle.objects.get(user=usr_id)))
+            b = battleForm.save()
+            user_battles = Battle.objects.get(user=usr_id)
+            thisBattle = getattr(user_battles, 'activeBattle')
+            opponent = thisBattle.opp_a
+            their_battles = Battle.objects.get(user=opponent)
+
+            if b.current == 2: # you responded yes
+                user_battles.battles.add(thisBattle)
+                user_battles.save()
+                their_battles.battles.add(thisBattle)
+                their_battles.current = 2
+                their_battles.save()
+            else: # you responded no
+                user_battles.activeBattle = None
+                their_battles.activeBattle = None
+                their_battles.current = 0
+                thisBattle.delete()
+                user_battles.save()
+                their_battles.save()
+            return redirect('battle')
+
+        else: # you are pending a response
+            battleForm = None
+
     else:
-        newBattle =  NewBattle(user=thisUser, initial={'current_user': thisUser, })
-        battleReset = BattleReset(initial={'current': '0', })
-        battleResponse = BattleResponse(initial={'current': '0', })
+
+        if active == 0: # no battles
+            battleForm = NewBattle(user=thisUser)
+        elif active == 2: # a battle is finished
+            battleForm = BattleReset(initial={'current': 0, })
+        elif active == 3: # someone sent you a battle
+            battleForm = BattleResponse()
+        else:
+            battleForm = None
 
     return render(
         request,
         'battle.html',
         {'coins':coins, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color, 'size_w': size_w, 'size_h': size_h,
         'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, 'opponents':list_friends, 'eye_size_w': eye_size_w, 'eye_size_h': eye_size_h,
-        'color':color, 'mouth':mouth, 'battles':battles_list, 'newBattle': newBattle, 'reset': battleReset, 'response': battleResponse, 'active': active, },
+        'color':color, 'mouth':mouth, 'battles':battles_list, 'battleForm': battleForm, 'active': active, },
     )
 
 @login_required(login_url='/nugget/')

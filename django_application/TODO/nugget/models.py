@@ -140,8 +140,9 @@ class Item(models.Model):
     effect = models.IntegerField(verbose_name="+/- Stat", help_text="+/- Stat", default=5)
 
     item_type = (
-        ('a', 'Armor'),
-        ('c', 'Consumables')
+        ('food', 'Food'),
+        ('accesory', 'Accesories'),
+        ('toy', 'Toys')
     )
 
     item_attribute= (
@@ -245,7 +246,8 @@ class Battle(models.Model):
     Model representing all of a user's battles
     """
 
-    battles = models.ManyToManyField('BattleInstance')
+    battles = models.ManyToManyField('BattleInstance', related_name='list_battles', blank=True, null=True)
+    activeBattle = models.ForeignKey('BattleInstance', null=True, blank=True)
     user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User ID")
     current = models.IntegerField(verbose_name="Status", help_text="Specifies an active battle. 0=inactive, 1=active/pending response, 2=finished, 3=must respond", default='0')
 
@@ -274,15 +276,15 @@ class BattleInstance(models.Model):
     #Fields
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
     net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, default=0, help_text = "Coins won or lost")
-    opponent_id = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent ID")
+    opp_a = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent", related_name='opponent_A')
+    opp_b = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent", related_name='opponent_B')
     nug_xp= models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
-    active = models.IntegerField(verbose_name="Status", help_text="Specifies an active battle. 0=inactive, 1=active/pending response, 2=finished, 3=must respond", default='1')
-
+    winner = models.IntegerField(verbose_name="Winner", help_text="1=opp_a, 2=opp_b, 3=tie", default='0')
     #Metadata
     class Meta:
         verbose_name = "Battle"
         verbose_name_plural = "Battles"
-        ordering = ["id", "net_coins", "nug_xp", "opponent_id", "active"]
+        ordering = ["id", "net_coins", "nug_xp", "opp_a", "opp_b"]
 
     #Methods
     def get_absolute_url(self):

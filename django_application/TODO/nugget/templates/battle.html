@@ -62,7 +62,7 @@
       {% if active == 0 %}
         <form method="post">
           {% csrf_token %}
-          {{ newBattle.as_p }}
+          {{ battleForm.as_p }}
           <button type="submit" class="waves-effect waves-light btn" >New Battle</button>
         </form>
       {% elif active == 1 %}
@@ -70,13 +70,14 @@
       {% elif active == 2 %}
           Put results here!!! <br>
           <form method="post">
-            {{ BattleReset.as_p }}
+            {% csrf_token %}
+            {{ battleForm.as_p }}
             <button type="submit" class="waves-effect waves-light btn" >Find New Battle</button>
-          </form>
       {% else %}
-      {{ reset.as_p }}<br>
+      Please respond<br>
       <form method="post">
-        {{ response.as_p }}
+        {% csrf_token %}
+        {{ battleForm.as_p }}
         <button type="submit" class="waves-effect waves-light btn" >Send</button>
       </form>
       {% endif %}
