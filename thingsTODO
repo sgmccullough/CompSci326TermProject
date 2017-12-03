@@ -1,19 +1,15 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~~ INDIVIDUAL WRITE UPS ~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~ Things TODO ~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-in models:
-  confirm that battles are set up the way we want
-  get friends list working
+chat:
+  needs to be implemented entirely
 
-in views.py
-  implement battle views
-  implement chat view
+battles:
+  battle algorithm
+    modification of attributes
 
-modify appropriate templates
-  items
-    -create dynamic html to items in both nugget (the inventory) and Shop
-
-beautify admin.py
+shop/inventory:
+  need to separate items into categories (food, accessories, etc)
