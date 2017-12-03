@@ -42,7 +42,7 @@
         <table>
         <tr>
         <td>
-
+          <center>
           <ul class="creatures" id="creatures">
             <li>
               <div class="click-anim">
@@ -55,7 +55,7 @@
               <div class="shadow" style=""></div>
             </li>
           </ul>
-
+        </center>
       </td>
       <td>
 
@@ -66,7 +66,26 @@
           <button type="submit" class="waves-effect waves-light btn" >New Battle</button>
         </form>
       {% elif active == 1 %}
-          Your current battle is pending!
+      <ul class="creatures" id="creatures">
+        <li>
+          <div class="click-anim">
+            <figure class="{{ oppAtt.mouth }}" style="background-color: {{ oppAtt.color }}; width:{{ size_w_opp }}px; height:{{ size_h_opp }}px">
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="mouth"></div>
+            </figure>
+          </div>
+          <div class="shadow" style=""></div>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2>
+      <center>
+          You requested a battle against <strong>{{ currBattle.opp_b }}</strong>, which is pending! Hopefully
+          their Nugget, <strong>{{ opp.name }}</strong>, is well rested and prepared for what's about to come...
+      </center>
       {% elif active == 2 %}
           Put results here!!! <br>
           <form method="post">

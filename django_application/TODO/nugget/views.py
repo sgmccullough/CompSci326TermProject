@@ -623,7 +623,14 @@ def battle(request):
         thisUser = thisUser._wrapped
 
     active = getattr(battle_set, 'current')
-    currBattle = None
+
+    currBattle = getattr(battle_set, 'activeBattle')
+    opponent = None
+    oppAtt = None
+    size_w_opp = 160
+    size_h_opp = 200
+    eye_size_h_opp = 15
+    eye_size_w_opp = 12
 
     if request.method == 'POST':
         if active == 0: # no battles. you send someone a battle
@@ -639,6 +646,14 @@ def battle(request):
                 their_battles.current = 3
                 their_battles.activeBattle = b
                 their_battles.save()
+                currBattle = b
+                opp = Nugget.objects.get(user=b.opp_b)
+                oppAtt = getattr(opp, 'attributes')
+                if oppAtt.nugget_status == 'c':
+                    size_w_opp = 200
+                    size_h_opp = 200
+                eye_size_h_opp = oppAtt.eye_size
+                eye_size_w_opp = eye_size_h_opp*0.75
                 return redirect('battle')
         elif active == 2: # a battle is finished and we're done looking at the results
             battleForm = BattleReset(request.POST, instance=(Battle.objects.get(user=usr_id)))
@@ -652,6 +667,14 @@ def battle(request):
             thisBattle = getattr(user_battles, 'activeBattle')
             opponent = thisBattle.opp_a
             their_battles = Battle.objects.get(user=opponent)
+            opp = Nugget.objects.get(user=opponent)
+            oppAtt = getattr(opp, 'attributes')
+            if oppAtt.nugget_status == 'c':
+                size_w_opp = 200
+                size_h_opp = 200
+            eye_size_h_opp = oppAtt.eye_size
+            eye_size_w_opp = eye_size_h_opp*0.75
+            currBattle = b
 
             if b.current == 2: # you responded yes
                 user_battles.battles.add(thisBattle)
@@ -674,20 +697,45 @@ def battle(request):
     else:
 
         if active == 0: # no battles
-            battleForm = NewBattle(user=thisUser)
+            battleForm = NewBattle(user=thisUser, initial={'opp_a': usr_id, })
         elif active == 2: # a battle is finished
             battleForm = BattleReset(initial={'current': 0, })
+            opponent = currBattle.opp_a
+            opp = Nugget.objects.get(user=opponent)
+            oppAtt = getattr(opp, 'attributes')
+            if oppAtt.nugget_status == 'c':
+                size_w_opp = 200
+                size_h_opp = 200
+            eye_size_h_opp = oppAtt.eye_size
+            eye_size_w_opp = eye_size_h_opp*0.75
         elif active == 3: # someone sent you a battle
             battleForm = BattleResponse()
-        else:
+            opponent = currBattle.opp_a
+            opp = Nugget.objects.get(user=opponent)
+            oppAtt = getattr(opp, 'attributes')
+            if oppAtt.nugget_status == 'c':
+                size_w_opp = 200
+                size_h_opp = 200
+            eye_size_h_opp = oppAtt.eye_size
+            eye_size_w_opp = eye_size_h_opp*0.75
+        else: # a battle is pending
             battleForm = None
+            opponent = currBattle.opp_b
+            opp = Nugget.objects.get(user=opponent)
+            oppAtt = getattr(opp, 'attributes')
+            if oppAtt.nugget_status == 'c':
+                size_w_opp = 200
+                size_h_opp = 200
+            eye_size_h_opp = oppAtt.eye_size
+            eye_size_w_opp = eye_size_h_opp*0.75
 
     return render(
         request,
         'battle.html',
         {'coins':coins, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color, 'size_w': size_w, 'size_h': size_h,
         'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, 'opponents':list_friends, 'eye_size_w': eye_size_w, 'eye_size_h': eye_size_h,
-        'color':color, 'mouth':mouth, 'battles':battles_list, 'battleForm': battleForm, 'active': active, },
+        'color':color, 'mouth':mouth, 'battles':battles_list, 'battleForm': battleForm, 'active': active, 'currBattle': currBattle, 'opp': opp, 'oppAtt': oppAtt, 'size_w_opp': size_w_opp, 'size_h_opp': size_h_opp,
+        'eye_size_h_opp': eye_size_h_opp, 'eye_size_w_opp': eye_size_h_opp, },
     )
 
 @login_required(login_url='/nugget/')

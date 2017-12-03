@@ -103,10 +103,10 @@ class NewBattle(forms.ModelForm):
         ('0', '-'),
     )
 
-    opp_a = forms.ModelChoiceField(queryset=None)
+    opp_a = forms.ModelChoiceField(widget=forms.HiddenInput(), queryset=None)
     net_coins = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', 'value': '25', }))
     nug_xp = forms.IntegerField(widget=forms.TextInput(attrs={'type': 'hidden', 'value': '5', }))
-    opp_b = forms.ModelChoiceField(queryset=None)
+    opp_b = forms.ModelChoiceField(queryset=None, label='Choose your opponent...')
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
