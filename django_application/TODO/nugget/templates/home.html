@@ -121,16 +121,21 @@
 
           <script type="text/javascript">
             var friends = String("{{ friends }}");
-            friends = friends.replace(/[\[\]']+/g,"");
-            friends = friends.replace(/&#39;/g, "");
-            var friendsArray = friends.split(",");
-            for (var i = 0; i < friendsArray.length; i++){
-              toOutput = "<li class='collection-item avatar'>";
-              toOutput += "<img src = '{% static 'img/animal-vector-2/png/cat.png' %}' alt='' class='circle'>";
-              toOutput += "<span class='title'><strong>";
-              toOutput += friendsArray[i];
-              toOutput += "</strong></span>";
-              document.write(toOutput);
+            if (friends == "None") {
+              document.write("You don't have friends");
+            }
+            else {
+              friends = friends.replace(/[\[\]']+/g,"");
+              friends = friends.replace(/&#39;/g, "");
+              var friendsArray = friends.split(",");
+              for (var i = 0; i < friendsArray.length; i++){
+                toOutput = "<li class='collection-item avatar'>";
+                toOutput += "<img src = '{% static 'img/animal-vector-2/png/cat.png' %}' alt='' class='circle'>";
+                toOutput += "<span class='title'><strong>";
+                toOutput += friendsArray[i];
+                toOutput += "</strong></span>";
+                document.write(toOutput);
+              }
             }
           </script>
         </ul>

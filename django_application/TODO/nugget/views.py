@@ -25,13 +25,12 @@ def index(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            #Profile.objects.filter(usr=username)
-            #Nugget.objects.get(user=Profile.objects.get(usr=request.user)
             nugatt = NuggetAttribute.objects.create()
             inv = Inventory.objects.create(user=Profile.objects.get(usr=request.user))
             Nugget.objects.create(user=Profile.objects.get(usr=request.user), attributes=nugatt, inventory=inv)
             Battle.objects.create(user=Profile.objects.get(usr=request.user))
             Friend.objects.create(current_user=Profile.objects.get(usr=request.user))
+            InventoryItems.objects.create(inventory=Inventory.objects.get(user=Profile.objects.get(usr=request.user)),item=Item.objects.get(name='Apple'),quantity=10)
             return redirect('create')
     else:
         form = SignUpForm()
@@ -136,6 +135,8 @@ def home(request):
     for i in friends_names.iterator():
         nug = Nugget.objects.get(user=i)
         list_friends.append(getattr(nug, 'name'))
+    if list_friends == []:
+        list_friends = "None"
 
     news = News.objects.all().values_list('text', flat=True)
     newsList = []
