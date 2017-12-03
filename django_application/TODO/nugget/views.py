@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 # from django.forms import formset_factory
 import uuid
-from django.template import Context, Template
+from django.template import Context, Template, RequestContext
 
 # Create your views here.
 
@@ -743,3 +743,35 @@ def myaccount(request):
         'myaccount.html',
         {'coins': coins, },
     )
+
+# HTTP Error 400
+def bad_request(request):
+    response = render_to_response('400.html',context_instance=RequestContext(request))
+
+    response.status_code = 400
+
+    return response
+
+# HTTP Error 403
+def server_error(request):
+    response = render_to_response('403.html',context_instance=RequestContext(request))
+
+    response.status_code = 403
+
+    return response
+
+# HTTP Error 404
+def page_not_found(request):
+    response = render_to_response('404.html',context_instance=RequestContext(request))
+
+    response.status_code = 404
+
+    return response
+
+# HTTP Error 500
+def server_error(request):
+    response = render_to_response('500.html',context_instance=RequestContext(request))
+
+    response.status_code = 500
+
+    return response
