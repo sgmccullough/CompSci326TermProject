@@ -526,6 +526,8 @@ def chat(request):
         'chat.html',
     )
 
+from random import randint
+
 @login_required(login_url='/nugget/')
 def battle(request):
     """
@@ -690,7 +692,6 @@ def battle(request):
                 size_h_opp = 200
             eye_size_h_opp = oppAtt.eye_size
             eye_size_w_opp = eye_size_h_opp*0.75
-            currBattle = b
 
             if b.current == 2: # you responded yes
                 myPts = 0
@@ -764,7 +765,7 @@ def battle(request):
                         oppAtt.luck += 5
 
                 if myPts > urPts: # you win
-                    currBattle.winner = usr_id
+                    thisBattle.winner = usr_id
                     nug_attributes.health -= randint(0, 5)
                     nug_attributes.hunger -= randint(10, 20)
                     nug_attributes.defense -= randint(5, 10)
@@ -783,7 +784,7 @@ def battle(request):
                     usr_id.coins += coins
                     opponent.coins -= coins
                 else: # you lose
-                    currBattle.winner = opponent
+                    thisBattle.winner = opponent
                     oppAtt.health -= randint(0, 5)
                     oppAtt.hunger -= randint(10, 20)
                     oppAtt.defense -= randint(5, 10)
@@ -804,7 +805,7 @@ def battle(request):
 
                 nug_attributes.save()
                 oppAtt.save()
-                currBattle.save()
+                thisBattle.save()
 
                 user_battles.battles.add(thisBattle)
                 user_battles.save()
@@ -815,12 +816,15 @@ def battle(request):
 
 
             else: # you responded no
+                b.save()
                 user_battles.activeBattle = None
                 their_battles.activeBattle = None
+                user_battles.current = 0
                 their_battles.current = 0
                 thisBattle.delete()
                 user_battles.save()
                 their_battles.save()
+
             return redirect('battle')
 
         else: # you are pending a response
@@ -866,7 +870,7 @@ def battle(request):
     return render(
         request,
         'battle.html',
-        {'coins':coins, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color, 'size_w': size_w, 'size_h': size_h,
+        {'user': usr_id, 'coins':coins, 'nugget':nugget, 'health':health, 'health_color':health_color, 'hunger':hunger, 'hunger_color':hunger_color, 'size_w': size_w, 'size_h': size_h,
         'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, 'opponents':list_friends, 'eye_size_w': eye_size_w, 'eye_size_h': eye_size_h,
         'color':color, 'mouth':mouth, 'battles':battles_list, 'battleForm': battleForm, 'active': active, 'currBattle': currBattle, 'opp': opp, 'oppAtt': oppAtt, 'size_w_opp': size_w_opp, 'size_h_opp': size_h_opp,
         'eye_size_h_opp': eye_size_h_opp, 'eye_size_w_opp': eye_size_h_opp, },

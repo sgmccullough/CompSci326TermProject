@@ -111,7 +111,13 @@
           their Nugget, <strong>{{ opp.name }}</strong>, is well rested and prepared for what's about to come...
       </center>
       {% elif active == 2 %}
-          {{ currBattle.winner }} won! <br>
+          {% if currBattle.winner == usr_id %}
+            <span style="font-weight: bold; color: green;">{{ nugget }} won!</span> Congratulations! <br>
+            Below is your battle summary...
+          {% else %}
+            <span style="font-weight: bold; color: red;">{{ nugget }} lost!</span> Better luck next time...<br>
+            Below is your battle summary...
+          {% endif %}
           <form method="post">
             {% csrf_token %}
             {{ battleForm.as_p }}
