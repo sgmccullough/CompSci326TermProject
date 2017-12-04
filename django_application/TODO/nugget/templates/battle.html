@@ -36,13 +36,20 @@
 
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
-        <span class="card-title"><center>Current Battle</center></span>
+        {% if health <= 10 %} <span class="card-title"><center>You're not well enough...</center></span>
+        {% elif active == 0 %}<span class="card-title"><center>New Battle</center></span>
+        {% elif active == 1 %}<span class="card-title"><center>Pending Battle</center></span>
+        <center><strong style="font-size:20px;">{{ nugget }} vs. {{ opp.name }}</strong></center>
+        {% elif active == 2 %}<span class="card-title"><center>Battle Results</center></span>
+        {% else %} <span class="card-title"><center>New Battle Request</center></span>
+        <center><strong style="font-size:20px;">{{ nugget }} vs. {{ opp.name }}</strong></center>
+        {% endif %}
 
 
         <table>
         <tr>
         <td>
-
+          <center>
           <ul class="creatures" id="creatures">
             <li>
               <div class="click-anim">
@@ -52,13 +59,30 @@
                   <div class="mouth"></div>
                 </figure>
               </div>
-              <div class="shadow" style=""></div>
+              <div class="shadow" style="width: {{ size_w}}px"></div>
             </li>
           </ul>
-
+        </center>
       </td>
       <td>
-
+      {% if health <= 10 %}
+      <ul class="creatures" id="creatures">
+        <li>
+          <div class="click-anim">
+            <figure class="{{ oppAtt.mouth }}" style="background-color: {{ oppAtt.color }}; width:{{ size_w_opp }}px; height:{{ size_h_opp }}px">
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="mouth"></div>
+            </figure>
+          </div>
+          <div class="shadow" style="width: {{ size_w_opp }}px;"></div>
+        </li>
+      </ul>
+    </td>
+    <td>
+      <b>{{ nugget }}</b> doesn't look too good... maybe you should head to the Shop or your Inventory and increase their health.
+    </td>
+      {% else %}
       {% if active == 0 %}
         <form method="post">
           {% csrf_token %}
@@ -66,21 +90,64 @@
           <button type="submit" class="waves-effect waves-light btn" >New Battle</button>
         </form>
       {% elif active == 1 %}
-          Your current battle is pending!
+      <ul class="creatures" id="creatures">
+        <li>
+          <div class="click-anim">
+            <figure class="{{ oppAtt.mouth }}" style="background-color: {{ oppAtt.color }}; width:{{ size_w_opp }}px; height:{{ size_h_opp }}px">
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="mouth"></div>
+            </figure>
+          </div>
+          <div class="shadow" style="width: {{ size_w_opp }}px;"></div>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2>
+      <center>
+          You requested a battle against <strong>{{ currBattle.opp_b }}</strong>, which is pending! Hopefully
+          their Nugget, <strong>{{ opp.name }}</strong>, is well rested and prepared for what's about to come...
+      </center>
       {% elif active == 2 %}
-          Put results here!!! <br>
+          {{ currBattle.winner }} won! <br>
           <form method="post">
             {% csrf_token %}
             {{ battleForm.as_p }}
             <button type="submit" class="waves-effect waves-light btn" >Find New Battle</button>
       {% else %}
-      Please respond<br>
+
+      <ul class="creatures" id="creatures">
+        <li>
+          <div class="click-anim">
+            <figure class="{{ oppAtt.mouth }}" style="background-color: {{ oppAtt.color }}; width:{{ size_w_opp }}px; height:{{ size_h_opp }}px">
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="mouth"></div>
+            </figure>
+          </div>
+          <div class="shadow" style="width: {{ size_w_opp }}px;"></div>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2>
+      <center>
+          <strong>{{ currBattle.opp_a }}</strong> sent you a new battle request!<br>
+          Think <strong>{{ nugget }}</strong> is up to the challenge?
+
+
+
       <form method="post">
         {% csrf_token %}
         {{ battleForm.as_p }}
         <button type="submit" class="waves-effect waves-light btn" >Send</button>
       </form>
       {% endif %}
+    {% endif %}
+    </center>
       </td>
     </tr>
   </table>

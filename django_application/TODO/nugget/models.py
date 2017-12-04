@@ -85,11 +85,11 @@ class NuggetAttribute(models.Model):
     health = models.IntegerField(verbose_name="Health", help_text="Nugget Health", default=100)
     color = models.CharField(verbose_name="Color", max_length =50, help_text="Nugget Color", default="goldenrod")
     eye_size = models.IntegerField(verbose_name="Eye Size", help_text="Eye size", default=10)
-    experience = models.IntegerField(verbose_name="XP", help_text="Experience Points", default=50)
+    experience = models.IntegerField(verbose_name="XP", help_text="Experience Points", default=0)
     hunger = models.IntegerField(verbose_name="Hunger", help_text="Nugget Hunger", default=100)
     happiness = models.IntegerField(verbose_name="Happiness", help_text="Nugget Happiness", default=100)
     defense = models.IntegerField(verbose_name="Defense", help_text="Nugget Defense", default=100)
-    battle_XP = models.IntegerField(verbose_name="Battle XP", help_text="Battle Experience Points", default=100)
+    battle_XP = models.IntegerField(verbose_name="Battle XP", help_text="Battle Experience Points", default=0)
     fatigue = models.IntegerField(verbose_name="Fatigue", help_text="Nugget Fatigue", default=100)
     intelligence = models.IntegerField(verbose_name="Intelligence", help_text="Nugget Intelligence", default=20)
     luck = models.IntegerField(verbose_name="Luck", help_text="Nugget Luck", default=20)
@@ -275,11 +275,11 @@ class BattleInstance(models.Model):
     """
     #Fields
     id = models.UUIDField(verbose_name="Battle ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this battle")
-    net_coins = models.DecimalField(verbose_name="Net Coins", max_digits=10, decimal_places = 0, default=0, help_text = "Coins won or lost")
+    net_coins = models.IntegerField(verbose_name="Net Coins", default=0, help_text = "Coins won or lost")
     opp_a = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent", related_name='opponent_A')
     opp_b = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent", related_name='opponent_B')
     nug_xp= models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
-    winner = models.IntegerField(verbose_name="Winner", help_text="1=opp_a, 2=opp_b, 3=tie", default='0')
+    winner = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Winner", related_name='Winner')
     #Metadata
     class Meta:
         verbose_name = "Battle"
