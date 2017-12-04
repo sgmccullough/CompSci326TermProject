@@ -766,23 +766,43 @@ def battle(request):
 
                 if myPts > urPts: # you win
                     thisBattle.winner = usr_id
-                    nug_attributes.health -= randint(0, 5)
-                    nug_attributes.hunger -= randint(10, 20)
-                    nug_attributes.defense -= randint(5, 10)
-                    nug_attributes.battle_XP += randint(10, 15)
-                    nug_attributes.fatigue -= randint(5, 10)
-                    nug_attributes.happiness += randint(5, 10)
-                    oppAtt.health -= randint(5, 15)
-                    oppAtt.hunger -= randint(20, 30)
-                    oppAtt.defense -= randint(10, 20)
-                    oppAtt.battle_XP += randint(5, 10)
-                    oppAtt.fatigue -= randint(10, 15)
-                    oppAtt.intelligence -= randint(0, 2)
-                    oppAtt.happiness -= randint(10, 20)
+
+                    healthchange = randint(0, 5)
+                    hungerchange = randint(10, 20)
+                    defensechange = randint(5, 10)
+                    xpchange = randint(10, 15)
+                    fatiguechange = randint(5, 10)
+                    happychange = randint(5, 10)
+
+                    healthchange2 = randint(0, 5)
+                    hungerchange2 = randint(20, 30)
+                    defensechange2 = randint(10, 20)
+                    xpchange2 = randint(5, 10)
+                    fatiguechange2 = randint(10, 15)
+                    happychange2 = randint(10, 20)
+                    intelchange = randint(0, 2)
+
+                    nug_attributes.health -= healthchange
+                    nug_attributes.hunger -= hungerchange
+                    nug_attributes.defense -= defensechange
+                    nug_attributes.battle_XP += xpchange
+                    nug_attributes.fatigue -= fatiguechange
+                    nug_attributes.happiness += happychange
+                    oppAtt.health -= healthchange2
+                    oppAtt.hunger -= hungerchange2
+                    oppAtt.defense -= defensechange2
+                    oppAtt.battle_XP += xpchange2
+                    oppAtt.fatigue -= fatiguechange2
+                    oppAtt.intelligence -= intelchange
+                    oppAtt.happiness -= happychange2
+
                     coins = randint(25, 100)
-                    currBattle.net_coins = coins
+                    thisBattle.net_coins = coins
                     usr_id.coins += coins
                     opponent.coins -= coins
+
+                    #thisBattle.stats_a = # opponent
+                    #thisBattle.stats_b = # you
                 else: # you lose
                     thisBattle.winner = opponent
                     oppAtt.health -= randint(0, 5)
@@ -806,6 +826,8 @@ def battle(request):
                 nug_attributes.save()
                 oppAtt.save()
                 thisBattle.save()
+                usr_id.save()
+                opponent.save()
 
                 user_battles.battles.add(thisBattle)
                 user_battles.save()

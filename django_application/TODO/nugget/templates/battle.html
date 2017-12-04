@@ -111,7 +111,7 @@
           their Nugget, <strong>{{ opp.name }}</strong>, is well rested and prepared for what's about to come...
       </center>
       {% elif active == 2 %}
-          {% if currBattle.winner == usr_id %}
+          {% if currBattle.winner == user %}
             <span style="font-weight: bold; color: green;">{{ nugget }} won!</span> Congratulations! <br>
             Below is your battle summary...
           {% else %}

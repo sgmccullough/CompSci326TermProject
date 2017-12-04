@@ -16,12 +16,13 @@ class Profile(models.Model):
     usr = models.OneToOneField(User, on_delete=models.CASCADE)
     bday = models.DateField(verbose_name="Birthday", auto_now=False, default=datetime.date.today)
     coins = models.IntegerField(verbose_name="Coins", help_text="User Currency", default=500)
+    last_login_date = models.DateField(verbose_name="Last Login Date", auto_now=False, default=datetime.date.today)
 
     #Metadeta
     class Meta:
         verbose_name = "UserProfile"
         verbose_name_plural = "UserProfiles"
-        ordering = ["id", "usr", "bday", "coins"]
+        ordering = ["id", "usr", "bday", "coins", "last_login_date"]
 
     #Methods
     def get_absolute_url(self):
@@ -138,6 +139,8 @@ class Item(models.Model):
     name = models.CharField(verbose_name="Item Name", max_length=25, help_text = "Name of item")
     price = models.IntegerField(verbose_name="Price", help_text="Item Price", default=5)
     effect = models.IntegerField(verbose_name="+/- Stat", help_text="+/- Stat", default=5)
+    effect2 = models.IntegerField(verbose_name="+/- Stat", help_text="+/- Stat", default=5)
+    desc = models.CharField(verbose_name="Item Description", max_length=100, help_text="Item Description", default="")
 
     item_type = (
         ('food', 'Food'),
@@ -157,12 +160,13 @@ class Item(models.Model):
 
     item_status = models.CharField(verbose_name="Type", max_length=100, choices=item_type, blank=True, default='c', help_text='Type of Item')
     item_features= models.CharField(verbose_name="Features", max_length=100, choices=item_attribute, blank=True, default='he', help_text='Type of Feature')
+    item_features2 = models.CharField(verbose_name="Features", max_length=100, choices=item_attribute, blank=True, default='he', help_text='Type of Feature')
 
     #Metadata
     class Meta:
         verbose_name = "Item"
         verbose_name_plural = "Items"
-        ordering = ["id", "name", "price", "effect", "item_status", "item_features", ]
+        ordering = ["id", "name", "price", "effect", "effect2", "item_status", "item_features", "item_features2"]
 
     #Methods
     def get_absolute_url(self):
@@ -280,11 +284,13 @@ class BattleInstance(models.Model):
     opp_b = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Opponent", related_name='opponent_B')
     nug_xp= models.IntegerField(verbose_name="Net XP", help_text="Nugget Experience", default='0')
     winner = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="Winner", related_name='Winner')
+    stats_a = models.CharField(verbose_name="Stats Changes for Opponent A", max_length=500, default="")
+    stats_b = models.CharField(verbose_name="Stats Changes for Opponent B", max_length=500, default="")
     #Metadata
     class Meta:
         verbose_name = "Battle"
         verbose_name_plural = "Battles"
-        ordering = ["id", "net_coins", "nug_xp", "opp_a", "opp_b"]
+        ordering = ["id", "net_coins", "nug_xp", "opp_a", "opp_b", "stats_a", "stats_b"]
 
     #Methods
     def get_absolute_url(self):
