@@ -134,8 +134,8 @@ class BattleReset(forms.ModelForm):
 
 class BattleResponse(forms.ModelForm):
     choices = (
-        ('2', 'Accept'),
-        ('0', 'Decline'),
+        ('2', 'Accept - destroy them!'),
+        ('0', 'Decline - maybe next time...'),
     )
     current = forms.ChoiceField(widget=forms.Select, choices=choices)
 

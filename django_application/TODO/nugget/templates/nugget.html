@@ -109,13 +109,19 @@
                     document.write("<td>")
                     itemArray[i] = itemArray[i].replace(/&#39;/g, "");
                     itemArray[i] = itemArray[i].replace(" ", "");
+                    itemArray[i+2] = itemArray[i+2].replace(/&#39;/g, "");
+                    itemArray[i+2] = itemArray[i+2].replace(" ", "");
                     document.write("<center>");
                     var toOutput = "<h5><strong>"
                     toOutput += itemArray[i];
                     toOutput += "</h5></strong><br><img src='/static/img/items/";
                     toOutput += itemArray[i];
-                    toOutput += ".png' style='height:100px; width:100px;'><h5><strong>x"
+                    toOutput += ".png' style='height:100px; width:100px;'><h5><strong># In Inventory: "
                     toOutput += itemArray[i + 1];
+                    toOutput += "</strong></h5><h5><strong>";
+                    toOutput += itemArray[i + 2];
+                    toOutput += " +";
+                    toOutput += itemArray[i + 3];
                     toOutput += "</strong></h5><button data-target='itemOptions' class='btn modal-trigger' id='modalOpen' name='";
                     toOutput += itemArray[i];
                     toOutput += "' value='"
@@ -123,7 +129,7 @@
                     toOutput += "'>Options</button>";
                     document.write(toOutput);
                     document.write("</td>");
-                    i++;
+                    i+=3;
                   }
                 }
                 document.write("</tr>");
