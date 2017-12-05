@@ -525,13 +525,13 @@ def shop(request):
     )
 
 @login_required(login_url='/nugget/')
-def chat(request):
+def community(request):
     """
-    View function for chat page.
+    View function for community page.
     """
     return render(
         request,
-        'chat.html',
+        'community.html',
     )
 
 from random import randint
