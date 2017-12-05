@@ -138,8 +138,8 @@ class Item(models.Model):
     id = models.UUIDField(verbose_name="Item ID", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this item")
     name = models.CharField(verbose_name="Item Name", max_length=25, help_text = "Name of item")
     price = models.IntegerField(verbose_name="Price", help_text="Item Price", default=5)
-    effect = models.IntegerField(verbose_name="+/- Stat", help_text="+/- Stat", default=5)
-    effect2 = models.IntegerField(verbose_name="+/- Stat", help_text="+/- Stat", default=5)
+    effect = models.IntegerField(verbose_name="+/- Stat", help_text="+/- Stat1", default=5)
+    effect2 = models.IntegerField(verbose_name="+/- Stat", help_text="+/- Stat2", default=5, null=True)
     desc = models.CharField(verbose_name="Item Description", max_length=100, help_text="Item Description", default="")
 
     item_type = (
@@ -159,8 +159,8 @@ class Item(models.Model):
     )
 
     item_status = models.CharField(verbose_name="Type", max_length=100, choices=item_type, blank=True, default='c', help_text='Type of Item')
-    item_features= models.CharField(verbose_name="Features", max_length=100, choices=item_attribute, blank=True, default='he', help_text='Type of Feature')
-    item_features2 = models.CharField(verbose_name="Features", max_length=100, choices=item_attribute, blank=True, default='he', help_text='Type of Feature')
+    item_features= models.CharField(verbose_name="Features", max_length=100, choices=item_attribute, blank=True, default='he', help_text='Type of Feature1')
+    item_features2 = models.CharField(verbose_name="Features", max_length=100, choices=item_attribute, blank=True, null=True, default='he', help_text='Type of Feature2')
 
     #Metadata
     class Meta:

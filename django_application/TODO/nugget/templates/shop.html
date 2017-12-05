@@ -83,8 +83,7 @@
                   document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
                 }
                 else {
-                  items = items.replace("[","");
-                  items = items.replace("]","");
+                  items = items.replace(/[\[\]']+/g, "");
                   document.write("<tr>");
 
                   var itemArray = items.split(",");
@@ -94,6 +93,8 @@
                     itemArray[i] = itemArray[i].replace(" ", "");
                     itemArray[i+2] = itemArray[i+2].replace(/&#39;/g, "");
                     itemArray[i+2] = itemArray[i+2].replace(" ", "");
+                    itemArray[i+4] = itemArray[i+4].replace(/&#39;/g, "");
+                    itemArray[i+4] = itemArray[i+4].replace(" ", "");
                     document.write("<center><h5>");
                     document.write(itemArray[i]);
                     document.write("</h5>");
@@ -105,17 +106,25 @@
                     toOutput += itemArray[i + 2];
                     toOutput += ":</strong> +";
                     toOutput += itemArray[i + 3];
-                    toOutput += "<br><button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
+                    toOutput += "</strong><br>";
+                    if (itemArray[i + 4] != "None"){
+                      toOutput += "<strong>";
+                      toOutput += itemArray[i + 4];
+                      toOutput += ":</strong> +";
+                      toOutput += itemArray[i + 5];
+                      toOutput += "</strong><br>";
+                    }
+                    toOutput += "<button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
                     toOutput += itemArray[i];
                     toOutput += "' value='"
                     toOutput += itemArray[i + 1];
                     toOutput += "'>Buy</button>";
                     document.write(toOutput);
                     document.write("</td>");
-                    if (i%5 == 1 && i != 0){
+                    if ((i/6)%4 == 0 && i != 0){
                       document.write("</tr><tr>")
                     }
-                    i+=3;
+                    i+=5;
                   }
                   document.write("</tr>");
                 }
@@ -133,8 +142,7 @@
                 document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
               }
               else {
-                items = items.replace("[","");
-                items = items.replace("]","");
+                items = items.replace(/[\[\]']+/g, "");
                 document.write("<tr>");
 
                 var itemArray = items.split(",");
@@ -144,6 +152,8 @@
                   itemArray[i] = itemArray[i].replace(" ", "");
                   itemArray[i+2] = itemArray[i+2].replace(/&#39;/g, "");
                   itemArray[i+2] = itemArray[i+2].replace(" ", "");
+                  itemArray[i+4] = itemArray[i+4].replace(/&#39;/g, "");
+                  itemArray[i+4] = itemArray[i+4].replace(" ", "");
                   document.write("<center><h5>");
                   document.write(itemArray[i]);
                   document.write("</h5>");
@@ -155,17 +165,25 @@
                   toOutput += itemArray[i + 2];
                   toOutput += ":</strong> +";
                   toOutput += itemArray[i + 3];
-                  toOutput += "<br><button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
+                  toOutput += "</strong><br>";
+                  if (itemArray[i + 4] != "None"){
+                    toOutput += "<strong>";
+                    toOutput += itemArray[i + 4];
+                    toOutput += ":</strong> +";
+                    toOutput += itemArray[i + 5];
+                    toOutput += "</strong><br>";
+                  }
+                  toOutput += "<button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
                   toOutput += itemArray[i];
                   toOutput += "' value='"
                   toOutput += itemArray[i + 1];
                   toOutput += "'>Buy</button>";
                   document.write(toOutput);
                   document.write("</td>");
-                  if (i%5 == 1 && i != 0){
+                  if ((i/6)%4 == 0 && i != 0){
                     document.write("</tr><tr>")
                   }
-                  i+=3;
+                  i+=5;
                 }
                 document.write("</tr>");
               }
@@ -183,8 +201,7 @@
                 document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
               }
               else {
-                items = items.replace("[","");
-                items = items.replace("]","");
+                items = items.replace(/[\[\]']+/g, "");
                 document.write("<tr>");
 
                 var itemArray = items.split(",");
@@ -194,6 +211,8 @@
                   itemArray[i] = itemArray[i].replace(" ", "");
                   itemArray[i+2] = itemArray[i+2].replace(/&#39;/g, "");
                   itemArray[i+2] = itemArray[i+2].replace(" ", "");
+                  itemArray[i+4] = itemArray[i+4].replace(/&#39;/g, "");
+                  itemArray[i+4] = itemArray[i+4].replace(" ", "");
                   document.write("<center><h5>");
                   document.write(itemArray[i]);
                   document.write("</h5>");
@@ -205,17 +224,25 @@
                   toOutput += itemArray[i + 2];
                   toOutput += ":</strong> +";
                   toOutput += itemArray[i + 3];
-                  toOutput += "<br><button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
+                  toOutput += "</strong><br>";
+                  if (itemArray[i + 4] != "None"){
+                    toOutput += "<strong>";
+                    toOutput += itemArray[i + 4];
+                    toOutput += ":</strong> +";
+                    toOutput += itemArray[i + 5];
+                    toOutput += "</strong><br>";
+                  }
+                  toOutput += "<button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
                   toOutput += itemArray[i];
                   toOutput += "' value='"
                   toOutput += itemArray[i + 1];
                   toOutput += "'>Buy</button>";
                   document.write(toOutput);
                   document.write("</td>");
-                  if (i%5 == 1){
-                    document.write("</tr><tr>");
+                  if ((i/6)%4 == 0 && i != 0){
+                    document.write("</tr><tr>")
                   }
-                  i+=3;
+                  i+=5;
                 }
                 document.write("</tr>");
               }

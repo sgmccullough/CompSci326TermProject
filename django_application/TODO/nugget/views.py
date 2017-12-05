@@ -261,24 +261,26 @@ def nugget(request):
     item_names = []
     for i in items:
         currItem = Item.objects.get(name=i.item.name)
-        attributeToChange = currItem.item_features
-        if attributeToChange == 'he':
-            attributeToChange = "Health"
-        elif attributeToChange == 'hun':
-            attributeToChange = "Hunger"
-        elif attributeToChange == 'def':
-            attributeToChange = "Defense"
-        elif attributeToChange == 'f':
-            attributeToChange = "Fatigue"
-        elif attributeToChange == 'i':
-            attributeToChange = "Intelligence"
-        elif attributeToChange == 'happ':
-            attributeToChange = "Happiness"
-        elif attributeToChange == 'l':
-            attributeToChange = "Luck"
-        else:
-            attributeToChange = "Unknown."
-        item_names.append([currItem.name, i.quantity, attributeToChange, currItem.effect])
+        attributeToChange = [currItem.item_features, currItem.item_features2]
+        attributeOutput = []
+        for f in attributeToChange:
+            if f == 'he':
+                attributeOutput.append(["Health"])
+            elif f == 'hun':
+                attributeOutput.append(["Hunger"])
+            elif f == 'def':
+                attributeOutput.append(["Defense"])
+            elif f == 'f':
+                attributeOutput.append(["Fatigue"])
+            elif f == 'i':
+                attributeOutput.append(["Intelligence"])
+            elif f == 'happ':
+                attributeOutput.append(["Happiness"])
+            elif f == 'l':
+                attributeOutput.append(["Luck"])
+            else:
+                attributeOutput.append(["None"])
+        item_names.append([currItem.name, i.quantity, attributeOutput[0], currItem.effect, attributeOutput[1], currItem.effect2])
     if item_names == []:
         item_names = "None"
 
@@ -286,7 +288,6 @@ def nugget(request):
     if request.method == 'POST':
         form = InventoryForm(request.POST, instance=inventory)
         itemToUpdate = request.POST.get('item_id', None)
-        #return render_to_response('errortemp_2.html', {'val': temp})
         if form.is_valid():
             form.save()
             quantityToUpdate = form.cleaned_data.get('ItemQuantity')
@@ -295,13 +296,11 @@ def nugget(request):
                 currentItem = Item.objects.get(name=i.item.name)
                 if currentItem.name == itemToUpdate:
                     objectToUpdate = InventoryItems.objects.get(inventory=inventory, item=currentItem)
-                    #objectToUpdate.update(quantity=F('quantity')+1)
                     if objectToUpdate.quantity - quantityToUpdate >= 0:
                         objectToUpdate.quantity -= quantityToUpdate
                         objectToUpdate.save()
                     else:
                         return redirect('nugget')
-                    #return render_to_response('errortemp_2.html', {'val': objectToUpdate.quantity})
             if objectToUpdate.quantity <= 0:
                 objectToUpdate.delete()
 
@@ -310,44 +309,47 @@ def nugget(request):
             whatToDoWithItem = form.cleaned_data.get('ItemOptions')
             if whatToDoWithItem == 'feed':
                 itemToWorkWith = Item.objects.get(name=itemToUpdate)
-                attributeOfItem = itemToWorkWith.item_features
-                amountToAddToAttribute = itemToWorkWith.effect * quantityToUpdate
+                attributesOfItem = [itemToWorkWith.item_features, itemToWorkWith.item_features2]
+                amountToAddToAttribute = [itemToWorkWith.effect * quantityToUpdate, itemToWorkWith.effect * quantityToUpdate]
                 usersAttributeToUpdate = nug_attributes
-                if attributeOfItem == 'he':
-                    if usersAttributeToUpdate.health + amountToAddToAttribute > 100:
-                        usersAttributeToUpdate.health = 100
-                    else:
-                        usersAttributeToUpdate.health += amountToAddToAttribute
-                elif attributeOfItem == 'hun':
-                    if usersAttributeToUpdate.hunger + amountToAddToAttribute > 100:
-                        usersAttributeToUpdate.hunger = 100
-                    else:
-                        usersAttributeToUpdate.hunger += amountToAddToAttribute
-                elif attributeOfItem == 'def':
-                    if usersAttributeToUpdate.defense + amountToAddToAttribute > 100:
-                        usersAttributeToUpdate.defense = 100
-                    else:
-                        usersAttributeToUpdate.defense += amountToAddToAttribute
-                elif attributeOfItem == 'f':
-                    if usersAttributeToUpdate.fatigue + amountToAddToAttribute > 100:
-                        usersAttributeToUpdate.fatigue = 100
-                    else:
-                        usersAttributeToUpdate.fatigue += amountToAddToAttribute
-                elif attributeOfItem == 'i':
-                    if usersAttributeToUpdate.intelligence + amountToAddToAttribute > 100:
-                        usersAttributeToUpdate.intelligence = 100
-                    else:
-                        usersAttributeToUpdate.intelligence += amountToAddToAttribute
-                elif attributeOfItem == 'happ':
-                    if usersAttributeToUpdate.happiness + amountToAddToAttribute > 100:
-                        usersAttributeToUpdate.happiness = 100
-                    else:
-                        usersAttributeToUpdate.happiness += amountToAddToAttribute
-                elif attributeOfItem == 'l':
-                    if usersAttributeToUpdate.luck + amountToAddToAttribute > 100:
-                        usersAttributeToUpdate.luck = 100
-                    else:
-                        usersAttributeToUpdate.luck += amountToAddToAttribute
+                position = 0
+                for f in attributesOfItem:
+                    if f == 'he':
+                        if usersAttributeToUpdate.health + amountToAddToAttribute[position] > 100:
+                            usersAttributeToUpdate.health = 100
+                        else:
+                            usersAttributeToUpdate.health += amountToAddToAttribute[position]
+                    elif f == 'hun':
+                        if usersAttributeToUpdate.hunger + amountToAddToAttribute[position] > 100:
+                            usersAttributeToUpdate.hunger = 100
+                        else:
+                            usersAttributeToUpdate.hunger += amountToAddToAttribute[position]
+                    elif f == 'def':
+                        if usersAttributeToUpdate.defense + amountToAddToAttribute[position] > 100:
+                            usersAttributeToUpdate.defense = 100
+                        else:
+                            usersAttributeToUpdate.defense += amountToAddToAttribute[position]
+                    elif f == 'f':
+                        if usersAttributeToUpdate.fatigue + amountToAddToAttribute[position] > 100:
+                            usersAttributeToUpdate.fatigue = 100
+                        else:
+                            usersAttributeToUpdate.fatigue += amountToAddToAttribute[position]
+                    elif f == 'i':
+                        if usersAttributeToUpdate.intelligence + amountToAddToAttribute[position] > 100:
+                            usersAttributeToUpdate.intelligence = 100
+                        else:
+                            usersAttributeToUpdate.intelligence += amountToAddToAttribute[position]
+                    elif f == 'happ':
+                        if usersAttributeToUpdate.happiness + amountToAddToAttribute[position] > 100:
+                            usersAttributeToUpdate.happiness = 100
+                        else:
+                            usersAttributeToUpdate.happiness += amountToAddToAttribute[position]
+                    elif f == 'l':
+                        if usersAttributeToUpdate.luck + amountToAddToAttribute[position] > 100:
+                            usersAttributeToUpdate.luck = 100
+                        else:
+                            usersAttributeToUpdate.luck += amountToAddToAttribute[position]
+                    position+=1
                 usersAttributeToUpdate.save()
 
                 #return render_to_response('errortemp_2.html', {'val': attributeObjectToUpdate})
@@ -397,30 +399,32 @@ def shop(request):
     shop_item_names_toy = [None]
     for i in items_shop:
         temp = i.item_status
-        attributeToChange = i.item_features
-        if attributeToChange == 'he':
-            attributeToChange = "Health"
-        elif attributeToChange == 'hun':
-            attributeToChange = "Hunger"
-        elif attributeToChange == 'def':
-            attributeToChange = "Defense"
-        elif attributeToChange == 'f':
-            attributeToChange = "Fatigue"
-        elif attributeToChange == 'i':
-            attributeToChange = "Intelligence"
-        elif attributeToChange == 'happ':
-            attributeToChange = "Happiness"
-        elif attributeToChange == 'l':
-            attributeToChange = "Luck"
-        else:
-            attributeToChange = "Unknown."
+        attributeToChange = [i.item_features, i.item_features2]
+        attributeOutput = []
+        for f in attributeToChange:
+            if f == 'he':
+                attributeOutput.append(["Health"])
+            elif f == 'hun':
+                attributeOutput.append(["Hunger"])
+            elif f == 'def':
+                attributeOutput.append(["Defense"])
+            elif f == 'f':
+                attributeOutput.append(["Fatigue"])
+            elif f == 'i':
+                attributeOutput.append(["Intelligence"])
+            elif f == 'happ':
+                attributeOutput.append(["Happiness"])
+            elif f == 'l':
+                attributeOutput.append(["Luck"])
+            else:
+                attributeOutput.append(["None"])
 
         if temp == "food":
-            shop_item_names_food = shop_item_names_food + [i.name, i.price, attributeToChange, i.effect]
+            shop_item_names_food = shop_item_names_food + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2]
         elif temp == "accesory":
-            shop_item_names_accesory = shop_item_names_accesory + [i.name, i.price, attributeToChange, i.effect]
+            shop_item_names_accesory = shop_item_names_accesory + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2]
         elif temp == "toy":
-            shop_item_names_toy = shop_item_names_toy + [i.name, i.price, attributeToChange, i.effect]
+            shop_item_names_toy = shop_item_names_toy + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2]
     shop_item_names_food = shop_item_names_food[1:]
     if shop_item_names_food == [None]:
         shop_item_names_food = "None"
