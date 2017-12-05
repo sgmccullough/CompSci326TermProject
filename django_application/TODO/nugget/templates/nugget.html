@@ -31,7 +31,7 @@
     </div>
     <div class="col s6">
       <center>
-        <h1>{{ nugget }}</h1>
+        <h2>{{ nugget }}</h2>
         <ul class="creatures" id="creatures">
           <li>
             <div class="click-anim">
@@ -114,15 +114,15 @@
                     document.write("<center>");
                     var toOutput = "<h5><strong>"
                     toOutput += itemArray[i];
-                    toOutput += "</h5></strong><br><img src='/static/img/items/";
+                    toOutput += "</h5></strong><img src='/static/img/items/";
                     toOutput += itemArray[i];
-                    toOutput += ".png' style='height:100px; width:100px;'><h5><strong># In Inventory: "
+                    toOutput += ".png' style='height:100px; width:100px;'><br><strong>Quantity: </strong>"
                     toOutput += itemArray[i + 1];
-                    toOutput += "</strong></h5><h5><strong>";
+                    toOutput += "<br><strong>";
                     toOutput += itemArray[i + 2];
-                    toOutput += " +";
+                    toOutput += ":</strong> +";
                     toOutput += itemArray[i + 3];
-                    toOutput += "</strong></h5><button data-target='itemOptions' class='btn modal-trigger' id='modalOpen' name='";
+                    toOutput += "</strong><br><button data-target='itemOptions' class='btn modal-trigger' id='modalOpen' name='";
                     toOutput += itemArray[i];
                     toOutput += "' value='"
                     toOutput += itemArray[i + 1];
@@ -161,8 +161,8 @@
   <!-- Item Options Modal -->
   <div id="itemOptions" class="modal">
     <div class="modal-content">
-      <h3 class="center">Options!</h3>
-      <h4 id="item_name_label" class="center">DEFAULT</h4>
+      <h5 class="center">Options</h5>
+      <h6 id="item_name_label" class="center">DEFAULT</h6>
       <p>
         <center>What do you want to do with your item?</center>
         <form method="post">

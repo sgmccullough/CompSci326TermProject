@@ -113,11 +113,66 @@
       {% elif active == 2 %}
           {% if currBattle.winner == user %}
             <span style="font-weight: bold; color: green;">{{ nugget }} won!</span> Congratulations! <br>
-            Below is your battle summary...
+            Below is your battle summary...<br><br>
           {% else %}
             <span style="font-weight: bold; color: red;">{{ nugget }} lost!</span> Better luck next time...<br>
-            Below is your battle summary...
+            Below is your battle summary...<br><br>
           {% endif %}
+
+          {% if currBattle.opp_a == user %}
+            {% if currBattle.winner == user %}
+            <script type="text/javascript">
+              var stats = String("{{ currBattle.stats_a }}");
+              var arr = stats.split(',');
+              document.write("<strong style='color: red;'>-" + String(arr[0]) + "</strong> Health!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[1]) + "</strong> Hunger!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[2]) + "</strong> Defense!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[3]) + "</strong> Battle XP!<br>");
+              document.write("<strong style='color: green;'>+" + String(0) + "</strong> Intelligence!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[4]) + "</strong> Happiness!<br><br>");
+            </script>
+            {% else %}
+            <script type="text/javascript">
+              var stats = String("{{ currBattle.stats_a }}");
+              var arr = stats.split(',');
+              document.write("<strong style='color: red;'>-" + String(arr[0]) + "</strong> Health!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[1]) + "</strong> Hunger!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[2]) + "</strong> Defense!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[3]) + "</strong> Battle XP!<br>");
+              document.write("<strong style='color: red;'>-" + String(0) + "</strong> Intelligence!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[4]) + "</strong> Happiness!<br><br>");
+            </script>
+            {% endif %}
+          {% else %}
+            {% if currBattle.winner == user %}
+            <script type="text/javascript">
+              var stats = String("{{ currBattle.stats_b }}");
+              var arr = stats.split(',');
+              document.write("<strong style='color: red;'>-" + String(arr[0]) + "</strong> Health!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[1]) + "</strong> Hunger!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[2]) + "</strong> Defense!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[3]) + "</strong> Battle XP!<br>");
+              document.write("<strong style='color: green;'>+" + String(0) + "</strong> Intelligence!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[4]) + "</strong> Happiness!<br><br>");
+            </script>
+            {% else %}
+            <script type="text/javascript">
+              var stats = String("{{ currBattle.stats_b }}");
+              var arr = stats.split(',');
+              document.write("<strong style='color: red;'>-" + String(arr[0]) + "</strong> Health!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[1]) + "</strong> Hunger!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[2]) + "</strong> Defense!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[3]) + "</strong> Battle XP!<br>");
+              document.write("<strong style='color: red;'>-" + String(0) + "</strong> Intelligence!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[4]) + "</strong> Happiness!<br><br>");
+            </script>
+            {% endif %}
+          {% endif %}
+
+
+
+
+
           <form method="post">
             {% csrf_token %}
             {{ battleForm.as_p }}
