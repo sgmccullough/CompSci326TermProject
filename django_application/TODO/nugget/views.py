@@ -36,6 +36,9 @@ def index(request):
         form = SignUpForm()
     return render(request, 'index.html', {'form': form})
 
+import datetime as dt
+from datetime import datetime
+
 @login_required(login_url='/nugget/')
 def home(request):
     """
@@ -52,6 +55,13 @@ def home(request):
     if nugget.name is "":
         return redirect('create')
 
+    dateoflastlogin = usr_id.last_login_date
+    today = dt.date.today()
+    dayssincelastlogin = today - dateoflastlogin
+    dayssincelastlogin = dayssincelastlogin.days
+    usr_id.last_login_date = dt.date.today()
+    usr_id.save()
+
     #Nugget attributes
     shape = nug_attributes.nugget_status
 
@@ -66,6 +76,45 @@ def home(request):
     mouth_shape = nug_attributes.mouth_status
     eye_size_h = nug_attributes.eye_size
     eye_size_w = eye_size_h*0.75
+
+
+    # Reduce nugget attributes over time
+    health = nug_attributes.health
+    if health - dayssincelastlogin < 0:
+        nug_attributes.health = 0
+    else:
+        nug_attributes.health = health - dayssincelastlogin
+    hunger = nug_attributes.hunger
+    if hunger - dayssincelastlogin < 0:
+        nug_attributes.hunger = 0
+    else:
+        nug_attributes.hunger = hunger - dayssincelastlogin
+    happiness = nug_attributes.happiness
+    if happiness - dayssincelastlogin < 0:
+        nug_attributes.happiness = 0
+    else:
+        nug_attributes.happiness = happiness - dayssincelastlogin
+    fatigue = nug_attributes.fatigue
+    if fatigue - dayssincelastlogin < 0:
+        nug_attributes.fatigue = 0
+    else:
+        nug_attributes.fatigue = fatigue - dayssincelastlogin
+    defense = nug_attributes.defense
+    if defense - dayssincelastlogin < 0:
+        nug_attributes.defense = 0
+    else:
+        nug_attributes.defense = defense - dayssincelastlogin
+    intelligence = nug_attributes.intelligence
+    if intelligence - dayssincelastlogin < 0:
+        nug_attributes.intelligence = 0
+    else:
+        nug_attributes.intelligence = intelligence - dayssincelastlogin
+    luck = nug_attributes.luck
+    if luck - dayssincelastlogin < 0:
+        nug_attributes.luck = 0
+    else:
+        nug_attributes.luck = luck - dayssincelastlogin
+    nug_attributes.save()
 
     health = nug_attributes.health
     hunger = nug_attributes.hunger
@@ -155,7 +204,7 @@ def home(request):
         'home.html',
         {'coins':coins, 'user':user, 'nugget':nugget, 'color':color, 'mouth':mouth_shape, 'health':health, 'eye_size_h': eye_size_h, 'eye_size_w': eye_size_w, 'health_color':health_color, 'hunger':hunger,
         'size_w': size_w, 'size_h': size_h, 'hunger_color':hunger_color, 'happiness':happiness, 'happiness_color':happiness_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color, "battles":battles_list,
-         'friends':list_friends, 'news': newsList, },
+         'friends':list_friends, 'news': newsList,},
     )
 
 @login_required(login_url='/nugget/')
@@ -306,6 +355,7 @@ def nugget(request):
     if item_names == []:
         item_names = "None"
 
+    message = inventory.msg
     # Form Logic
     if request.method == 'POST':
         form = InventoryForm(request.POST, instance=inventory)
@@ -313,6 +363,7 @@ def nugget(request):
         if form.is_valid():
             form.save()
             quantityToUpdate = form.cleaned_data.get('ItemQuantity')
+            whatToDoWithItem = form.cleaned_data.get('ItemOptions')
             # Removes Items From Inventory
             for i in items:
                 currentItem = Item.objects.get(name=i.item.name)
@@ -322,13 +373,15 @@ def nugget(request):
                         objectToUpdate.quantity -= quantityToUpdate
                         objectToUpdate.save()
                     else:
+                        message = "Unable to " + whatToDoWithItem + " that many items, since you don't have that many!"
+                        inventory.msg = message
+                        inventory.save()
                         return redirect('nugget')
             if objectToUpdate.quantity <= 0:
                 objectToUpdate.delete()
 
 
             # Updates coins/attributes of the item that we acted upon
-            whatToDoWithItem = form.cleaned_data.get('ItemOptions')
             if whatToDoWithItem == 'feed':
                 itemToWorkWith = Item.objects.get(name=itemToUpdate)
                 attributesOfItem = [itemToWorkWith.item_features, itemToWorkWith.item_features2]
@@ -380,6 +433,9 @@ def nugget(request):
                 amountToAddToCoins = priceOfTheItem * quantityToUpdate
                 usr_id.coins += amountToAddToCoins
                 usr_id.save()
+                message = "Sold " + str(quantityToUpdate) + " " + str(itemToUpdate) + " for " + str(amountToAddToCoins) + " coins!"
+                inventory.msg = message
+                inventory.save()
             # We dont really care about discard, it just removes the item anyways.
             #if whatToDoWithItem == 'discard':
             #    return render_to_response('errortemp_2.html', {'val': whatToDoWithItem})
@@ -396,7 +452,7 @@ def nugget(request):
         'size_w':size_w, 'size_h':size_h, 'eye_size_w':eye_size_w, 'eye_size_h':eye_size_h,
         'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
         'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
-        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': form,},
+        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'items':item_names, 'form': form, 'message':message,},
     )
 
 @login_required(login_url='/nugget/')
@@ -575,7 +631,16 @@ from django.shortcuts import get_object_or_404
 
 @login_required(login_url='/nugget/')
 def profile_page(request, username):
-    nugget = get_object_or_404(Nugget, name=username)
+    usr = get_object_or_404(User, username=username)
+    thisUser = usr
+    if hasattr(thisUser, '_wrapped') and hasattr(thisUser, '_setup'):
+        if thisUser._wrapped.__class__ == object:
+            thisUser._setup()
+        thisUser = thisUser._wrapped
+
+    userobject = Profile.objects.get(usr_id=thisUser.id)
+    username = userobject.usr
+    nugget = Nugget.objects.get(user=userobject)
     nug_attributes = nugget.attributes
 
     CURR_usr_id = Profile.objects.get(usr=request.user)
@@ -696,7 +761,7 @@ def profile_page(request, username):
 
     return render(request,
         'profile.html',
-        {'CURR_user': CURR_nugget.name, 'coins': CURR_coins, 'nugget': nugget.name, 'color':color, 'mouth':mouth_shape, 'eye_size_h': eye_size_h,
+        {'CURR_user': CURR_nugget.name, 'coins': CURR_coins, 'username':username, 'nugget': nugget.name, 'color':color, 'mouth':mouth_shape, 'eye_size_h': eye_size_h,
         'eye_size_w': eye_size_w,'size_w': size_w, 'size_h': size_h, 'health':health, 'health_color':health_color, 'hunger':hunger,
         'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
         'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
