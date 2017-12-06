@@ -165,6 +165,7 @@
                 document.write("<tr>");
 
                 var itemArray = items.split(",");
+                var ct = 1
                 for (var i = 0; i < itemArray.length; i++){
                   document.write("<td>")
                   itemArray[i] = itemArray[i].replace(/&#39;/g, "");
@@ -178,9 +179,11 @@
                   document.write("</h5>");
                   var toOutput = "<img src='/static/img/items/";
                   toOutput += itemArray[i];
-                  toOutput += ".png' style='height:100px; width:100px;'><br><strong>"
+                  toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                  toOutput += itemArray[i+6];
+                  toOutput += "' class='tooltipped' data-position='top' ><br><strong>Price: <img src='{% static 'img/general/coin.png' %}' style='padding-right:5px;padding-top:5px;'/></strong>";
                   toOutput += itemArray[i + 1];
-                  toOutput += "</strong> <img src='{% static 'img/general/coin.png' %}' style='padding-right:5px;padding-top:5px;'/><br><strong>";
+                  toOutput += "</strong> <br><strong>";
                   toOutput += itemArray[i + 2];
                   toOutput += ":</strong> +";
                   toOutput += itemArray[i + 3];
@@ -199,10 +202,11 @@
                   toOutput += "'>Buy</button>";
                   document.write(toOutput);
                   document.write("</td>");
-                  if ((i/6)%4 == 0 && i != 0){
+                  if (ct%5 == 0){
                     document.write("</tr><tr>")
                   }
-                  i+=5;
+                  ct+=1;
+                  i+=6;
                 }
                 document.write("</tr>");
               }
@@ -224,6 +228,7 @@
                 document.write("<tr>");
 
                 var itemArray = items.split(",");
+                var ct = 1
                 for (var i = 0; i < itemArray.length; i++){
                   document.write("<td>")
                   itemArray[i] = itemArray[i].replace(/&#39;/g, "");
@@ -237,9 +242,11 @@
                   document.write("</h5>");
                   var toOutput = "<img src='/static/img/items/";
                   toOutput += itemArray[i];
-                  toOutput += ".png' style='height:100px; width:100px;'><br><strong>"
+                  toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                  toOutput += itemArray[i+6];
+                  toOutput += "' class='tooltipped' data-position='top' ><br><strong>Price: <img src='{% static 'img/general/coin.png' %}' style='padding-right:5px;padding-top:5px;'/></strong>";
                   toOutput += itemArray[i + 1];
-                  toOutput += "</strong> <img src='{% static 'img/general/coin.png' %}' style='padding-right:5px;padding-top:5px;'/><br><strong>";
+                  toOutput += "</strong> <br><strong>";
                   toOutput += itemArray[i + 2];
                   toOutput += ":</strong> +";
                   toOutput += itemArray[i + 3];
@@ -258,10 +265,11 @@
                   toOutput += "'>Buy</button>";
                   document.write(toOutput);
                   document.write("</td>");
-                  if ((i/6)%4 == 0 && i != 0){
+                  if (ct%5 == 0){
                     document.write("</tr><tr>")
                   }
-                  i+=5;
+                  ct+=1;
+                  i+=6;
                 }
                 document.write("</tr>");
               }
