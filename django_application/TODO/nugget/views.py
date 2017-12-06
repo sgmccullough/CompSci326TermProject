@@ -5,9 +5,12 @@ from .forms import SignUpForm, CreateNugget, CreateAttributes, InventoryForm, Ne
 from django.shortcuts import redirect, render_to_response, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-# from django.forms import formset_factory
 import uuid
 from django.template import Context, Template, RequestContext
+import datetime as dt
+from datetime import datetime
+from random import randint
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -35,9 +38,6 @@ def index(request):
     else:
         form = SignUpForm()
     return render(request, 'index.html', {'form': form})
-
-import datetime as dt
-from datetime import datetime
 
 @login_required(login_url='/nugget/')
 def home(request):
@@ -388,43 +388,63 @@ def nugget(request):
                 amountToAddToAttribute = [itemToWorkWith.effect * quantityToUpdate, itemToWorkWith.effect * quantityToUpdate]
                 usersAttributeToUpdate = nug_attributes
                 position = 0
+                if quantityToUpdate == 1:
+                    message = "Fed one " + str(itemToUpdate) + " to your nugget! "
+                else:
+                    message = "Your nugget ate " + str(quantityToUpdate) + " " + str(itemToUpdate) + "s! Wow! "
                 for f in attributesOfItem:
                     if f == 'he':
                         if usersAttributeToUpdate.health + amountToAddToAttribute[position] > 100:
+                            message += "+" + str(100 - usersAttributeToUpdate.health) + " health & "
                             usersAttributeToUpdate.health = 100
                         else:
                             usersAttributeToUpdate.health += amountToAddToAttribute[position]
+                            message += "+" + str(amountToAddToAttribute[position]) + " health & "
                     elif f == 'hun':
                         if usersAttributeToUpdate.hunger + amountToAddToAttribute[position] > 100:
+                            message += "+" + str(100 - usersAttributeToUpdate.hunger) + " hunger & "
                             usersAttributeToUpdate.hunger = 100
                         else:
                             usersAttributeToUpdate.hunger += amountToAddToAttribute[position]
+                            message += "+" + str(amountToAddToAttribute[position]) + " hunger & "
                     elif f == 'def':
                         if usersAttributeToUpdate.defense + amountToAddToAttribute[position] > 100:
+                            message += "+" + str(100 - usersAttributeToUpdate.defense) + " defense & "
                             usersAttributeToUpdate.defense = 100
                         else:
                             usersAttributeToUpdate.defense += amountToAddToAttribute[position]
+                            message += "+" + str(amountToAddToAttribute[position]) + " defense & "
                     elif f == 'f':
                         if usersAttributeToUpdate.fatigue + amountToAddToAttribute[position] > 100:
+                            message += "+" + str(100 - usersAttributeToUpdate.fatigue) + " fatigue & "
                             usersAttributeToUpdate.fatigue = 100
                         else:
                             usersAttributeToUpdate.fatigue += amountToAddToAttribute[position]
+                            message += "+" + str(amountToAddToAttribute[position]) + " fatigue & "
                     elif f == 'i':
                         if usersAttributeToUpdate.intelligence + amountToAddToAttribute[position] > 100:
+                            message += "+" + str(100 - usersAttributeToUpdate.intelligence) + " intelligence & "
                             usersAttributeToUpdate.intelligence = 100
                         else:
                             usersAttributeToUpdate.intelligence += amountToAddToAttribute[position]
+                            message += "+" + str(amountToAddToAttribute[position]) + " intelligence & "
                     elif f == 'happ':
                         if usersAttributeToUpdate.happiness + amountToAddToAttribute[position] > 100:
+                            message += "+" + str(100 - usersAttributeToUpdate.happiness) + " happiness & "
                             usersAttributeToUpdate.happiness = 100
                         else:
                             usersAttributeToUpdate.happiness += amountToAddToAttribute[position]
+                            message += "+" + str(amountToAddToAttribute[position]) + " happiness & "
                     elif f == 'l':
                         if usersAttributeToUpdate.luck + amountToAddToAttribute[position] > 100:
+                            message += "+" + str(100 - usersAttributeToUpdate.luck) + " luck & "
                             usersAttributeToUpdate.luck = 100
                         else:
                             usersAttributeToUpdate.luck += amountToAddToAttribute[position]
+                            message += "+" + str(amountToAddToAttribute[position]) + " luck & "
                     position+=1
+                inventory.msg = message[:-2]
+                inventory.save()
                 usersAttributeToUpdate.save()
 
                 #return render_to_response('errortemp_2.html', {'val': attributeObjectToUpdate})
@@ -523,6 +543,7 @@ def shop(request):
     if inv_item_names == []:
         inv_item_names = "None"
 
+    message = inventory.msg_shop
     # Form Logic
     if request.method == 'POST':
         if request.POST['action'] == 'selling':
@@ -540,6 +561,9 @@ def shop(request):
                             objectToUpdate.quantity -= quantityToUpdate
                             objectToUpdate.save()
                         else:
+                            message = "Unable to sell that many items, since you don't have that many!"
+                            inventory.msg_shop = message
+                            inventory.save()
                             return redirect('shop')
                 if objectToUpdate.quantity <= 0:
                     objectToUpdate.delete()
@@ -547,6 +571,9 @@ def shop(request):
                 amountToAddToCoins = priceOfTheItem * quantityToUpdate
                 usr_id.coins += amountToAddToCoins
                 usr_id.save()
+                message = "Sold " + str(quantityToUpdate) + " " + str(itemToUpdate) + " for " + str(amountToAddToCoins) + " coins!"
+                inventory.msg_shop = message
+                inventory.save()
                 # We dont really care about discard, it just removes the item anyways.
                 #if whatToDoWithItem == 'discard':
                 #    return render_to_response('errortemp_2.html', {'val': whatToDoWithItem})
@@ -588,6 +615,9 @@ def shop(request):
                             usr_id.coins -= amountToRemoveFromCoins
                             usr_id.save()
                             InventoryItems.objects.create(inventory=inventory,item=theItem,quantity=quantityToUpdate)
+                message = "Bought " + str(quantityToUpdate) + " " + str(itemToUpdate) + " for " + str(amountToRemoveFromCoins) + " coins!"
+                inventory.msg_shop = message
+                inventory.save()
             return redirect('shop')
     else:
         inventory_form = InventoryFormShop()
@@ -599,7 +629,7 @@ def shop(request):
         request,
         'shop.html',
         {'coins':coins, 'shop_items_food':shop_item_names_food, 'shop_items_accesory':shop_item_names_accesory, 'shop_items_toy':shop_item_names_toy,
-        'inventory_items':inv_item_names, 'inventory_form':inventory_form, 'shop_form':shop_form}
+        'inventory_items':inv_item_names, 'inventory_form':inventory_form, 'shop_form':shop_form, 'message':message,}
     )
 
 @login_required(login_url='/nugget/')
@@ -626,8 +656,6 @@ def community(request):
         'community.html',
         {'coins':coins, 'friends':list_friends,}
     )
-
-from django.shortcuts import get_object_or_404
 
 @login_required(login_url='/nugget/')
 def profile_page(request, username):
@@ -767,8 +795,6 @@ def profile_page(request, username):
         'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
         'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'friends':list_friends},
     )
-
-from random import randint
 
 @login_required(login_url='/nugget/')
 def battle(request):

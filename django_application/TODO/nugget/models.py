@@ -191,6 +191,7 @@ class Inventory(models.Model):
     user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True)
     items = models.ManyToManyField('Item', through='InventoryItems')
     msg = models.CharField(verbose_name="Message Field", max_length=200)
+    msg_shop = models.CharField(verbose_name="Message Field", max_length=200, default="")
 
     #Metadata
     class Meta:
