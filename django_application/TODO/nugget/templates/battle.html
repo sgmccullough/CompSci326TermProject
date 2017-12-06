@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="row">
-  <div class="col s4">
-    <div class="card grey lighten-3">
+  <div class="col s4" style="position:fixed;">
+    <div class="card grey lighten-3" style="height:310px;">
       <div class="card-content grey-text text-darken-4">
         <span class="card-title">{{ nugget }}</span>
         <strong>{{ nugget }}'s Stats</strong>
@@ -28,9 +28,22 @@
           </div>
         </ul>
       </div>
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">Welcome to the Battle Center!</span>
+    The Battle Center is the main method of gaining coins and increasing certain statistics for your Nugget.
+    Refer to the FAQ below.<br><br>
+    <a href="#">Q: How do Battles work?</a><br>
+    <a href="#">Q: Who can I battle against?</a><br>
+    <a href="#">Q: Can my Nugget die in battle?</a><br>
+    <a href="#">Q: How can I prepare my Nugget for battle?</a><br>
+    <a href="#">Q: How do I improve my Nugget's battle skills?</a><br>
+        </ul>
+      </div>
     </div>
   </div>
-  <div class="col s7">
+</div>
+  <div class="col s7 offset-s4">
     <center>
       <h4>Battle Center</h4></center>
 
@@ -217,7 +230,8 @@
 
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
-        <span class="card-title"> <img src="{% static 'img/battle/boxing-ring.png' %}">Your Recent Battles</span>
+        <span class="card-title"> <img src="{% static 'img/battle/boxing-ring.png' %}"> Your Battles</span>
+        Your most recent 100 battles will appear below.
         <table>
           <thead>
             <tr>

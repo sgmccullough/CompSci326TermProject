@@ -841,7 +841,7 @@ def battle(request):
     #return render_to_response('errortemp_2.html', {'val': battle_history})
     maxVal = 0;
     for i in battle_history.iterator():
-        if maxVal > 2:
+        if maxVal > 100:
             break
         opponent_id1 = getattr(i, 'opp_a')
         opponent_id2 = getattr(i, 'opp_b')
