@@ -9,7 +9,7 @@
 <div class="row">
   <div class="col s4">
     <div class="box" style="overflow:auto; height:500px;">
-      <h5 style="text-align: center;">Your Inventory</h5>
+      <h5 style="text-align: center;">Your Inventory <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="These items are items that you own! You can sell these back to Mother Nugget.">(?)</a></h5>
       <center>
         <table style="text-align: center;">
           <tbody>
@@ -22,6 +22,7 @@
                 items_inventory = items_inventory.replace(/[\[\]']+/g, "");
                 document.write("<tr>");
                 var itemArray = items_inventory.split(",");
+                var ct = 1;
                 for (var i = 0; i < itemArray.length-1; i++) {
                   document.write("<td>")
                   itemArray[i] = itemArray[i].replace(/&#39;/g, "");
@@ -31,7 +32,9 @@
                   toOutput += itemArray[i];
                   toOutput += "</strong><br><img src='/static/img/items/";
                   toOutput += itemArray[i];
-                  toOutput += ".png' style='height:100px; width:100px;'><br><strong>x"
+                  toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                  toOutput += itemArray[i+2];
+                  toOutput += "' class='tooltipped' data-position='top' ><br><strong>x";
                   toOutput += itemArray[i + 1];
                   toOutput += "</strong><br><button data-target='sellItem' class='btn modal-trigger' id='invmodalOpen' name='";
                   toOutput += itemArray[i];
@@ -40,10 +43,11 @@
                   toOutput += "'>Sell</button>";
                   document.write(toOutput);
                   document.write("</td>");
-                  if (i%3 == 1 && i != 0){
+                  if (ct%3 == 0){
                     document.write("</tr><tr>")
                   }
-                  i++;
+                  i+=2;
+                  ct++;
                 }
               }
               document.write("</tr>");
@@ -55,9 +59,9 @@
     </div>
   </div>
   <center>
-    <h2>Shop</h2>
+    <h2>Nuggetopia Shop</h2>
     <img src="{% static 'img/shop/mother-nugget.png' %}" width=300 alt="Cluck Cluck!">
-    <h5>Hello! I'm Mother Nugget, These are today's Specials!</h5>
+    <h5>Hello! I'm Mother Nugget, these are today's specials!</h5>
   </center>
 </div>
 
@@ -87,6 +91,7 @@
                   document.write("<tr>");
 
                   var itemArray = items.split(",");
+                  var ct = 1
                   for (var i = 0; i < itemArray.length; i++){
                     document.write("<td>")
                     itemArray[i] = itemArray[i].replace(/&#39;/g, "");
@@ -100,7 +105,9 @@
                     document.write("</h5>");
                     var toOutput = "<img src='/static/img/items/";
                     toOutput += itemArray[i];
-                    toOutput += ".png' style='height:100px; width:100px;'><br><strong>"
+                    toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                    toOutput += itemArray[i+6];
+                    toOutput += "' class='tooltipped' data-position='top' ><br><strong>Quantity: </strong>";
                     toOutput += itemArray[i + 1];
                     toOutput += "</strong> <img src='{% static 'img/general/coin.png' %}' style='padding-right:5px;padding-top:5px;'/><br><strong>";
                     toOutput += itemArray[i + 2];
@@ -121,10 +128,11 @@
                     toOutput += "'>Buy</button>";
                     document.write(toOutput);
                     document.write("</td>");
-                    if ((i/6)%4 == 0 && i != 0){
+                    if (ct%5 == 0){
                       document.write("</tr><tr>")
                     }
-                    i+=5;
+                    ct+=1;
+                    i+=6;
                   }
                   document.write("</tr>");
                 }

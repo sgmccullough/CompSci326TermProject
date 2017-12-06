@@ -302,7 +302,7 @@ def nugget(request):
                 attributeOutput.append(["Luck"])
             else:
                 attributeOutput.append(["None"])
-        item_names.append([currItem.name, i.quantity, attributeOutput[0], currItem.effect, attributeOutput[1], currItem.effect2])
+        item_names.append([currItem.name, i.quantity, attributeOutput[0], currItem.effect, attributeOutput[1], currItem.effect2, currItem.desc])
     if item_names == []:
         item_names = "None"
 
@@ -442,11 +442,11 @@ def shop(request):
                 attributeOutput.append(["None"])
 
         if temp == "food":
-            shop_item_names_food = shop_item_names_food + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2]
+            shop_item_names_food = shop_item_names_food + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2, i.desc]
         elif temp == "accesory":
-            shop_item_names_accesory = shop_item_names_accesory + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2]
+            shop_item_names_accesory = shop_item_names_accesory + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2, i.desc]
         elif temp == "toy":
-            shop_item_names_toy = shop_item_names_toy + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2]
+            shop_item_names_toy = shop_item_names_toy + [i.name, i.price, attributeOutput[0], i.effect, attributeOutput[1], i.effect2, i.desc]
     shop_item_names_food = shop_item_names_food[1:]
     if shop_item_names_food == [None]:
         shop_item_names_food = "None"
@@ -463,7 +463,7 @@ def shop(request):
     inv_item_names = []
     for i in items_inventory:
         currItem = Item.objects.get(name=i.item.name)
-        inv_item_names.append([currItem.name, i.quantity])
+        inv_item_names.append([currItem.name, i.quantity, currItem.desc])
     if inv_item_names == []:
         inv_item_names = "None"
 
@@ -507,7 +507,7 @@ def shop(request):
                         theItem = Item.objects.get(name=itemToUpdate)
                         priceOfTheItem = theItem.price
                         amountToRemoveFromCoins = priceOfTheItem * quantityToUpdate
-                        if usr_id.coins - amountToRemoveFromCoins > 0:
+                        if usr_id.coins - amountToRemoveFromCoins >= 0:
                             usr_id.coins -= amountToRemoveFromCoins
                             usr_id.save()
                             InventoryItems.objects.create(inventory=inventory,item=theItem,quantity=quantityToUpdate)
@@ -1192,9 +1192,9 @@ def myaccount(request):
     View function for myaccount page.
     """
     usr_id = Profile.objects.get(usr=request.user)
-    coins = usr_id;coins
+    coins = usr_id.coins
     nugget = Nugget.objects.get(user=usr_id)
-    user = usr_id;usr
+    user = usr_id.usr
     userbday = usr_id.bday
 
     thisUser = request.user

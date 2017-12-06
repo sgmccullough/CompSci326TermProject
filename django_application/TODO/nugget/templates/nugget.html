@@ -113,12 +113,17 @@
                     itemArray[i+2] = itemArray[i+2].replace(" ", "");
                     itemArray[i+4] = itemArray[i+4].replace(/&#39;/g, "");
                     itemArray[i+4] = itemArray[i+4].replace(" ", "");
+                    //itemArray[i+6] = itemArray[i+6].replace(/&#64;/g, ",");
+                    itemArray[i+6] = itemArray[i+6].replace(/&#39;/g, "");
+                    //itemArray[i+6] = itemArray[i+6].replace(/&#34;/g, "");
                     document.write("<center>");
                     var toOutput = "<h5><strong>"
                     toOutput += itemArray[i];
                     toOutput += "</h5></strong><img src='/static/img/items/";
                     toOutput += itemArray[i];
-                    toOutput += ".png' style='height:100px; width:100px;'><br><strong>Quantity: </strong>"
+                    toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                    toOutput += itemArray[i+6];
+                    toOutput += "' class='tooltipped' data-position='top' ><br><strong>Quantity: </strong>";
                     toOutput += itemArray[i + 1];
                     toOutput += "<br><strong>";
                     toOutput += itemArray[i + 2];
@@ -142,7 +147,7 @@
                     if ((i/6)%4 == 0 && i != 0){
                       document.write("</tr><tr>")
                     }
-                    i+=5;
+                    i+=6;
                   }
                 }
                 document.write("</tr>");
