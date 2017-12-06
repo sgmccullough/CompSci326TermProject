@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="col s4">
+  <div class="col s4" style="height: 100%; overflow:auto;">
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
         <span class="card-title">{{ nugget }}</span>
@@ -49,11 +49,14 @@
   </div>
   <div class="col s5">
     <center>
-      <h4>Welcome back, {{ user }}!</h4></center>
+      <h4>Welcome back, {{ user }}!</h4>
+
+      It's good to see you again. Here's what you missed...<br><br>
+    </center>
 
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
-        <span class="card-title"><i class="material-icons">event </i>Nugget News</span>
+        <span class="card-title"><i class="material-icons">event </i>Nuggetopia News</span>
         <script type="text/javascript">
           var news = String("{{ news }}");
           news = news.replace(/[\[\]']+/g,"");

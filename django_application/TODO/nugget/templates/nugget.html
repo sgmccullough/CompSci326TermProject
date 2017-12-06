@@ -4,32 +4,38 @@
 
 {% block content %}
   <div class="row">
-    <div class="col s3">
+    <div class="col s3 offset-s1">
       <div class="card grey lighten-3">
         <div class="card-content grey-text text-darken-4">
           <span class="card-title">Physical Statistics</span>
           <ul>
-            <li>Health: </li>
+            <li>Health: <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="A Nugget with health less than 10 is unwell to battle. ">(?)</a></li>
             <div class="progress">
               <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
             </div>
-            <li>Hunger: </li>
+            <li>Hunger: <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Hungry Nuggets do worse in battles. Feed your Nugget! ">(?)</a></li>
             <div class="progress">
               <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
             </div>
-            <li>Defense: </li>
+            <li>Defense: <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="More defense power means a better chance of survival!  ">(?)</a></li>
             <div class="progress">
               <div class="determinate" style="width: {{ defense }}%; background-color:{{ defense_color }};"></div>
             </div>
-            <li>Battle XP: </li>
+            <li>Battle XP: <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="You gain XP when you participate in battles. ">(?)</a></li>
             <div class="progress">
               <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
             </div>
+            <br>
+            <br>
+            <br>
+            <a href="#">Statistics FAQ</a>
+            <br>
+            <br>
           </ul>
         </div>
       </div>
     </div>
-    <div class="col s6">
+    <div class="col s4">
       <center>
         <h2>{{ nugget }}</h2>
         <ul class="creatures" id="creatures">
@@ -44,12 +50,13 @@
             <div class="shadow" style=""></div>
           </li>
         </ul>
-        <h5><script id = "RanGreet">
+        <span style="font-size:20px;">
+        <script id = "RanGreet">
           r_text = new Array ();
           r_text[0] = "I was thinking of you."
-          r_text[1] = "I'm glad you're back."
-          r_text[3] = "Let's battle!"
-          r_text[4] = "Wheee! So happy to see youuuuuu!"
+          r_text[1] = "I'm glad that you're back."
+          r_text[3] = "Now that you're here... let's battle!"
+          r_text[4] = "Wheee! So happy to see you! Can we play?"
           var i = Math.floor((r_text.length) * Math.random());
           if(r_text[i] == null){
             document.write(r_text[0]);
@@ -57,7 +64,9 @@
           else {
             document.write(r_text[i]);
           }
-        </script></h5>
+        </script>
+      </span>
+
         <br />
       </center>
     </div>
@@ -66,22 +75,27 @@
         <div class="card-content grey-text text-darken-4">
           <span class="card-title">Mental Statistics</span>
           <ul>
-            <li>Fatigue: </li>
+            <li>Fatigue: <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Tired Nuggets don't do well in a fight. ">(?)</a></li>
             <div class="progress">
               <div class="determinate" style="width: {{ fatigue }}%; background-color:{{ fatigue_color }}"></div>
             </div>
-            <li>Intelligence: </li>
+            <li>Intelligence: <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="A smarter Nugget gives you an upper hand in battle. ">(?)</a></li>
             <div class="progress">
               <div class="determinate" style="width: {{ intelligence }}%; background-color:{{ intelligence_color }}"></div>
             </div>
-            <li>Happiness: </li>
+            <li>Happiness: <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Happy Nuggets are more willing to try hard in a fight than sad Nuggets. ">(?)</a></li>
             <div class="progress">
               <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
             </div>
-            <li>Luck: </li>
+            <li>Luck: <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Luck is just...well, luck!">(?)</a></li>
             <div class="progress">
               <div class="determinate" style="width: {{ luck }}%; background-color:{{ luck_color }};"></div>
             </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
           </ul>
         </div>
       </div>
@@ -90,7 +104,7 @@
 
 
   <div class="row">
-    <div class="col s12">
+    <div class="col s10 offset-s1">
       <div class="box">
         <h3 style="text-align: center;">Inventory</h3>
         <center>
