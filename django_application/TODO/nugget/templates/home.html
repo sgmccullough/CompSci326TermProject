@@ -130,7 +130,7 @@
               var friendsArray = friends.split(",");
               for (var i = 0; i < friendsArray.length; i++){
                 toOutput = "<li class='collection-item avatar'>";
-                toOutput += "<img src = '{% static 'img/animal-vector-2/png/cat.png' %}' alt='' class='circle'>";
+                toOutput += "<img src = '{% static 'img/general/panda.png' %}' alt='' class='circle'>";
                 toOutput += "<span class='title'><strong>";
                 toOutput += friendsArray[i];
                 toOutput += "</strong></span>";
@@ -141,7 +141,7 @@
         </ul>
       </div>
       <div class="card-action">
-        <a href="{% url 'community' %}">Start to community</a>
+        <a href="{% url 'community' %}">Community</a>
       </div>
     </div>
   </div>
