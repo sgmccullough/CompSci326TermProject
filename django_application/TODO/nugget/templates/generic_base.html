@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 {% load static %}
 
 <head>
@@ -15,48 +16,58 @@
 </head>
 
 
-<!-- Dropdown Structure -->
-<ul id="dropdown1" class="dropdown-content">
-  <li><a href="{% url 'myaccount' %}">My Account</a></li>
-  <li><a href="{% url 'help' %}">Help</a></li>
-  <li class="divider"></li>
-  <li><a href="{% url 'logout'%}">Logout</a></li>
-</ul>
+<body>
+  <!-- Dropdown Structure -->
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="{% url 'myaccount' %}">My Account</a></li>
+    <li><a href="{% url 'help' %}">Help</a></li>
+    <li class="divider"></li>
+    <li><a href="{% url 'logout'%}">Logout</a></li>
+  </ul>
 
-<nav>
-  <div class="nav-wrapper">
-    <a href="#!" class="brand-logo"><img src="{% static 'img/general/nugget_logo_sm.png' %}" /></a>
-    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-    <ul class="right hide-on-med-and-down">
-      <li><a href="{% url 'home' %}" style="color: white;">home</a></li>
-      <li><a href="{% url 'nugget' %}" style="color: white;">my nugget</a></li>
-      <li><a href="{% url 'shop' %}"style="color: white;">shop</a></li>
-      <li><a href="{% url 'community' %}"style="color: white;">community</a></li>
-      <li><a href="{% url 'battle' %}"style="color: white;">battle</a></li>
-      <li><a href="#" style="color: white;"><img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" />{% block coins %}{% endblock %}</a></li>
-      <!-- Dropdown Trigger -->
-      <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="color: white;"> <i class="material-icons left">settings</i></a></li>
-    </ul>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="{% url 'hidden' %}" class="brand-logo"><img src="{% static 'img/general/nugget_logo_sm.png' %}" /></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="{% url 'home' %}" style="color: white;">home</a></li>
+        <li><a href="{% url 'nugget' %}" style="color: white;">my nugget</a></li>
+        <li><a href="{% url 'shop' %}" style="color: white;">shop</a></li>
+        <li><a href="{% url 'community' %}" style="color: white;">community</a></li>
+        <li><a href="{% url 'battle' %}" style="color: white;">battle</a></li>
+        <li><a href="#" style="color: white;"><img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" />{% block coins %}{% endblock %}</a></li>
+        <!-- Dropdown Trigger -->
+        <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="color: white;"> <i class="material-icons left">settings</i></a></li>
+      </ul>
 
-    <ul class="side-nav" id="mobile-demo">
-      <li><a href="{% url 'home' %}">home</a></li>
-      <li><a href="{% url 'nugget' %}">my nugget</a></li>
-      <li><a href="{% url 'shop' %}">shop</a></li>
-      <li><a href="{% url 'community' %}">community</a></li>
-      <li><a href="{% url 'battle' %}">battle</a></li>
-      <li><a href="{% url 'index' %}">logout</a></li>
-    </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="{% url 'home' %}">home</a></li>
+        <li><a href="{% url 'nugget' %}">my nugget</a></li>
+        <li><a href="{% url 'shop' %}">shop</a></li>
+        <li><a href="{% url 'community' %}">community</a></li>
+        <li><a href="{% url 'battle' %}">battle</a></li>
+        <li><a href="{% url 'index' %}">logout</a></li>
+      </ul>
 
+    </div>
+  </nav>
+
+
+  {% block content %}{% endblock %}
+
+  <!-- <footer class="page-footer">
+  <div class="footer-copyright">
+    <div class="container">
+    © 2014 Copyright Text
+    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+    </div>
   </div>
-</nav>
+</footer> -->
 
-
-{% block content %}{% endblock %}
-
-<!--  Scripts-->
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="{% static 'js/materialize.js' %}"></script>
-<script src="{% static 'js/custom.js' %}"></script>
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="{% static 'js/materialize.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
 
 
 </body>

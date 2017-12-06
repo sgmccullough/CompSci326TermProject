@@ -1,0 +1,135 @@
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s3">
+      <div class="card grey lighten-3">
+        <div class="card-content grey-text text-darken-4">
+          <span class="card-title">Physical Statistics</span>
+          <ul>
+            <li>Health: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
+            </div>
+            <li>Hunger: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
+            </div>
+            <li>Defense: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ defense }}%; background-color:{{ defense_color }};"></div>
+            </div>
+            <li>Battle XP: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col s6">
+      <center>
+        <h1>{{ nugget }}'s Profile</h1>
+        <ul class="creatures" id="creatures">
+          <li>
+            <div class="click-anim">
+              <figure class="{{ mouth }}" style="background-color: {{ color }}; width:{{ size_w }}px; height:{{ size_h }}px">
+                <div class="eye" style="width:{{ eye_size_w }}px; height:{{ eye_size_h }}px"></div>
+                <div class="eye" style="width:{{ eye_size_w }}px; height:{{ eye_size_h }}px"></div>
+                <div class="mouth"></div>
+              </figure>
+            </div>
+            <div class="shadow" style=""></div>
+          </li>
+        </ul>
+      </center>
+    </div>
+    <div class="col s3">
+      <div class="card grey lighten-3">
+        <div class="card-content grey-text text-darken-4">
+          <span class="card-title">Mental Statistics</span>
+          <ul>
+            <li>Fatigue: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ fatigue }}%; background-color:{{ fatigue_color }}"></div>
+            </div>
+            <li>Intelligence: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ intelligence }}%; background-color:{{ intelligence_color }}"></div>
+            </div>
+            <li>Happiness: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
+            </div>
+            <li>Luck: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ luck }}%; background-color:{{ luck_color }};"></div>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<center>
+  <button class='btn' id='addFriend'>Add Friend!</button>
+  <br><br>
+</center>
+
+  <div class="row">
+    <div class="col s12">
+      <div class="box">
+        <h3 style="text-align: center;">{{ nugget }}'s Friends</h3>
+        <center>
+          <table style="text-align: center;">
+            <tbody>
+                <script type="text/javascript">
+                  var friends = String("{{ friends }}");
+                  if (friends == "None") {
+                    document.write("You don't have friends");
+                  }
+                  else {
+                    friends = friends.replace(/[\[\]']+/g,"");
+                    friends = friends.replace(/&#39;/g, "");
+                    var friendsArray = friends.split(",");
+                    for (var i = 0; i < friendsArray.length; i++){
+                      toOutput = "<center><span class='title'><strong>";
+                      toOutput += friendsArray[i];
+                      // if (friendsArray[i] == {{ CURR_user }}) {
+                      //   toOutput += " (You!)"
+                      // }
+                      toOutput += "</strong></span><br><ul class='creatures' id='creatures'><li><div class='click-anim'><figure class='";
+                      toOutput += friendsArray[i + 2];
+                      toOutput += "' style='background-color:";
+                      toOutput += friendsArray[i + 1];
+                      toOutput += "; width:";
+                      toOutput += friendsArray[i + 5];
+                      toOutput += "px; height:"
+                      toOutput += friendsArray[i + 6];
+                      toOutput += "px'><div class='eye' style='width:";
+                      toOutput += friendsArray[i + 4];
+                      toOutput += "px; height:";
+                      toOutput += friendsArray[i + 3];
+                      toOutput += "px'></div><div class='eye' style='width:";
+                      toOutput += friendsArray[i + 4];
+                      toOutput += "px; height:";
+                      toOutput += friendsArray[i + 3];
+                      toOutput += "px'></div><div class='mouth'></div></figure></div><div class='shadow' style=''></div></li></ul></center>";
+                      toOutput += "<br><a href={% url 'profile' username='";
+                      toOutput += friendsArray[i];
+                      toOutput += "' %}' class='button' id='viewProfile'>View Profile</button>"
+                      document.write(toOutput);
+                      i += 6;
+                    }
+                  }
+                </script>
+            </tbody>
+          </table>
+        </center>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

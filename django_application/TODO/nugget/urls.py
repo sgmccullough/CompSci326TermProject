@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^create$', views.create, name='create'),
     url(r'^help$', views.help, name='help'),
     url(r'^myaccount$', views.myaccount, name='myaccount'),
+    url(r'^profile/(?P<username>[a-zA-Z0-9]+)$', views.profile_page, name='profile'),
+    url(r'^hidden$', views.hidden, name='hidden'),
 ]
 
 

@@ -198,6 +198,28 @@ def nugget(request):
     intelligence = nug_attributes.intelligence
     luck = nug_attributes.luck
 
+    if health > 100:
+        health = 100
+    if health < 0:
+        health = 0
+    if hunger > 100:
+        hunger = 100
+    if hunger < 0:
+        hunger = 0
+    if happiness > 100:
+        happiness = 100
+    if happiness < 0:
+        happiness = 0
+    if battle_XP > 100:
+        battle_XP = 100
+    if battle_XP < 0:
+        battle_XP = 0
+    if fatigue > 100:
+        fatigue = 100
+    if fatigue < 0:
+        fatigue = 0
+
+
     #Nugget attributes views
     if health > 50:
         health_color = "green"
@@ -529,9 +551,156 @@ def community(request):
     """
     View function for community page.
     """
+    usr_id = Profile.objects.get(usr=request.user)
+    user = usr_id.usr
+    nugget = Nugget.objects.get(user=usr_id)
+    coins = usr_id.coins
+    nug_attributes = nugget.attributes
+
+    friends = Friend.objects.get(current_user=usr_id)
+    friends_names = friends.users
+    list_friends = []
+
+    for i in friends_names.iterator():
+        nug = Nugget.objects.get(user=i)
+        list_friends.append(nug.name)
+
     return render(
         request,
         'community.html',
+        {'coins':coins, 'friends':list_friends,}
+    )
+
+from django.shortcuts import get_object_or_404
+
+@login_required(login_url='/nugget/')
+def profile_page(request, username):
+    nugget = get_object_or_404(Nugget, name=username)
+    nug_attributes = nugget.attributes
+
+    CURR_usr_id = Profile.objects.get(usr=request.user)
+    CURR_user = CURR_usr_id.usr
+    CURR_nugget = Nugget.objects.get(user=CURR_usr_id)
+    CURR_coins = CURR_usr_id.coins
+
+    if CURR_nugget.name is "":
+        return redirect('create')
+
+    #Nugget attributes
+    shape = nug_attributes.nugget_status
+
+    if shape == 'c':
+        size_w = 200
+        size_h = 200
+    else:
+        size_w = 160
+        size_h = 200
+
+    color = nug_attributes.color
+    mouth_shape = nug_attributes.mouth_status
+    eye_size_h = nug_attributes.eye_size
+    eye_size_w = eye_size_h*0.75
+
+
+    health = nug_attributes.health
+    hunger = nug_attributes.hunger
+    happiness = nug_attributes.happiness
+    battle_XP = nug_attributes.battle_XP
+    fatigue = nug_attributes.fatigue
+    defense = nug_attributes.defense
+    intelligence = nug_attributes.intelligence
+    luck = nug_attributes.luck
+
+    #Nugget attributes views
+    if health > 50:
+        health_color = "green"
+    elif health > 20:
+        health_color = "orange"
+    else:
+        health_color = "red"
+
+    if hunger > 50:
+        hunger_color = "green"
+    elif hunger > 20:
+        hunger_color = "orange"
+    else:
+        hunger_color = "red"
+
+    if happiness > 50:
+        happiness_color = "green"
+    elif happiness > 20:
+        happiness_color = "orange"
+    else:
+        happiness_color = "red"
+
+    if battle_XP > 50:
+        battle_XP_color = "green"
+    elif battle_XP > 20:
+        battle_XP_color = "orange"
+    else:
+        battle_XP_color = "red"
+
+    if defense > 50:
+        defense_color = "green"
+    elif defense > 20:
+        defense_color = "orange"
+    else:
+        defense_color = "red"
+
+    if fatigue > 50:
+        fatigue_color = "green"
+    elif fatigue > 20:
+        fatigue_color = "orange"
+    else:
+        fatigue_color = "red"
+
+    if intelligence > 50:
+        intelligence_color = "green"
+    elif intelligence > 20:
+        intelligence_color = "orange"
+    else:
+        intelligence_color = "red"
+
+    if luck > 50:
+        luck_color = "green"
+    elif luck > 20:
+        luck_color = "orange"
+    else:
+        luck_color = "red"
+
+
+    friends = Friend.objects.get(current_user=nugget.user)
+    friends_names = friends.users
+    list_friends = []
+    for i in friends_names.iterator():
+        nug = Nugget.objects.get(user=i)
+        list_friends.append(nug.name)
+        nug_att_temp = nug.attributes
+        shape_temp = nug_att_temp.nugget_status
+
+        if shape_temp == 'c':
+            size_w_temp = 200
+            size_h_temp = 200
+        else:
+            size_w_temp = 160
+            size_h_temp = 200
+
+        color_temp = nug_att_temp.color
+        mouth_shape_temp = nug_att_temp.mouth_status
+        eye_size_h_temp = nug_att_temp.eye_size
+        eye_size_w_temp = eye_size_h_temp*0.75
+        list_friends = list_friends + [color_temp, mouth_shape_temp, eye_size_h_temp, eye_size_w_temp, size_w_temp, size_h_temp]
+    if list_friends == []:
+        list_friends = "None"
+
+
+    return render(request,
+        'profile.html',
+        {'CURR_user': CURR_nugget.name, 'coins': CURR_coins, 'nugget': nugget.name, 'color':color, 'mouth':mouth_shape, 'eye_size_h': eye_size_h,
+        'eye_size_w': eye_size_w,'size_w': size_w, 'size_h': size_h, 'health':health, 'health_color':health_color, 'hunger':hunger,
+        'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
+        'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
+        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'friends':list_friends},
     )
 
 from random import randint
@@ -1011,7 +1180,7 @@ def help(request):
     View function for help page.
     """
     usr_id = Profile.objects.get(usr=request.user)
-    coins = getattr(usr_id, 'coins')
+    coins = usr_id.coins
     return render(
         request,
         'help.html',
@@ -1023,9 +1192,9 @@ def myaccount(request):
     View function for myaccount page.
     """
     usr_id = Profile.objects.get(usr=request.user)
-    coins = getattr(usr_id, 'coins')
+    coins = usr_id;coins
     nugget = Nugget.objects.get(user=usr_id)
-    user = getattr(usr_id, 'usr')
+    user = usr_id;usr
     userbday = usr_id.bday
 
     thisUser = request.user
@@ -1044,6 +1213,18 @@ def myaccount(request):
         request,
         'myaccount.html',
         {'coins': coins, 'nugget':nugget, 'user':user, 'userbday':userbday, 'firstname':firstname, 'lastname':lastname, 'useremail':useremail, 'username': username},
+    )
+
+def hidden(request):
+    """
+    View function for help page.
+    """
+    usr_id = Profile.objects.get(usr=request.user)
+    coins = usr_id.coins
+    return render(
+        request,
+        'hidden.html',
+        {'coins': coins, },
     )
 
 # HTTP Error 400
