@@ -35,7 +35,7 @@
         <li><a href="{% url 'shop' %}" style="color: white;">shop</a></li>
         <li><a href="{% url 'community' %}" style="color: white;">community</a></li>
         <li><a href="{% url 'battle' %}" style="color: white;">battle</a></li>
-        <li><a href="#" style="color: white;"><img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" />{% block coins %}{% endblock %}</a></li>
+        <li><a href="#modal" style="color: white;" class="modal-trigger"><img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" />{% block coins %}{% endblock %}</a></li>
         <!-- Dropdown Trigger -->
         <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="color: white;"> <i class="material-icons left">settings</i></a></li>
       </ul>
@@ -52,8 +52,27 @@
     </div>
   </nav>
 
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h4>Support MyNugget.io</h4>
+      <p>For every donation you make to MyNugget.io, you'll receive coins for exchange! Awesome, right? What better
+      way to support your favorite web application through a monetary donation. And hey, you'll get something out of
+    it, too!</p>
+    <center style="font-size:20px;">
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$1</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 100<br>
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$5</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 500<br>
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$10</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 1000<br>
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$20</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 2000<br>
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$50</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 5000<br>
+  </center>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Go Back</a>
+    </div>
+  </div>
 
-  {% block content %}{% endblock %}
+  {% block content %}
+  {% endblock %}
 
   <!-- <footer class="page-footer">
   <div class="footer-copyright">

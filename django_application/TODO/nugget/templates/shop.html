@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="row">
-  <div class="col s4">
+  <div class="col s4 offset-s1">
     <div class="box" style="overflow:auto; height:500px;">
       <h5 style="text-align: center;">Your Inventory <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="These items are items that you own! You can sell these back to Mother Nugget.">(?)</a></h5>
       <center>
@@ -16,7 +16,7 @@
             <script type="text/javascript">
               var items_inventory = String("{{ inventory_items }}");
               if (items_inventory == "None") {
-                document.write("<br><br><h5>No items! Buy Some from the shop!</h5>");
+                document.write("<br><br><h5>No items! Buy some from the shop!</h5>");
               }
               else {
                 items_inventory = items_inventory.replace(/[\[\]']+/g, "");
@@ -58,11 +58,22 @@
       </center>
     </div>
   </div>
+  <div class="col s6">
+    <div class="box" style="height:500px">
   <center>
     <h2>Nuggetopia Shop</h2>
-    <img src="{% static 'img/shop/mother-nugget.png' %}" width=300 alt="Cluck Cluck!">
-    <h5>Hello! I'm Mother Nugget, these are today's specials!</h5>
+    <img src="{% static 'img/shop/mother-nugget.png' %}" width=150 alt="Cluck Cluck!">
+    <h5>Hello! I'm Mother Nugget. Good to see you.</h5>
   </center>
+  <p>
+    Welcome to the Nuggetopia Shop. Here you'll find everything you need for your fellow Nugget. I have lots of food
+    in stock every day, as well as plenty of different items to entertain your Nugget. If you need anything, give me a
+    loud cluck!<br>
+    <br>
+    I'll be in the back, tending to my eggs.
+  </p>
+</div>
+</div>
 </div>
 
 <div class="row">
