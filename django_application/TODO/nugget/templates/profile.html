@@ -86,8 +86,8 @@
                   }
                   else {
                     document.write("<div class='carousel' style='height:500px;'>");
-                    document.write("<h3 style='text-align: center;'>{{ username }}'s Friends</h3>");
-                    document.write("<center><button class='btn' id='addFriend'>Add Friend</button> <button class='btn' id='addFriend'>Send Message</button></center>");
+                    document.write("<div class='carousel-fixed-item'><h3 style='text-align: center;'>{{ username }}'s Friends</h3>");
+                    document.write("<center><button class='btn' id='addFriend'>Add Friend</button> <button class='btn' id='addFriend'>Send Message</button></center></div>");
                     friends = friends.replace(/[\[\]']+/g,"");
                     friends = friends.replace(/&#39;/g, "");
                     userFriends = userFriends.replace(/[\[\]']+/g,"");

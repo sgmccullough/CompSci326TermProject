@@ -4,31 +4,43 @@
 
 {% block content %}
 <div class="row">
+  <div class="col s8 offset-s2">
   <div class="input-field">
-    <input id="search" type="search" required>
+    <input id="search" type="search" required style="background:white;text-align:right;padding-right:5px;" placeholder="Search for a user...">
     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-    <i class="material-icons">close</i>
   </div>
+</div>
+</div>
+<div class="row">
   <div class="col s4 offset-s1">
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
-        <h4 align="center">friendos!</h4>
+        <h5 align="center">Your Friendos</h5>
         <ul class="collection">
           <script type="text/javascript">
             var friends = String("{{ friends }}");
+            var users = String("{{ userfriends }}");
             if (friends == "None") {
               document.write("You don't have friends");
             }
             else {
               friends = friends.replace(/[\[\]']+/g,"");
               friends = friends.replace(/&#39;/g, "");
+              users = users.replace(/[\[\]']+/g,"");
+              users = users.replace(/&#39;/g, "");
+              users = users.replace(" ", "");
               var friendsArray = friends.split(",");
+              var userArray = users.split(",");
               for (var i = 0; i < friendsArray.length; i++){
                 toOutput = "<li class='collection-item avatar'>";
                 toOutput += "<img src = '{% static 'img/Resource Files/animal-vector-2/png/cat.png' %}' alt='' class='circle'>";
                 toOutput += "<span class='title'><strong>";
+                toOutput += userArray[i];
+                toOutput += "</strong></span><br>"
                 toOutput += friendsArray[i];
-                toOutput += "</strong></span><p>What's up? <br><i>5:00 am</i></p>";
+                toOutput += "<br><a href='#'>Send Message</a><br><a href='profile/";
+                toOutput += userArray[i];
+                toOutput += "'>View Profile</a>";
                 document.write(toOutput);
               }
             }
@@ -37,47 +49,50 @@
       </div>
     </div>
   </div>
-
   <div class="col s6">
     <div class="card grey lighten-3">
       <div class="card-content grey-text text-darken-4">
         <ul class="collection">
           <li class="collection-item avatar" align="center">
             <img src="{% static 'img/Resource Files/animal-vector-2/png/cat.png' %}" alt="" class="circle">
-            <span class="title"><strong>FRIENDS NAME HERE (LALA)</strong></span><br>
-            <a href="{% url 'profile' username='testuser' %}"><strong>View Profile</strong></span>
+            <span class="title"><strong>{{ thisUser }}</strong></span><br>
+            <strong>Total Posts: </strong> 27<br>
+            <a href="{% url 'profile' username=thisUser %}"><strong>View Your Profile</strong></a> |
+            <a href=""><strong>Nuggetopia Settings</strong></a>
           </li>
         </ul>
-        <div class="card-content grey-text text-darken-6">
-          <ul class="collection">
-            <li class="collection-item avatar">
-              <img src="{% static 'img/Resource Files/animal-vector-2/png/cat.png' %}" alt="" class="circle">
-              <p>I'm about to log off for the night</p>
-            </li>
-            <li class="collection-item avatar">
-              <img src="{% static 'img/animal-vector-2/png/wolf.png' %}" alt="" class="circle">
-              <p>Alright, will you be on tomorrow?</p>
-            </li>
-            <li class="collection-item avatar">
-              <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
-              <p>Of course, talk later!</p>
-            </li>
-            <li class="collection-item avatar">
-              <img src="{% static 'img/animal-vector-2/png/wolf.png' %}" alt="" class="circle">
-              <p>Byeeee</p>
-            </li>
-            <li class="collection-item avatar">
-              <img src="{% static 'img/animal-vector-2/png/koala.png' %}" alt="" class="circle">
-              <p>Chat me when you're on!</p>
-            </li>
-          </ul>
-          <div class="input-field">
-            <input id="text" type="text" placeholder="chat here!" required>
-            <label class="label-icon" for="text"></label>
-          </div>
-        </div>
+        <h5 style="text-align: center;">Nuggetopia Forum</h5>
+        <style>
+          .forum :hover, .forum :focus{
+            background:#DDD;
+            cursor:pointer;
+          }
+        </style>
+      <div class="card-content grey-text text-darken-4">
+        <ul class="collection forum">
+          <li class="collection-item avatar" align="left">
+            <img src="{% static 'img/Resource Files/clothes/png/backpack.png' %}" alt="" class="circle">
+            <span class="title"><strong>General Chat</strong></span><br>
+            Welcome to Nuggetopia! Here, you can talk about anything. Introductions, your day, your favorite meal,
+            who the best Nugget in town is...
+          </li>
+          <li class="collection-item avatar" align="left">
+            <img src="{% static 'img/Resource Files/clothes/png/mittens.png' %}" alt="" class="circle">
+            <span class="title"><strong>Friend Requests</strong></span><br>
+            This board is reserved for finding friends at Nuggetopia. Because who doesn't love meeting strangers on
+            the internet, right?!
+          </li>
+          <li class="collection-item avatar" align="left">
+            <img src="{% static 'img/Resource Files/man-accessories/png/cowboy.png' %}" alt="" class="circle">
+            <span class="title"><strong>Battle Chat</strong></span><br>
+            Not too happy about the outcome of your last Battle? Maybe your too happy about it? Or maybe you want to compare
+            the stats you gained in battles to others. Well, this is the place to do it!
+          </li>
+        </ul>
+      </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 {% endblock %}

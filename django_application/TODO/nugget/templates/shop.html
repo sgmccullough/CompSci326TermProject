@@ -332,7 +332,7 @@ $(function(){
         {% csrf_token %}
         {{ shop_form.as_p }}
         <input type="hidden" id="id_ItemName_buy" name="item_id" value="NULL" readonly>
-        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="buying" onclick="Materialize.toast('You sold an item!', 3000, 'rounded')">Confirm?</button>
+        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="buying" onclick="Materialize.toast('You bought an item!', 3000, 'rounded')">Confirm?</button>
       </form>
       <br>
       <button id="close" class="waves-effect waves-light btn modal-close">Nope! Go Back</button>

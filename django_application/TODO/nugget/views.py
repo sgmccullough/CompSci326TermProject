@@ -646,15 +646,17 @@ def community(request):
     friends = Friend.objects.get(current_user=usr_id)
     friends_names = friends.users
     list_friends = []
+    user_friends = []
 
     for i in friends_names.iterator():
         nug = Nugget.objects.get(user=i)
+        user_friends.append(i.usr.username)
         list_friends.append(nug.name)
 
     return render(
         request,
         'community.html',
-        {'coins':coins, 'friends':list_friends,}
+        {'coins':coins, 'friends':list_friends, 'userfriends': user_friends, 'thisUser': usr_id, }
     )
 
 @login_required(login_url='/nugget/')
