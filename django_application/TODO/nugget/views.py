@@ -764,9 +764,11 @@ def profile_page(request, username):
 
     friends = Friend.objects.get(current_user=nugget.user)
     friends_names = friends.users
+    user_friends = []
     list_friends = []
     for i in friends_names.iterator():
         nug = Nugget.objects.get(user=i)
+        user_friends.append(i.usr.username)
         list_friends.append(nug.name)
         nug_att_temp = nug.attributes
         shape_temp = nug_att_temp.nugget_status
@@ -785,6 +787,8 @@ def profile_page(request, username):
         list_friends = list_friends + [color_temp, mouth_shape_temp, eye_size_h_temp, eye_size_w_temp, size_w_temp, size_h_temp]
     if list_friends == []:
         list_friends = "None"
+    if user_friends == []:
+        user_friends = "None"
 
 
     return render(request,
@@ -793,7 +797,7 @@ def profile_page(request, username):
         'eye_size_w': eye_size_w,'size_w': size_w, 'size_h': size_h, 'health':health, 'health_color':health_color, 'hunger':hunger,
         'hunger_color':hunger_color, 'defense':defense, 'defense_color':defense_color, 'battle_XP':battle_XP, 'battle_XP_color':battle_XP_color,
         'fatigue':fatigue, 'fatigue_color':fatigue_color, 'intelligence':intelligence, 'intelligence_color':intelligence_color,
-        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'friends':list_friends},
+        'happiness':happiness, 'happiness_color':happiness_color, 'luck':luck, 'luck_color':luck_color, 'friends':list_friends, 'userfriends':user_friends, },
     )
 
 @login_required(login_url='/nugget/')

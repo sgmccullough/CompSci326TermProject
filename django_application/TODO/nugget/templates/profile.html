@@ -4,7 +4,7 @@
 
 {% block content %}
   <div class="row">
-    <div class="col s3">
+    <div class="col s3 offset-s1">
       <div class="card grey lighten-3">
         <div class="card-content grey-text text-darken-4">
           <span class="card-title">Physical Statistics</span>
@@ -29,10 +29,10 @@
         </div>
       </div>
     </div>
-    <div class="col s6">
+    <div class="col s4">
       <center>
-        <h1>{{ username }}'s Profile</h1>
-        <h2>{{ nugget }}</h2>
+        <h2>{{ username }}'s Profile</h2>
+        <strong style="font-size:20px;">{{ nugget }}</strong>
         <ul class="creatures" id="creatures">
           <li>
             <div class="click-anim">
@@ -74,34 +74,43 @@
     </div>
   </div>
 
-<center>
-  <button class='btn' id='addFriend'>Add Friend!</button>
-  <br><br>
-</center>
-
   <div class="row">
-    <div class="col s12">
-      <div class="box">
-        <h3 style="text-align: center;">{{ username }}'s Friends</h3>
+    <div class="col s10 offset-s1">
+      <div class="box" style="">
         <center>
-          <table style="text-align: center;">
-            <tbody>
                 <script type="text/javascript">
                   var friends = String("{{ friends }}");
+                  var userFriends = String("{{ userfriends }}");
                   if (friends == "None") {
                     document.write("You don't have friends");
                   }
                   else {
+                    document.write("<div class='carousel' style='height:500px;'>");
+                    document.write("<h3 style='text-align: center;'>{{ username }}'s Friends</h3>");
+                    document.write("<center><button class='btn' id='addFriend'>Add Friend</button> <button class='btn' id='addFriend'>Send Message</button></center>");
                     friends = friends.replace(/[\[\]']+/g,"");
                     friends = friends.replace(/&#39;/g, "");
+                    userFriends = userFriends.replace(/[\[\]']+/g,"");
+                    userFriends = userFriends.replace(/&#39;/g, "");
                     var friendsArray = friends.split(",");
+                    var userFriendsArray = userFriends.split(",");
+                    var ctr = 1;
+                    var userctr = 0;
                     for (var i = 0; i < friendsArray.length; i++){
-                      toOutput = "<center><span class='title'><strong>";
-                      toOutput += friendsArray[i];
+                      toOutput = "<div class='carousel-item' href='";
+                      toOutput += userFriendsArray[i];
+                      toOutput += "'>";
                       // if (friendsArray[i] == {{ CURR_user }}) {
                       //   toOutput += " (You!)"
                       // }
-                      toOutput += "</strong></span><br><ul class='creatures' id='creatures'><li><div class='click-anim'><figure class='";
+                      toOutput += "<center><span class='title'><h5>";
+                      toOutput += userFriendsArray[userctr];
+                      toOutput += "</h5><strong>";
+                      toOutput += friendsArray[i];
+                      toOutput += "</strong><br><a href='";
+                      toOutput += userFriendsArray[userctr];
+                      toOutput += "' class=\"button\" id=\"viewProfile\">View Profile</button></a></strong></span><br>";
+                      toOutput += "<ul class='creatures' id='creatures'><li><div class='click-anim'><figure class='";
                       toOutput += friendsArray[i + 2];
                       toOutput += "' style='background-color:";
                       toOutput += friendsArray[i + 1];
@@ -117,20 +126,25 @@
                       toOutput += friendsArray[i + 4];
                       toOutput += "px; height:";
                       toOutput += friendsArray[i + 3];
-                      toOutput += "px'></div><div class='mouth'></div></figure></div><div class='shadow' style=''></div></li></ul></center>";
-                      toOutput += "<br><a href={% url 'profile' username='";
-                      toOutput += friendsArray[i];
-                      toOutput += "' %}' class='button' id='viewProfile'>View Profile</button>"
+                      toOutput += "px'></div><div class='mouth'></div></figure></div><div class='shadow' style=''></div></li></ul></div>";
                       document.write(toOutput);
                       i += 6;
+                      ctr++;
+                      userctr++;
                     }
                   }
                 </script>
-            </tbody>
-          </table>
-        </center>
+              </center>
+            </div>
       </div>
     </div>
   </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+  $(function(){
+    $('.carousel').carousel({fullHeight: true});
+  });
+  </script>
 
 {% endblock %}

@@ -8,7 +8,7 @@
 {% block content %}
 <div class="row">
   <div class="col s4 offset-s1">
-    <div class="box" style="overflow:auto; height:500px;">
+    <div class="box" style="overflow:auto; height:550px;">
       <h5 style="text-align: center;">Your Inventory <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="These items are items that you own! You can sell these back to Mother Nugget.">(?)</a></h5>
       <center>
         <table style="text-align: center;">
@@ -59,7 +59,7 @@
     </div>
   </div>
   <div class="col s6">
-    <div class="box" style="height:500px">
+    <div class="box" style="height:550px; overflow:auto;">
   <center>
     <h2>Nuggetopia Shop</h2>
     <img src="{% static 'img/shop/mother-nugget.png' %}" width=150 alt="Cluck Cluck!">
@@ -69,8 +69,7 @@
     Welcome to the Nuggetopia Shop. Here you'll find everything you need for your fellow Nugget. I have lots of food
     in stock every day, as well as plenty of different items to entertain your Nugget. If you need anything, give me a
     loud cluck!<br>
-    <br>
-    {{ message }}
+    <h5>Recent Transactions:</h5>{{ message }}
   </p>
 </div>
 </div>
@@ -314,7 +313,7 @@ $(function(){
         {% csrf_token %}
         {{ inventory_form.as_p }}
         <input type="hidden" id="id_ItemName_sell" name="item_id" value="NULL" readonly>
-        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="selling">Confirm?</button>
+        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="selling" onclick="Materialize.toast('You sold an item!', 3000, 'rounded')">Confirm?</button>
       </form>
       <br>
       <button id="close" class="waves-effect waves-light btn modal-close">Nope! Go Back</button>
@@ -333,7 +332,7 @@ $(function(){
         {% csrf_token %}
         {{ shop_form.as_p }}
         <input type="hidden" id="id_ItemName_buy" name="item_id" value="NULL" readonly>
-        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="buying">Confirm?</button>
+        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="buying" onclick="Materialize.toast('You sold an item!', 3000, 'rounded')">Confirm?</button>
       </form>
       <br>
       <button id="close" class="waves-effect waves-light btn modal-close">Nope! Go Back</button>
