@@ -1324,6 +1324,41 @@ def hidden(request):
         {'coins': coins, },
     )
 
+def private_msg(request):
+    """
+    View function for help page.
+    """
+    usr_id = Profile.objects.get(usr=request.user)
+    coins = usr_id.coins
+    return render(
+        request,
+        'private_msg.html',
+        {'coins': coins, },
+    )
+
+def forum(request):
+    """
+    View function for help page.
+    """
+    usr_id = Profile.objects.get(usr=request.user)
+    coins = usr_id.coins
+    return render(
+        request,
+        'forum.html',
+        {'coins': coins, },
+    )
+
+def forum_post(request):
+    """
+    View function for help page.
+    """
+    usr_id = Profile.objects.get(usr=request.user)
+    coins = usr_id.coins
+    return render(
+        request,
+        'forum_post.html',
+        {'coins': coins, },
+    )
 # HTTP Error 400
 def bad_request(request):
     response = render_to_response('400.html',context_instance=RequestContext(request))

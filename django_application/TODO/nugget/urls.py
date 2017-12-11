@@ -14,6 +14,9 @@ urlpatterns = [
     url(r'^help$', views.help, name='help'),
     url(r'^myaccount$', views.myaccount, name='myaccount'),
     url(r'^profile/(?P<username>[a-zA-Z0-9]+)$', views.profile_page, name='profile'),
+    url(r'^chat/(?P<id>[a-zA-Z0-9]+)$', views.private_msg, name='private_msg'),
+    url(r'^forum/(?P<topic>[a-zA-Z0-9]+)$', views.forum, name='forum'),
+    url(r'^forum/(?P<topic>[a-zA-Z0-9]+)/(?P<id>[a-zA-Z0-9]+)$', views.forum_post, name='forum_post'),
     url(r'^hidden$', views.hidden, name='hidden'),
 ]
 
