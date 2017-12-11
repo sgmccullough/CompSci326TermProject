@@ -342,3 +342,34 @@ class News(models.Model):
         String for representing a News Item
         """
         return str(self.text)
+
+class Forum(models.Model):
+    id = models.UUIDField(verbose_name="forum id", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this forum post")
+    user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User in the chat")
+    subject = models.CharField(verbose_name="subject", max_length=100, blank=True, default='Subject', help_text='Forum Topic')
+    content = models.CharField(verbose_name="content", max_length=1000, blank=True, default='None', help_text='Forum content')
+    date = models.DateField(verbose_name="Post Date", auto_now=False, default=datetime.date.today)
+
+    class Meta:
+        ordering = ['user', 'subject', 'content', 'date']
+
+    def __str__(self):
+        """
+        String for representing a News Item
+        """
+        return str(self.id)
+
+class ForumComments(models.Model):
+    originalPost = models.ForeignKey('Forum', on_delete=models.SET_NULL, null=True, verbose_name="link comment to a forum post")
+    user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User in the chat")
+    content = models.CharField(verbose_name="content", max_length=200, blank=True, default='None', help_text='Forum comment content')
+    date = models.DateField(verbose_name="Post Date", auto_now=False, default=datetime.date.today)
+
+    class Meta:
+        ordering = ['originalPost', 'user', 'content', 'date']
+
+    def __str__(self):
+        """
+        String for representing a News Item
+        """
+        return str(self.originalPost)

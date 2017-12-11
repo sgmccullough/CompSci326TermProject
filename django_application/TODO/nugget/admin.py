@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Profile, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems, News
+from .models import Profile, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems, News, Forum, ForumComments
 
 
 @admin.register(Profile)
@@ -40,6 +40,14 @@ class NuggetAdmin(admin.ModelAdmin):
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('text',)
+
+@admin.register(ForumComments)
+class ForumCommentsAdmin(admin.ModelAdmin):
+    list_display = ('originalPost', 'user', 'content', 'date',)
+
+@admin.register(Forum)
+class ForumAdmin(admin.ModelAdmin):
+    list_display = ('user', 'subject', 'content', 'date',)
 
 admin.site.register(NuggetAttribute)
 admin.site.register(Shop)
