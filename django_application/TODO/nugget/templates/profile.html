@@ -85,7 +85,7 @@
                     document.write("You don't have friends");
                   }
                   else {
-                    document.write("<div class='carousel' style='height:500px;'>");
+                    document.write("<div class='carousel' style='height:500px; data-slide='1'>");
                     document.write("<div class='carousel-fixed-item'><h3 style='text-align: center;'>{{ username }}'s Friends</h3>");
                     document.write("<center><button class='btn' id='addFriend'>Add Friend</button> <button class='btn' id='addFriend'>Send Message</button></center></div>");
                     friends = friends.replace(/[\[\]']+/g,"");
@@ -97,9 +97,9 @@
                     var ctr = 1;
                     var userctr = 0;
                     for (var i = 0; i < friendsArray.length; i++){
-                      toOutput = "<div class='carousel-item' href='";
+                      toOutput = "<div class='carousel-item' href='#";
                       toOutput += userFriendsArray[i];
-                      toOutput += "'>";
+                      toOutput += "!' style='width:400px;'>";
                       // if (friendsArray[i] == {{ CURR_user }}) {
                       //   toOutput += " (You!)"
                       // }
@@ -109,7 +109,7 @@
                       toOutput += friendsArray[i];
                       toOutput += "</strong><br><a href='";
                       toOutput += userFriendsArray[userctr];
-                      toOutput += "' class=\"button\" id=\"viewProfile\">View Profile</button></a></strong></span><br>";
+                      toOutput += "' id=\"viewProfile\">View Profile</button></a></strong></span><br>";
                       toOutput += "<ul class='creatures' id='creatures'><li><div class='click-anim'><figure class='";
                       toOutput += friendsArray[i + 2];
                       toOutput += "' style='background-color:";
@@ -142,9 +142,12 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
-  $(function(){
-    $('.carousel').carousel({fullHeight: true});
-  });
+  // $(function(){
+  //   $('.carousel').carousel({fullHeight: true});
+  // });
+  $(document).ready(function(){
+  $('.carousel').carousel();
+});
   </script>
 
 {% endblock %}
