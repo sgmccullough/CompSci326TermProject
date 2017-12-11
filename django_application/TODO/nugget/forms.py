@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Nugget, NuggetAttribute, Inventory, BattleInstance, Profile, Friend, InventoryItems, Battle
+from .models import Nugget, NuggetAttribute, Inventory, BattleInstance, Profile, Friend, InventoryItems, Battle, Forum, ForumComments
 
 mouth = (
     ('hyper', 'Happy'),
@@ -142,3 +142,30 @@ class BattleResponse(forms.ModelForm):
     class Meta:
         model = Battle
         fields = ('current', )
+
+class ForumPost(forms.ModelForm):
+    subject = forms.CharField(label='Subject of Post (100 Characters)')
+    content = forms.CharField(label='Content of Post (1000 Characters)')
+    # private = forms.BooleanField(required=True)
+    #
+    # def __init__(self, *args, **kwargs):
+    #     self.user = kwargs.pop('user', None)
+    #     super(NewBattle, self).__init__(*args, **kwargs)
+    #
+    #     thisUser = Profile.objects.get(usr=self.user)
+    #
+    #     if thisUser:
+    #         friends = Friend.objects.get(current_user=thisUser)
+    #         friendChoices = getattr(friends, 'users')
+    #         self.fields['opp_a'].queryset = Profile.objects.filter(usr=self.user)
+
+    class Meta:
+        model = Forum
+        fields = ('subject', 'content',)
+
+class ForumCommentPost(forms.ModelForm):
+    content = forms.CharField(label='Content of Post (1000 Characters)')
+
+    class Meta:
+        model = ForumComments
+        fields = ('content', )

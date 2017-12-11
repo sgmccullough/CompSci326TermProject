@@ -349,9 +349,11 @@ class Forum(models.Model):
     subject = models.CharField(verbose_name="subject", max_length=100, blank=True, default='Subject', help_text='Forum Topic')
     content = models.CharField(verbose_name="content", max_length=1000, blank=True, default='None', help_text='Forum content')
     date = models.DateField(verbose_name="Post Date", auto_now=False, default=datetime.date.today)
+    #private = models.BooleanField(verbose_name="Private Post")
+    #allowedusers = models.ManyToManyField('Profile', verbose_name="Allowed Users")
 
     class Meta:
-        ordering = ['user', 'subject', 'content', 'date']
+        ordering = ['id', 'user', 'subject', 'content', 'date']
 
     def __str__(self):
         """
