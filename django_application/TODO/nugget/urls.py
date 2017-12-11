@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^forum/(?P<topic>[a-zA-Z0-9]+)$', views.forum, name='forum'),
     url(r'^forum/(?P<topic>[a-zA-Z0-9]+)/(?P<id>[a-zA-Z0-9]+)$', views.forum_post, name='forum_post'),
     url(r'^hidden$', views.hidden, name='hidden'),
+    url(r'^testview$', views.testview, name='testview'),
 ]
 
 

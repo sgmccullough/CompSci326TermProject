@@ -1390,6 +1390,23 @@ def forum_post(request, topic, id):
         'forum_post.html',
         {'coins': coins, },
     )
+
+def testview(request):
+    """
+    View function for a test view.
+    """
+
+    if request.method == 'POST':
+        chatForm = ChatPost(request.POST)
+    else:
+        chatForm = ChatPost()
+
+    return render(
+        request,
+        'private-msg-template.html',
+        {'chatForm': chatForm, },
+    )
+
 # HTTP Error 400
 def bad_request(request):
     response = render_to_response('400.html',context_instance=RequestContext(request))

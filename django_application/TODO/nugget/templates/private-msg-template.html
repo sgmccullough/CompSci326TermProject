@@ -5,92 +5,27 @@
 {% block content %}
 <div class="row">
   <div class="col s8 offset-s2">
-  <div class="input-field">
-    <input id="search" type="search" required style="background:white;text-align:right;padding-right:5px;" placeholder="Search for a user...">
-    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-  </div>
-</div>
-</div>
-<div class="row">
-  <div class="col s4 offset-s1">
-    <div class="card grey lighten-3">
-      <div class="card-content grey-text text-darken-4">
-        <h5 align="center">Your Friendos</h5>
-        <ul class="collection">
-          <script type="text/javascript">
-            var friends = String("{{ friends }}");
-            var users = String("{{ userfriends }}");
-            if (friends == "None") {
-              document.write("You don't have friends");
-            }
-            else {
-              friends = friends.replace(/[\[\]']+/g,"");
-              friends = friends.replace(/&#39;/g, "");
-              users = users.replace(/[\[\]']+/g,"");
-              users = users.replace(/&#39;/g, "");
-              users = users.replace(/\s+/g, '');
-              var friendsArray = friends.split(",");
-              var userArray = users.split(",");
-              for (var i = 0; i < friendsArray.length; i++){
-                toOutput = "<li class='collection-item avatar'>";
-                toOutput += "<img src = '{% static 'img/Resource Files/animal-vector-2/png/cat.png' %}' alt='' class='circle'>";
-                toOutput += "<span class='title'><strong>";
-                toOutput += userArray[i];
-                toOutput += "</strong></span><br>"
-                toOutput += friendsArray[i];
-                toOutput += "<br><a href='#'>Send Message</a><br><a href='profile/";
-                toOutput += userArray[i];
-                toOutput += "'>View Profile</a>";
-                document.write(toOutput);
-              }
-            }
-          </script>
-        </ul>
-      </div>
+    <div class="box" style="overflow:auto; height:500px;">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut sem id lorem pellentesque luctus. Praesent tortor nisi, laoreet in ipsum scelerisque, laoreet viverra massa. Pellentesque ut purus accumsan, imperdiet leo id, mattis justo. Aliquam ut dictum nisl. Suspendisse commodo arcu at elementum finibus. Donec cursus, augue quis sodales ullamcorper, ex enim lobortis tellus, nec venenatis odio velit sed velit. Nam tempus, neque ut elementum varius, odio massa tristique lectus, sed tincidunt magna nisl nec nunc. Aenean condimentum mollis laoreet. Curabitur ornare urna quis rutrum tempus. In quam lorem, ultricies et auctor id, commodo ut velit. Quisque eu facilisis turpis, ac consectetur magna.
+
+Etiam nec aliquet neque. Sed eu odio bibendum, malesuada justo sed, rhoncus risus. Proin sed ultricies ligula. Donec eget venenatis erat. Vestibulum pharetra eleifend euismod. Maecenas mauris tellus, lacinia vitae quam eget, viverra tempor mauris. Suspendisse potenti. Fusce neque mauris, blandit non orci at, ultrices rutrum metus.
+
+Cras lobortis lacus sit amet diam maximus tincidunt. Proin dignissim tortor nec velit euismod porttitor. Sed sagittis, lacus nec luctus aliquam, nibh nibh pharetra libero, a porta neque nisl nec justo. Mauris ultricies, quam venenatis porttitor volutpat, velit urna rutrum orci, eu mollis ipsum nunc vel dolor. Donec tincidunt at magna eu pellentesque. Nulla maximus magna eu laoreet venenatis. Morbi ultricies placerat tellus a volutpat. Sed cursus urna at commodo laoreet. Curabitur vel porttitor enim, in commodo risus. Vivamus semper ullamcorper sapien, in imperdiet arcu fringilla vel. Integer efficitur quis risus ac rutrum. Praesent porta enim a porttitor imperdiet. Nam at leo vel mauris gravida efficitur in non massa. Etiam ut tortor nec nibh congue mollis. Donec nunc sapien, laoreet ac elit vel, finibus aliquet nibh. Nullam porttitor molestie quam, id condimentum urna ullamcorper vitae.
+
+Etiam consequat sodales augue at congue. In pretium mattis ligula, quis eleifend risus lobortis eget. Aliquam ultrices nec ligula id euismod. Phasellus sed lacus est. Morbi dui tellus, ornare quis ullamcorper et, rhoncus a mauris. Sed porttitor ante sit amet efficitur finibus. Sed iaculis scelerisque nunc, a elementum lorem cursus id. Nullam consequat eros fermentum tristique maximus. Integer a venenatis justo. Suspendisse nec est id lectus pretium maximus.
+
+In non blandit est. Morbi aliquam vulputate justo id dignissim. Integer est nulla, fermentum ut orci ac, fermentum fringilla sem. Phasellus at est elementum, tempor felis nec, eleifend lacus. Nam eleifend sapien in quam pretium hendrerit. Cras sollicitudin, ex vel semper malesuada, risus ex egestas lectus, sit amet mattis lorem metus et elit. Integer semper aliquam diam at commodo. Vivamus cursus ex et urna iaculis, rutrum eleifend elit viverra. Vestibulum ut tempus arcu. Praesent vulputate commodo orci vitae malesuada. Mauris a dolor sem. Integer malesuada urna turpis, eget rutrum felis volutpat vel.</p>
+      </center>
+      </form>
     </div>
   </div>
-  <div class="col s6">
-    <div class="card grey lighten-3">
-      <div class="card-content grey-text text-darken-4">
-        <ul class="collection">
-          <li class="collection-item avatar" align="center">
-            <img src="{% static 'img/Resource Files/animal-vector-2/png/cat.png' %}" alt="" class="circle">
-            <span class="title"><strong>{{ thisUser }}</strong></span><br>
-            <strong>Total Posts: </strong> 27<br>
-            <a href="{% url 'profile' username=thisUser %}"><strong>View Your Profile</strong></a> |
-            <a href=""><strong>Nuggetopia Settings</strong></a>
-          </li>
-        </ul>
-        <h5 style="text-align: center;">Nuggetopia Forum</h5>
-        <style>
-          .forum :hover, .forum :focus{
-            background:#DDD;
-            cursor:pointer;
-          }
-        </style>
-      <div class="card-content grey-text text-darken-4">
-        <ul class="collection forum">
-          <li class="collection-item avatar" align="left">
-            <img src="{% static 'img/Resource Files/clothes/png/backpack.png' %}" alt="" class="circle">
-            <span class="title"><strong>General Chat</strong></span><br>
-            Welcome to Nuggetopia! Here, you can talk about anything. Introductions, your day, your favorite meal,
-            who the best Nugget in town is...
-          </li>
-          <li class="collection-item avatar" align="left">
-            <img src="{% static 'img/Resource Files/clothes/png/mittens.png' %}" alt="" class="circle">
-            <span class="title"><strong>Friend Requests</strong></span><br>
-            This board is reserved for finding friends at Nuggetopia. Because who doesn't love meeting strangers on
-            the internet, right?!
-          </li>
-          <li class="collection-item avatar" align="left">
-            <img src="{% static 'img/Resource Files/man-accessories/png/cowboy.png' %}" alt="" class="circle">
-            <span class="title"><strong>Battle Chat</strong></span><br>
-            Not too happy about the outcome of your last Battle? Maybe your too happy about it? Or maybe you want to compare
-            the stats you gained in battles to others. Well, this is the place to do it!
-          </li>
-        </ul>
-      </div>
-      </div>
+<div class="row">
+  <div class="col s8 offset-s2">
+    <div class="box" style="overflow:auto; height:40%;">
+      <form method = "POST">
+      {{ chatForm }}
+      <center>
+        <button type="submit" class="waves-effect waves-light btn">Send</button>
     </div>
   </div>
 </div>
