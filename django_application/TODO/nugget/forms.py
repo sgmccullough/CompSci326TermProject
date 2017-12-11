@@ -143,19 +143,12 @@ class BattleResponse(forms.ModelForm):
         model = Battle
         fields = ('current', )
 
-class ChatStart(forms.ModelForm):
+class ChatPost(forms.ModelForm):
     content = forms.CharField(label='Content of Post (1000 Characters)')
 
     class Meta:
         model = Chat
         fields = ('content',)
-
-class IndividualMessage(forms.ModelForm):
-    content = forms.CharField(label='Content of Post (1000 Characters)')
-
-    class Meta:
-        model = ChatMessage
-        fields = ('content', )
 
 class ForumPost(forms.ModelForm):
     choices = (
