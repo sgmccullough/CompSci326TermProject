@@ -586,7 +586,7 @@ def shop(request):
                 quantityToUpdate = shop_form.cleaned_data.get('ItemQuantity')
                 # Adds Items To Inventory
                 found = 0
-                if items_inventory[0] == None:
+                if items_inventory == None:
                         theItem = Item.objects.get(name=itemToUpdate)
                         priceOfTheItem = theItem.price
                         amountToRemoveFromCoins = priceOfTheItem * quantityToUpdate

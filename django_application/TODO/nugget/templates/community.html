@@ -28,7 +28,7 @@
               friends = friends.replace(/&#39;/g, "");
               users = users.replace(/[\[\]']+/g,"");
               users = users.replace(/&#39;/g, "");
-              users = users.replace(" ", "");
+              users = users.replace(/\s+/g, '');
               var friendsArray = friends.split(",");
               var userArray = users.split(",");
               for (var i = 0; i < friendsArray.length; i++){
