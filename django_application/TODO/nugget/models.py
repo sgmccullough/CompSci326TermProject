@@ -343,17 +343,47 @@ class News(models.Model):
         """
         return str(self.text)
 
+class Chat(models.Model):
+    id = models.UUIDField(verbose_name="forum id", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this forum post")
+    user1 = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User1 in the chat", related_name='chat_user_1')
+    user2 = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User2 in the chat", related_name='chat_user_2')
+
+    class Meta:
+        ordering = ['id', 'user1', 'user2']
+
+    def __str__(self):
+        """
+        String for representing a News Item
+        """
+        return str(self.id)
+
+class ChatMessage(models.Model):
+    chatThread = models.ForeignKey('Chat', on_delete=models.SET_NULL, null=True, verbose_name="link to the chat thread")
+    user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User in the chat corresponding to this message")
+    content = models.CharField(verbose_name="content", max_length=200, blank=True, default='None', help_text='message content')
+    date = models.DateField(verbose_name="Post Date", auto_now=False, default=datetime.date.today)
+
+    class Meta:
+        ordering = ['chatThread', 'user', 'content', 'date']
+
+    def __str__(self):
+        """
+        String for representing a News Item
+        """
+        return str(self.originalPost)
+
 class Forum(models.Model):
     id = models.UUIDField(verbose_name="forum id", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this forum post")
     user = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name="User in the chat")
-    subject = models.CharField(verbose_name="subject", max_length=100, blank=True, default='Subject', help_text='Forum Topic')
-    content = models.CharField(verbose_name="content", max_length=1000, blank=True, default='None', help_text='Forum content')
+    topic = models.CharField(verbose_name="subject", max_length=100, blank=True, default='General', help_text='Forum Topic')
+    subject = models.CharField(verbose_name="subject", max_length=100, blank=True, default='Subject', help_text='Forum Subject')
+    content = models.CharField(verbose_name="content", max_length=1000, blank=True, default='None', help_text='Forum Content')
     date = models.DateField(verbose_name="Post Date", auto_now=False, default=datetime.date.today)
     #private = models.BooleanField(verbose_name="Private Post")
     #allowedusers = models.ManyToManyField('Profile', verbose_name="Allowed Users")
 
     class Meta:
-        ordering = ['id', 'user', 'subject', 'content', 'date']
+        ordering = ['id', 'user', 'topic', 'subject', 'content', 'date']
 
     def __str__(self):
         """
@@ -374,4 +404,3 @@ class ForumComments(models.Model):
         """
         String for representing a News Item
         """
-        return str(self.originalPost)

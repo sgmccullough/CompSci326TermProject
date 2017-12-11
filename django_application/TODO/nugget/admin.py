@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Profile, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems, News, Forum, ForumComments
+from .models import Profile, Nugget, NuggetAttribute, Inventory, Item, Friend, Battle, BattleInstance, Shop, InventoryItems, News, Chat, ChatMessage, Forum, ForumComments
 
 
 @admin.register(Profile)
@@ -41,13 +41,21 @@ class NuggetAdmin(admin.ModelAdmin):
 class NewsAdmin(admin.ModelAdmin):
     list_display = ('text',)
 
+@admin.register(ChatMessage)
+class ChatMessageAdmin(admin.ModelAdmin):
+    list_display = ('chatThread', 'user', 'content', 'date',)
+
+@admin.register(Chat)
+class ChatAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user1', 'user2', )
+
 @admin.register(ForumComments)
-class ForumCommentsAdmin(admin.ModelAdmin):
-    list_display = ('originalPost', 'user', 'content', 'date',)
+class ForumCommentAdmin(admin.ModelAdmin):
+    list_display = ('originalPost', 'user', 'content', 'date')
 
 @admin.register(Forum)
 class ForumAdmin(admin.ModelAdmin):
-    list_display = ('user', 'subject', 'content', 'date',)
+    list_display = ('id', 'user', 'topic', 'subject', 'content', 'date',)
 
 admin.site.register(NuggetAttribute)
 admin.site.register(Shop)
