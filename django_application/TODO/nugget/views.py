@@ -1272,6 +1272,7 @@ def create(request):
         {'n1': n1, 'n2': n2, },
     )
 
+@login_required(login_url='/nugget/')
 def help(request):
     """
     View function for help page.
@@ -1284,6 +1285,7 @@ def help(request):
         {'coins': coins, },
     )
 
+@login_required(login_url='/nugget/')
 def myaccount(request):
     """
     View function for myaccount page.
@@ -1312,6 +1314,7 @@ def myaccount(request):
         {'coins': coins, 'nugget':nugget, 'user':user, 'userbday':userbday, 'firstname':firstname, 'lastname':lastname, 'useremail':useremail, 'username': username},
     )
 
+@login_required(login_url='/nugget/')
 def hidden(request):
     """
     View function for help page.
@@ -1324,36 +1327,64 @@ def hidden(request):
         {'coins': coins, },
     )
 
-def private_msg(request):
+@login_required(login_url='/nugget/')
+def private_msg(request, id):
     """
     View function for help page.
     """
     usr_id = Profile.objects.get(usr=request.user)
     coins = usr_id.coins
+    chat_head = Chat.objects.get(id=id)
+    chat_history = ChatMessage.objects.get(chatThread=chat_head.id).order_by('date')
+    chat_history_to_send = []
+    for i in chat_history:
+        chat_history_to_send += i.user
+        chat_history_to_send += i.content
+        chat_history_to_send += i.date
+    if chat_history_to_send == []:
+        chat_history_to_send = "None"
+
+    if request.method == 'POST':
+        form = ChatPost(request.POST)
+        if form.is_valid():
+            f = form.save()
+            f.chatThread = id
+            f.user = usr_id
+            f.date = datetime.date.today
+            f.save()
+            return redirect('/chat/?p=%s' % id)
+    else:
+        form = ChatPost()
+
     return render(
         request,
         'private_msg.html',
         {'coins': coins, },
     )
 
-def forum(request):
+@login_required(login_url='/nugget/')
+def forum(request, topic):
     """
     View function for help page.
     """
     usr_id = Profile.objects.get(usr=request.user)
     coins = usr_id.coins
+    forums = Forum.objects.get(topic=topic)
     return render(
         request,
         'forum.html',
         {'coins': coins, },
     )
 
-def forum_post(request):
+@login_required(login_url='/nugget/')
+def forum_post(request, topic, id):
     """
     View function for help page.
     """
     usr_id = Profile.objects.get(usr=request.user)
     coins = usr_id.coins
+    forum_head = Forum.objects.get(topic=topic, id=id)
+    forum_comments = ForumComments.objects.get(originalPost=forum_head.id)
     return render(
         request,
         'forum_post.html',
