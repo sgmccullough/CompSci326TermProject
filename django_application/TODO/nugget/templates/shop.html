@@ -1,0 +1,342 @@
+{% extends "generic_base.html" %}
+{% load static %}
+
+{% block coins %}
+  {{ coins }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s4 offset-s1">
+    <div class="box" style="overflow:auto; height:550px;">
+      <h5 style="text-align: center;">Your Inventory <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="These items are items that you own! You can sell these back to Mother Nugget.">(?)</a></h5>
+      <center>
+        <table style="text-align: center;">
+          <tbody>
+            <script type="text/javascript">
+              var items_inventory = String("{{ inventory_items }}");
+              if (items_inventory == "None") {
+                document.write("<br><br><h5>No items! Buy some from the shop!</h5>");
+              }
+              else {
+                items_inventory = items_inventory.replace(/[\[\]']+/g, "");
+                document.write("<tr>");
+                var itemArray = items_inventory.split(",");
+                var ct = 1;
+                for (var i = 0; i < itemArray.length-1; i++) {
+                  document.write("<td>")
+                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                  itemArray[i] = itemArray[i].replace(" ", "");
+                  document.write("<center>");
+                  var toOutput = "<strong>"
+                  toOutput += itemArray[i];
+                  toOutput += "</strong><br><img src='/static/img/items/";
+                  toOutput += itemArray[i];
+                  toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                  toOutput += itemArray[i+2];
+                  toOutput += "' class='tooltipped' data-position='top' ><br><strong>x";
+                  toOutput += itemArray[i + 1];
+                  toOutput += "</strong><br><button data-target='sellItem' class='btn modal-trigger' id='invmodalOpen' name='";
+                  toOutput += itemArray[i];
+                  toOutput += "' value='"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "'>Sell</button>";
+                  document.write(toOutput);
+                  document.write("</td>");
+                  if (ct%3 == 0){
+                    document.write("</tr><tr>")
+                  }
+                  i+=2;
+                  ct++;
+                }
+              }
+              document.write("</tr>");
+            </script>
+
+          </tbody>
+        </table>
+      </center>
+    </div>
+  </div>
+  <div class="col s6">
+    <div class="box" style="height:550px; overflow:auto;">
+  <center>
+    <h2>Nuggetopia Shop</h2>
+    <img src="{% static 'img/shop/mother-nugget.png' %}" width=150 alt="Cluck Cluck!">
+    <h5>Hello! I'm Mother Nugget. Good to see you.</h5>
+  </center>
+  <p>
+    Welcome to the Nuggetopia Shop. Here you'll find everything you need for your fellow Nugget. I have lots of food
+    in stock every day, as well as plenty of different items to entertain your Nugget. If you need anything, give me a
+    loud cluck!<br>
+    <h5>Recent Transactions:</h5>{{ message }}
+  </p>
+</div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col s10 offset-s1">
+    <div class="card">
+      <br>
+      <div class="card-tabs">
+        <ul class="tabs tabs-fixed-width">
+          <li class="tab"><a class="active" href="#food"><i class="material-icons left">restaurant</i>FOOD</a></li>
+          <li class="tab"><a href="#access"><i class="material-icons left">beach_access</i>ACCESSORIES</a></li>
+          <li class="tab"><a href="#toys"><i class="material-icons left">toys</i>TOYS</a></li>
+        </ul>
+      </div>
+      <div class="card-content grey lighten-4">
+
+        <div id="food">
+          <table style="text-align: center;">
+            <tbody>
+              <script type="text/javascript">
+                var items = String("{{ shop_items_food }}");
+                if (items == "None") {
+                  document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
+                }
+                else {
+                  items = items.replace(/[\[\]']+/g, "");
+                  document.write("<tr>");
+
+                  var itemArray = items.split(",");
+                  var ct = 1
+                  for (var i = 0; i < itemArray.length; i++){
+                    document.write("<td>")
+                    itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                    itemArray[i] = itemArray[i].replace(" ", "");
+                    itemArray[i+2] = itemArray[i+2].replace(/&#39;/g, "");
+                    itemArray[i+2] = itemArray[i+2].replace(" ", "");
+                    itemArray[i+4] = itemArray[i+4].replace(/&#39;/g, "");
+                    itemArray[i+4] = itemArray[i+4].replace(" ", "");
+                    document.write("<center><h5>");
+                    document.write(itemArray[i]);
+                    document.write("</h5>");
+                    var toOutput = "<img src='/static/img/items/";
+                    toOutput += itemArray[i];
+                    toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                    toOutput += itemArray[i+6];
+                    toOutput += "' class='tooltipped' data-position='top' ><br><strong>Price: <img src='{% static 'img/general/coin.png' %}' style='padding-right:5px;padding-top:5px;'/></strong>";
+                    toOutput += itemArray[i + 1];
+                    toOutput += "</strong> <br><strong>";
+                    toOutput += itemArray[i + 2];
+                    toOutput += ":</strong> +";
+                    toOutput += itemArray[i + 3];
+                    toOutput += "</strong><br>";
+                    if (itemArray[i + 4] != "None"){
+                      toOutput += "<strong>";
+                      toOutput += itemArray[i + 4];
+                      toOutput += ":</strong> +";
+                      toOutput += itemArray[i + 5];
+                      toOutput += "</strong><br>";
+                    }
+                    toOutput += "<button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
+                    toOutput += itemArray[i];
+                    toOutput += "' value='"
+                    toOutput += itemArray[i + 1];
+                    toOutput += "'>Buy</button>";
+                    document.write(toOutput);
+                    document.write("</td>");
+                    if (ct%5 == 0){
+                      document.write("</tr><tr>")
+                    }
+                    ct+=1;
+                    i+=6;
+                  }
+                  document.write("</tr>");
+                }
+              </script>
+            </tbody>
+          </table>
+        </div>
+
+      <div id="access">
+        <table style="text-align: center;">
+          <tbody>
+            <script type="text/javascript">
+              var items = String("{{ shop_items_accesory }}");
+              if (items == "None") {
+                document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
+              }
+              else {
+                items = items.replace(/[\[\]']+/g, "");
+                document.write("<tr>");
+
+                var itemArray = items.split(",");
+                var ct = 1
+                for (var i = 0; i < itemArray.length; i++){
+                  document.write("<td>")
+                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                  itemArray[i] = itemArray[i].replace(" ", "");
+                  itemArray[i+2] = itemArray[i+2].replace(/&#39;/g, "");
+                  itemArray[i+2] = itemArray[i+2].replace(" ", "");
+                  itemArray[i+4] = itemArray[i+4].replace(/&#39;/g, "");
+                  itemArray[i+4] = itemArray[i+4].replace(" ", "");
+                  document.write("<center><h5>");
+                  document.write(itemArray[i]);
+                  document.write("</h5>");
+                  var toOutput = "<img src='/static/img/items/";
+                  toOutput += itemArray[i];
+                  toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                  toOutput += itemArray[i+6];
+                  toOutput += "' class='tooltipped' data-position='top' ><br><strong>Price: <img src='{% static 'img/general/coin.png' %}' style='padding-right:5px;padding-top:5px;'/></strong>";
+                  toOutput += itemArray[i + 1];
+                  toOutput += "</strong> <br><strong>";
+                  toOutput += itemArray[i + 2];
+                  toOutput += ":</strong> +";
+                  toOutput += itemArray[i + 3];
+                  toOutput += "</strong><br>";
+                  if (itemArray[i + 4] != "None"){
+                    toOutput += "<strong>";
+                    toOutput += itemArray[i + 4];
+                    toOutput += ":</strong> +";
+                    toOutput += itemArray[i + 5];
+                    toOutput += "</strong><br>";
+                  }
+                  toOutput += "<button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
+                  toOutput += itemArray[i];
+                  toOutput += "' value='"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "'>Buy</button>";
+                  document.write(toOutput);
+                  document.write("</td>");
+                  if (ct%5 == 0){
+                    document.write("</tr><tr>")
+                  }
+                  ct+=1;
+                  i+=6;
+                }
+                document.write("</tr>");
+              }
+            </script>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="toys">
+        <table style="text-align: center;">
+          <tbody>
+            <script type="text/javascript">
+              var items = String("{{ shop_items_toy }}");
+              if (items == "None") {
+                document.write("<br><br><h5><center>No items! The shop is out of stock. Check back tomorrow....</center></h5>");
+              }
+              else {
+                items = items.replace(/[\[\]']+/g, "");
+                document.write("<tr>");
+
+                var itemArray = items.split(",");
+                var ct = 1
+                for (var i = 0; i < itemArray.length; i++){
+                  document.write("<td>")
+                  itemArray[i] = itemArray[i].replace(/&#39;/g, "");
+                  itemArray[i] = itemArray[i].replace(" ", "");
+                  itemArray[i+2] = itemArray[i+2].replace(/&#39;/g, "");
+                  itemArray[i+2] = itemArray[i+2].replace(" ", "");
+                  itemArray[i+4] = itemArray[i+4].replace(/&#39;/g, "");
+                  itemArray[i+4] = itemArray[i+4].replace(" ", "");
+                  document.write("<center><h5>");
+                  document.write(itemArray[i]);
+                  document.write("</h5>");
+                  var toOutput = "<img src='/static/img/items/";
+                  toOutput += itemArray[i];
+                  toOutput += ".png' style='height:100px; width:100px;' data-delay='50' data-tooltip='";
+                  toOutput += itemArray[i+6];
+                  toOutput += "' class='tooltipped' data-position='top' ><br><strong>Price: <img src='{% static 'img/general/coin.png' %}' style='padding-right:5px;padding-top:5px;'/></strong>";
+                  toOutput += itemArray[i + 1];
+                  toOutput += "</strong> <br><strong>";
+                  toOutput += itemArray[i + 2];
+                  toOutput += ":</strong> +";
+                  toOutput += itemArray[i + 3];
+                  toOutput += "</strong><br>";
+                  if (itemArray[i + 4] != "None"){
+                    toOutput += "<strong>";
+                    toOutput += itemArray[i + 4];
+                    toOutput += ":</strong> +";
+                    toOutput += itemArray[i + 5];
+                    toOutput += "</strong><br>";
+                  }
+                  toOutput += "<button data-target='buyItem' class='btn modal-trigger' id='shopmodalOpen' name='";
+                  toOutput += itemArray[i];
+                  toOutput += "' value='"
+                  toOutput += itemArray[i + 1];
+                  toOutput += "'>Buy</button>";
+                  document.write(toOutput);
+                  document.write("</td>");
+                  if (ct%5 == 0){
+                    document.write("</tr><tr>")
+                  }
+                  ct+=1;
+                  i+=6;
+                }
+                document.write("</tr>");
+              }
+            </script>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+
+$(function(){
+  var itemToActOn = {};
+  $('button').click(function() {
+      var check = this.id;
+      if (check == "invmodalOpen") {
+        itemToActOn = (this.name);
+        document.getElementById("id_ItemName_sell").value=itemToActOn;
+        document.getElementById("item_name_label_sell").innerHTML = itemToActOn;
+      }
+      if (check == "shopmodalOpen") {
+        itemToActOn = (this.name);
+        document.getElementById("id_ItemName_buy").value=itemToActOn;
+        document.getElementById("item_name_label_buy").innerHTML = itemToActOn;
+      }
+  });
+});
+
+</script>
+
+<!-- Inventory Options Modal -->
+<div id="sellItem" class="modal">
+  <div class="modal-content">
+    <h3 class="center">Sell Item</h3>
+    <h4 id="item_name_label_sell" class="center">DEFAULT</h4>
+    <p>
+      <center>How many would you like to sell?</center>
+      <form method="post">
+        {% csrf_token %}
+        {{ inventory_form.as_p }}
+        <input type="hidden" id="id_ItemName_sell" name="item_id" value="NULL" readonly>
+        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="selling" onclick="Materialize.toast('You sold an item!', 3000, 'rounded')">Confirm?</button>
+      </form>
+      <br>
+      <button id="close" class="waves-effect waves-light btn modal-close">Nope! Go Back</button>
+    </p>
+  </div>
+</div>
+
+<!-- Shop Options Modal -->
+<div id="buyItem" class="modal">
+  <div class="modal-content">
+    <h3 class="center">Buy Item!</h3>
+    <h4 id="item_name_label_buy" class="center">DEFAULT</h4>
+    <p>
+      <center>How many would you like to buy?</center>
+      <form method="post">
+        {% csrf_token %}
+        {{ shop_form.as_p }}
+        <input type="hidden" id="id_ItemName_buy" name="item_id" value="NULL" readonly>
+        <button type="submit" id="submit_button" class="waves-effect waves-light btn" name="action" value="buying" onclick="Materialize.toast('You bought an item!', 3000, 'rounded')">Confirm?</button>
+      </form>
+      <br>
+      <button id="close" class="waves-effect waves-light btn modal-close">Nope! Go Back</button>
+    </p>
+  </div>
+</div>
+{% endblock %}

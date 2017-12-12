@@ -1,0 +1,71 @@
+{% extends "generic_index.html" %} {% load static %} {% block content %}
+<div class="logo">
+  <center>
+    <img src="{% static 'img/general/nugget_logo_lg.png' %}" /> <br />
+    <p>
+      <strong>Nugget</strong> is a virtual battledome where you can care for your very own Nugget, earn coins, shop, and battle against other Nuggets! Sign up or login below to get started. We are currently in Beta.
+    </p>
+    <button data-target="signup" class="btn modal-trigger">Sign Up</button>
+    <button data-target="login" class="btn modal-trigger">Login</button>
+  </center>
+</div>
+
+<!-- Sign Up Modal -->
+<div id="signup" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h4>Sign Up</h4>
+    <p>
+      We're so glad you decided to join <strong>Nugget!</strong> We can't wait to get you involved with your new pet Nugget, earn coins, and battle with other Nuggets!<br />
+      <br /> Please enter your information below to get started! Woo-hoo!
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="waves-effect waves-light btn" >Sign up</button>
+      </form>
+    </p>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div id="login" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h4>Login</h4>
+    <p>
+      It's good to see you again! Please enter your login credentials below.
+      {% if login_form.errors %}
+      <p>Your username and password didn't match. Please try again.</p>
+      {% endif %}
+
+      {% if next %}
+          {% if user.is_authenticated %}
+          <p>Your account doesn't have access to this page. To proceed,
+          please login with an account that has access.</p>
+          {% else %}
+          <p>Please login to see this page.</p>
+          {% endif %}
+      {% endif %}
+
+      <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+
+      <div>
+        <td>{{ login_form.username.label_tag }}</td>
+        <td>{{ login_form.username }}</td>
+      </div>
+      <div>
+        <td>{{ login_form.password.label_tag }}</td>
+        <td>{{ login_form.password }}</td>
+      </div>
+
+      <div>
+        <input type="submit" class="waves-effect waves-light btn" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </div>
+      </form>
+
+      {# Assumes you setup the password_reset view in your URLconf #}
+      <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+    </p>
+  </div>
+</div>
+{% endblock %}

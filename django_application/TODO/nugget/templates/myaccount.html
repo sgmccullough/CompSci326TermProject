@@ -1,0 +1,37 @@
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>My Account</h2>
+  <ul class="collapsible popout" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">favorite_border</i>Account Summary</div>
+      <div class="collapsible-body" style="background-color:#e8e8e8;">
+        <span>
+          <strong>Email:</strong><br>{{ useremail }}<br><br>
+          <strong>Username:</strong><br>{{ username }}<br><br>
+          <strong>Nugget name:</strong><br>{{ nugget }}<br><br>
+          <strong>First name:</strong><br>{{ firstname }}<br><br>
+          <strong>Last name:</strong><br>{{ lastname }}<br><br>
+          <strong>Birthday:</strong><br>{{ userbday }}<br><br>
+        </span>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">favorite_border</i>Change Email</div>
+      <div class="collapsible-body" style="background-color:#e8e8e8;">
+        <span>Allow user to change email</strong><br><br>
+          <strong>Current Email:</strong><br>{{ useremail }}<br><br>
+        </span>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">favorite_border</i>Change Password</div>
+      <div class="collapsible-body" style="background-color:#e8e8e8;"><span>Allow user to change password</span></div>
+    </li>
+  </ul>
+</div>
+
+{% endblock %}

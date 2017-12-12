@@ -1,0 +1,153 @@
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s4" style="height: 100%; overflow:auto;">
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">{{ nugget }}</span>
+        <center>
+          <ul class="creatures" id="creatures">
+            <li>
+              <div class="click-anim">
+                <figure class="{{ mouth }}" style="background-color: {{ color }}; width:{{ size_w }}px; height:{{ size_h }}px">
+                  <div class="eye" style="width:{{ eye_size_w }}px; height:{{ eye_size_h }}px"></div>
+                  <div class="eye" style="width:{{ eye_size_w }}px; height:{{ eye_size_h }}px"></div>
+                  <div class="mouth"></div>
+                </figure>
+              </div>
+              <div class="shadow" style=""></div>
+            </li>
+          </ul>
+        </center>
+        <strong>{{ nugget }}'s Stats</strong>
+        <ul>
+          <li>Health: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
+          </div>
+          <li>Hunger: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
+          </div>
+          <li>Happiness: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
+          </div>
+          <li>Battle XP: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
+          </div>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'nugget' %}">Visit {{ nugget }}</a>
+      </div>
+    </div>
+  </div>
+  <div class="col s5">
+    <center>
+      <h4>Welcome back, {{ user }}!</h4>
+
+      It's good to see you again. Here's what you missed...<br><br>
+    </center>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title"><i class="material-icons">event </i>Nuggetopia News</span>
+        <script type="text/javascript">
+          var news = String("{{ news }}");
+          news = news.replace(/[\[\]']+/g,"");
+          news = news.replace(/&#39;/g, "");
+          var newsArray = news.split(",");
+          for (var i = 0; i < newsArray.length; i++){
+            toOutput = "<p><i class='material-icons' style='font-size: 17px'>play_arrow</i>";
+            toOutput += newsArray[i];
+            toOutput += "</p>";
+            document.write(toOutput);
+          }
+        </script>
+      </div>
+    </div>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title"> <img src="{% static 'img/battle/boxing-ring.png' %}"> Your Recent Battles</span>
+        <table>
+          <thead>
+            <tr>
+              <th>Opponent</th>
+              <th>Coins</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <script type="text/javascript">
+              var battles = String("{{ battles }}");
+              battles = battles.replace(/[\[\]']+/g,"");
+              battles = battles.replace(/&#39;/g, "");
+              var battleArray = battles.split(",");
+              for (var i = 0; i < battleArray.length; i++){
+                toOutput = "";
+                toOutput += "<tr><td>";
+                toOutput += battleArray[i];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 1];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 2];
+                toOutput += "</td></tr>";
+                document.write(toOutput);
+                i = i + 2;
+              }
+            </script>
+          </tbody>
+        </table>
+        <p></p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'battle' %}">Go to Battles</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col s3">
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">Friends List</span>
+
+
+        <ul class="collection">
+
+          <script type="text/javascript">
+            var friends = String("{{ friends }}");
+            if (friends == "None") {
+              document.write("You don't have friends");
+            }
+            else {
+              friends = friends.replace(/[\[\]']+/g,"");
+              friends = friends.replace(/&#39;/g, "");
+              var friendsArray = friends.split(",");
+              for (var i = 0; i < friendsArray.length; i++){
+                toOutput = "<li class='collection-item avatar'>";
+                toOutput += "<img src = '{% static 'img/general/panda.png' %}' alt='' class='circle'>";
+                toOutput += "<span class='title'><strong>";
+                toOutput += friendsArray[i];
+                toOutput += "</strong></span>";
+                document.write(toOutput);
+              }
+            }
+          </script>
+        </ul>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'community' %}">Community</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

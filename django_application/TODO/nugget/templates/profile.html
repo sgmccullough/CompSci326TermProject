@@ -1,0 +1,153 @@
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s3 offset-s1">
+      <div class="card grey lighten-3">
+        <div class="card-content grey-text text-darken-4">
+          <span class="card-title">Physical Statistics</span>
+          <ul>
+            <li>Health: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
+            </div>
+            <li>Hunger: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
+            </div>
+            <li>Defense: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ defense }}%; background-color:{{ defense_color }};"></div>
+            </div>
+            <li>Battle XP: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <center>
+        <h2>{{ username }}'s Profile</h2>
+        <strong style="font-size:20px;">{{ nugget }}</strong>
+        <ul class="creatures" id="creatures">
+          <li>
+            <div class="click-anim">
+              <figure class="{{ mouth }}" style="background-color: {{ color }}; width:{{ size_w }}px; height:{{ size_h }}px">
+                <div class="eye" style="width:{{ eye_size_w }}px; height:{{ eye_size_h }}px"></div>
+                <div class="eye" style="width:{{ eye_size_w }}px; height:{{ eye_size_h }}px"></div>
+                <div class="mouth"></div>
+              </figure>
+            </div>
+            <div class="shadow" style=""></div>
+          </li>
+        </ul>
+      </center>
+    </div>
+    <div class="col s3">
+      <div class="card grey lighten-3">
+        <div class="card-content grey-text text-darken-4">
+          <span class="card-title">Mental Statistics</span>
+          <ul>
+            <li>Fatigue: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ fatigue }}%; background-color:{{ fatigue_color }}"></div>
+            </div>
+            <li>Intelligence: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ intelligence }}%; background-color:{{ intelligence_color }}"></div>
+            </div>
+            <li>Happiness: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
+            </div>
+            <li>Luck: </li>
+            <div class="progress">
+              <div class="determinate" style="width: {{ luck }}%; background-color:{{ luck_color }};"></div>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s10 offset-s1">
+      <div class="box" style="">
+        <center>
+                <script type="text/javascript">
+                  var friends = String("{{ friends }}");
+                  var userFriends = String("{{ userfriends }}");
+                  if (friends == "None") {
+                    document.write("You don't have friends");
+                  }
+                  else {
+                    document.write("<div class='carousel' style='height:500px; data-slide='1'>");
+                    document.write("<div class='carousel-fixed-item'><h3 style='text-align: center;'>{{ username }}'s Friends</h3>");
+                    document.write("<center><button class='btn' id='addFriend'>Add Friend</button> <button class='btn' id='addFriend'>Send Message</button></center></div>");
+                    friends = friends.replace(/[\[\]']+/g,"");
+                    friends = friends.replace(/&#39;/g, "");
+                    userFriends = userFriends.replace(/[\[\]']+/g,"");
+                    userFriends = userFriends.replace(/&#39;/g, "");
+                    var friendsArray = friends.split(",");
+                    var userFriendsArray = userFriends.split(",");
+                    var ctr = 1;
+                    var userctr = 0;
+                    for (var i = 0; i < friendsArray.length; i++){
+                      toOutput = "<div class='carousel-item' href='#";
+                      toOutput += userFriendsArray[i];
+                      toOutput += "!' style='width:400px;'>";
+                      // if (friendsArray[i] == {{ CURR_user }}) {
+                      //   toOutput += " (You!)"
+                      // }
+                      toOutput += "<center><span class='title'><h5>";
+                      toOutput += userFriendsArray[userctr];
+                      toOutput += "</h5><strong>";
+                      toOutput += friendsArray[i];
+                      toOutput += "</strong><br><a href='";
+                      toOutput += userFriendsArray[userctr];
+                      toOutput += "' id=\"viewProfile\">View Profile</button></a></strong></span><br>";
+                      toOutput += "<ul class='creatures' id='creatures'><li><div class='click-anim'><figure class='";
+                      toOutput += friendsArray[i + 2];
+                      toOutput += "' style='background-color:";
+                      toOutput += friendsArray[i + 1];
+                      toOutput += "; width:";
+                      toOutput += friendsArray[i + 5];
+                      toOutput += "px; height:"
+                      toOutput += friendsArray[i + 6];
+                      toOutput += "px'><div class='eye' style='width:";
+                      toOutput += friendsArray[i + 4];
+                      toOutput += "px; height:";
+                      toOutput += friendsArray[i + 3];
+                      toOutput += "px'></div><div class='eye' style='width:";
+                      toOutput += friendsArray[i + 4];
+                      toOutput += "px; height:";
+                      toOutput += friendsArray[i + 3];
+                      toOutput += "px'></div><div class='mouth'></div></figure></div><div class='shadow' style=''></div></li></ul></div>";
+                      document.write(toOutput);
+                      i += 6;
+                      ctr++;
+                      userctr++;
+                    }
+                  }
+                </script>
+              </center>
+            </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+  // $(function(){
+  //   $('.carousel').carousel({fullHeight: true});
+  // });
+  $(document).ready(function(){
+  $('.carousel').carousel();
+});
+  </script>
+
+{% endblock %}

@@ -1,0 +1,337 @@
+{% extends "generic_base.html" %} {% load static %}
+
+{% block coins %}{{ coins }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s4" style="">
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title">{{ nugget }}</span>
+        <strong>{{ nugget }}'s Stats</strong>
+        <ul>
+          <li>Health: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ health }}%; background-color:{{ health_color }}"></div>
+          </div>
+          <li>Hunger: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ hunger }}%; background-color:{{ hunger_color }}"></div>
+          </div>
+          <li>Happiness: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ happiness }}%; background-color:{{ happiness_color }};"></div>
+          </div>
+          <li>Battle XP: </li>
+          <div class="progress">
+            <div class="determinate" style="width: {{ battle_XP }}%; background-color:{{ battle_XP_color }};"></div>
+          </div>
+        </ul>
+        <span class="card-title">Welcome to the Battle Center!</span>
+    The Battle Center is the main method of gaining coins and increasing certain statistics for your Nugget.
+    Refer to the FAQ below.<br><br>
+    <a href="#q1" class="modal-trigger">Q: How do Battles work?</a><br>
+    <a href="#q2" class="modal-trigger">Q: Who can I battle against?</a><br>
+    <a href="#q3" class="modal-trigger">Q: Can my Nugget die in battle?</a><br>
+    <a href="#q4" class="modal-trigger">Q: How can I prepare my Nugget for battle?</a><br>
+    <a href="#q5" class="modal-trigger">Q: How do I improve my Nugget's battle skills?</a><br>
+        </ul>
+      </div>
+  </div>
+</div>
+  <div class="col s7">
+    <center>
+      <h4>Battle Center</h4></center>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        {% if health <= 10 %} <span class="card-title"><center>You're not well enough...</center></span>
+        {% elif active == 0 %}<span class="card-title"><center>New Battle</center></span>
+        {% elif active == 1 %}<span class="card-title"><center>Pending Battle</center></span>
+        <center><strong style="font-size:20px;">{{ nugget }} vs. {{ opp.name }}</strong></center>
+        {% elif active == 2 %}<span class="card-title"><center>Battle Results</center></span>
+        {% else %} <span class="card-title"><center>New Battle Request</center></span>
+        <center><strong style="font-size:20px;">{{ nugget }} vs. {{ opp.name }}</strong></center>
+        {% endif %}
+
+
+        <table>
+        <tr>
+        <td>
+          <center>
+          <ul class="creatures" id="creatures">
+            <li>
+              <div class="click-anim">
+                <figure class="{{ mouth }}" style="background-color: {{ color }}; width:{{ size_w }}px; height:{{ size_h }}px">
+                  <div class="eye" style="width:{{ eye_size_w }}px; height:{{ eye_size_h }}px"></div>
+                  <div class="eye" style="width:{{ eye_size_w }}px; height:{{ eye_size_h }}px"></div>
+                  <div class="mouth"></div>
+                </figure>
+              </div>
+              <div class="shadow" style="width: {{ size_w}}px"></div>
+            </li>
+          </ul>
+        </center>
+      </td>
+      <td>
+      {% if health <= 10 %}
+      <ul class="creatures" id="creatures">
+        <li>
+          <div class="click-anim">
+            <figure class="{{ oppAtt.mouth }}" style="background-color: {{ oppAtt.color }}; width:{{ size_w_opp }}px; height:{{ size_h_opp }}px">
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="mouth"></div>
+            </figure>
+          </div>
+          <div class="shadow" style="width: {{ size_w_opp }}px;"></div>
+        </li>
+      </ul>
+    </td>
+    <td>
+      <b>{{ nugget }}</b> doesn't look too good... maybe you should head to the Shop or your Inventory and increase their health.
+    </td>
+      {% else %}
+      {% if active == 0 %}
+        <form method="post">
+          {% csrf_token %}
+          {{ battleForm.as_p }}
+          <button type="submit" class="waves-effect waves-light btn" >New Battle</button>
+        </form>
+      {% elif active == 1 %}
+      <ul class="creatures" id="creatures">
+        <li>
+          <div class="click-anim">
+            <figure class="{{ oppAtt.mouth }}" style="background-color: {{ oppAtt.color }}; width:{{ size_w_opp }}px; height:{{ size_h_opp }}px">
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="mouth"></div>
+            </figure>
+          </div>
+          <div class="shadow" style="width: {{ size_w_opp }}px;"></div>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2>
+      <center>
+          You requested a battle against <strong>{{ currBattle.opp_b }}</strong>, which is pending! Hopefully
+          their Nugget, <strong>{{ opp.name }}</strong>, is well rested and prepared for what's about to come...
+      </center>
+      {% elif active == 2 %}
+          {% if currBattle.winner == user %}
+            <span style="font-weight: bold; color: green;">{{ nugget }} won!</span> Congratulations! <br>
+            Below is your battle summary...<br><br>
+          {% else %}
+            <span style="font-weight: bold; color: red;">{{ nugget }} lost!</span> Better luck next time...<br>
+            Below is your battle summary...<br><br>
+          {% endif %}
+
+          {% if currBattle.opp_a == user %}
+            {% if currBattle.winner == user %}
+            <script type="text/javascript">
+              var stats = String("{{ currBattle.stats_a }}");
+              var arr = stats.split(',');
+              document.write("<strong style='color: red;'>-" + String(arr[0]) + "</strong> Health!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[1]) + "</strong> Hunger!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[2]) + "</strong> Defense!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[3]) + "</strong> Battle XP!<br>");
+              document.write("<strong style='color: green;'>+" + String(0) + "</strong> Intelligence!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[4]) + "</strong> Happiness!<br><br>");
+            </script>
+            {% else %}
+            <script type="text/javascript">
+              var stats = String("{{ currBattle.stats_a }}");
+              var arr = stats.split(',');
+              document.write("<strong style='color: red;'>-" + String(arr[0]) + "</strong> Health!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[1]) + "</strong> Hunger!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[2]) + "</strong> Defense!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[3]) + "</strong> Battle XP!<br>");
+              document.write("<strong style='color: red;'>-" + String(0) + "</strong> Intelligence!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[4]) + "</strong> Happiness!<br><br>");
+            </script>
+            {% endif %}
+          {% else %}
+            {% if currBattle.winner == user %}
+            <script type="text/javascript">
+              var stats = String("{{ currBattle.stats_b }}");
+              var arr = stats.split(',');
+              document.write("<strong style='color: red;'>-" + String(arr[0]) + "</strong> Health!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[1]) + "</strong> Hunger!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[2]) + "</strong> Defense!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[3]) + "</strong> Battle XP!<br>");
+              document.write("<strong style='color: green;'>+" + String(0) + "</strong> Intelligence!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[4]) + "</strong> Happiness!<br><br>");
+            </script>
+            {% else %}
+            <script type="text/javascript">
+              var stats = String("{{ currBattle.stats_b }}");
+              var arr = stats.split(',');
+              document.write("<strong style='color: red;'>-" + String(arr[0]) + "</strong> Health!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[1]) + "</strong> Hunger!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[2]) + "</strong> Defense!<br>");
+              document.write("<strong style='color: green;'>+" + String(arr[3]) + "</strong> Battle XP!<br>");
+              document.write("<strong style='color: red;'>-" + String(0) + "</strong> Intelligence!<br>");
+              document.write("<strong style='color: red;'>-" + String(arr[4]) + "</strong> Happiness!<br><br>");
+            </script>
+            {% endif %}
+          {% endif %}
+
+
+
+
+
+          <form method="post">
+            {% csrf_token %}
+            {{ battleForm.as_p }}
+            <button type="submit" class="waves-effect waves-light btn" >Find New Battle</button>
+      {% else %}
+
+      <ul class="creatures" id="creatures">
+        <li>
+          <div class="click-anim">
+            <figure class="{{ oppAtt.mouth }}" style="background-color: {{ oppAtt.color }}; width:{{ size_w_opp }}px; height:{{ size_h_opp }}px">
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="eye" style="width:{{ eye_size_w_opp }}px; height:{{ eye_size_h_opp }}px"></div>
+              <div class="mouth"></div>
+            </figure>
+          </div>
+          <div class="shadow" style="width: {{ size_w_opp }}px;"></div>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2>
+      <center>
+          <strong>{{ currBattle.opp_a }}</strong> sent you a new battle request!<br>
+          Think <strong>{{ nugget }}</strong> is up to the challenge?
+
+
+
+      <form method="post">
+        {% csrf_token %}
+        {{ battleForm.as_p }}
+        <button type="submit" class="waves-effect waves-light btn" >Send</button>
+      </form>
+      {% endif %}
+    {% endif %}
+    </center>
+      </td>
+    </tr>
+  </table>
+      </div>
+    </div>
+
+    <div class="card grey lighten-3">
+      <div class="card-content grey-text text-darken-4">
+        <span class="card-title"> <img src="{% static 'img/battle/boxing-ring.png' %}"> Your Battles</span>
+        Your most recent 100 battles will appear below.
+        <table>
+          <thead>
+            <tr>
+              <th>Opponent</th>
+              <th>Coins</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <script type="text/javascript">
+              var battles = String("{{ battles }}");
+              battles = battles.replace(/[\[\]']+/g,"");
+              battles = battles.replace(/&#39;/g, "");
+              var battleArray = battles.split(",");
+              for (var i = 0; i < battleArray.length; i++){
+                toOutput = "";
+                toOutput += "<tr><td>";
+                toOutput += battleArray[i];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 1];
+                toOutput += "</td><td>";
+                toOutput += battleArray[i + 2];
+                toOutput += "</td></tr>";
+                document.write(toOutput);
+                i = i + 2;
+              }
+            </script>
+          </tbody>
+        </table>
+        <p></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="q1" class="modal">
+  <div class="modal-content">
+    <h4>How do Battles work?</h4>
+<p>
+  As of now, MyNugget.io uses a <strong>point system</strong> to determine the winner and loser of a battle. For the most part, the player with
+  higher statistics in each category has a higher chance of scoring more points in the battle. The battle algorithm compares all of your statistics
+  to all of those of your opponent's. For example, if your Nugget has higher battle experience points than your opponent's, then the points you
+  receive based on this statistic are much more likely to be higher than that of your opponent's.
+</p>
+<p>
+  This is why it's extremely important to ensure that your Nugget is in optimal condition! Take care of your Nugget. You can gain more experience points,
+  intelligence, luck, and more simply through battling other players. Ensure that your Nugget's physical statistics are kept in check by feeding them
+  healthy foods and keeping them entertained and in good physical shape.
+</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Go Back</a>
+  </div>
+</div>
+
+<div id="q2" class="modal">
+  <div class="modal-content">
+    <h4>Who can I battle against?</h4>
+<p>
+  For now, players can only battle against Nuggets/humans on their friends list. We hope to expand this functionality in the near future.
+</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Go Back</a>
+  </div>
+</div>
+
+<div id="q3" class="modal">
+  <div class="modal-content">
+    <h4>Can my Nugget die in battle?</h4>
+<p>
+  Your Nugget cannot die in battle, simply because Nuggets are immortal and are unable to die. A Nugget, however, cannot battle if their
+  health drops below 10%. You will be unable to request a new battle until your Nugget's health is above 10%. Please take care of your Nugget.
+</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Go Back</a>
+  </div>
+</div>
+
+<div id="q4" class="modal">
+  <div class="modal-content">
+    <h4>How can I prepare my Nugget for battle?</h4>
+<p>
+  Visit the Nuggetopia Shop to stock up on food and other things to ensure that your Nugget is in tip top shape! Additionally, participating in
+  battles helps to increase your battle experience, and may potentially increase other static statistics, as well.
+</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Go Back</a>
+  </div>
+</div>
+
+<div id="q5" class="modal">
+  <div class="modal-content">
+    <h4>How do I improve my Nugget's battle skills?</h4>
+<p>
+  Participating in battles consistently is the only way to improve your Nugget's battle experience.
+</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Go Back</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+  <title>Nugget | A virtual Nugget battledome</title>
+  <link rel="shortcut icon" href="{% static 'img/general/nugget_logo_icon.png' %}" />
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="{% static 'css/css-creatures.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+</head>
+
+
+<body>
+  <!-- Dropdown Structure -->
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="{% url 'myaccount' %}">My Account</a></li>
+    <li><a href="{% url 'help' %}">Help</a></li>
+    <li class="divider"></li>
+    <li><a href="{% url 'logout'%}">Logout</a></li>
+  </ul>
+
+  <nav style="position:fixed;z-index:2;">
+    <div class="nav-wrapper">
+      <a href="{% url 'hidden' %}" class="brand-logo"><img src="{% static 'img/general/nugget_logo_sm.png' %}" /></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="{% url 'home' %}" style="color: white;">home</a></li>
+        <li><a href="{% url 'nugget' %}" style="color: white;">my nugget</a></li>
+        <li><a href="{% url 'shop' %}" style="color: white;">shop</a></li>
+        <li><a href="{% url 'community' %}" style="color: white;">community</a></li>
+        <li><a href="{% url 'battle' %}" style="color: white;">battle</a></li>
+        <li><a href="#modal" style="color: white;" class="modal-trigger"><img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" />{% block coins %}{% endblock %}</a></li>
+        <!-- Dropdown Trigger -->
+        <li><a class="dropdown-button" href="#!" data-activates="dropdown1" style="color: white;"> <i class="material-icons left">settings</i></a></li>
+      </ul>
+
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="{% url 'home' %}">home</a></li>
+        <li><a href="{% url 'nugget' %}">my nugget</a></li>
+        <li><a href="{% url 'shop' %}">shop</a></li>
+        <li><a href="{% url 'community' %}">community</a></li>
+        <li><a href="{% url 'battle' %}">battle</a></li>
+        <li><a href="{% url 'index' %}">logout</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <div style="width:100%; height: 75px;">
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h4>Support MyNugget.io</h4>
+      <p>For every donation you make to MyNugget.io, you'll receive coins for exchange! Awesome, right? What better
+      way to support your favorite web application through a monetary donation. And hey, you'll get something out of
+    it, too!</p>
+    <center style="font-size:20px;">
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$1</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 100<br>
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$5</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 500<br>
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$10</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 1000<br>
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$20</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 2000<br>
+    <a href = "http://paypal.me/EGoroza">Donate</a> <strong>$50</strong> for <img src="{% static 'img/general/coin.png' %}" style="padding-right:5px;padding-top:5px;" /> 5000<br>
+  </center>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Go Back</a>
+    </div>
+  </div>
+
+  {% block content %}
+  {% endblock %}
+
+  <!-- <footer class="page-footer">
+  <div class="footer-copyright">
+    <div class="container">
+    © 2014 Copyright Text
+    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+    </div>
+  </div>
+</footer> -->
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="{% static 'js/materialize.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
+
+
+</body>
+
+</html>
