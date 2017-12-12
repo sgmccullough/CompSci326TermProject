@@ -1335,12 +1335,12 @@ def private_msg(request, id):
     usr_id = Profile.objects.get(usr=request.user)
     coins = usr_id.coins
     chat_head = Chat.objects.get(id=id)
-    chat_history = ChatMessage.objects.get(chatThread=chat_head.id).order_by('date')
+    chat_history = ChatMessage.objects.filter(chatThread=chat_head.id).order_by('date')
     chat_history_to_send = []
     for i in chat_history:
-        chat_history_to_send += i.user
-        chat_history_to_send += i.content
-        chat_history_to_send += i.date
+        chat_history_to_send += [i.user]
+        chat_history_to_send += [i.content]
+        chat_history_to_send += [i.date]
     if chat_history_to_send == []:
         chat_history_to_send = "None"
 
@@ -1350,16 +1350,16 @@ def private_msg(request, id):
             f = form.save()
             f.chatThread = id
             f.user = usr_id
-            f.date = datetime.date.today
+            f.date = dt.date.today
             f.save()
-            return redirect('/chat/?p=%s' % id)
+            return redirect('chat', id=id)
     else:
         form = ChatPost()
 
     return render(
         request,
         'private_msg.html',
-        {'coins': coins, },
+        {'coins': coins, 'chatForm': form, },
     )
 
 @login_required(login_url='/nugget/')

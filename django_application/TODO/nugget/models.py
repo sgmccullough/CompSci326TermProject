@@ -370,7 +370,7 @@ class ChatMessage(models.Model):
         """
         String for representing a News Item
         """
-        return str(self.originalPost)
+        return str(self.chatThread)
 
 class Forum(models.Model):
     id = models.UUIDField(verbose_name="forum id", primary_key=True, default=uuid.uuid4, help_text="Unique ID for this forum post")
